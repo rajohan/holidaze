@@ -1,0 +1,248 @@
+"""
+Object representing a contact message
+"""
+type ContactType {
+    id: ID!
+    clientName: String!
+    email: String!
+    message: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+"""
+Object representing a enquiry
+"""
+type EnquiryType {
+    id: ID!
+    clientName: String!
+    email: String!
+    checkin: DateTime!
+    checkout: DateTime!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    establishment: EstablishmentType!
+}
+
+"""
+Object representing a establishment
+"""
+type EstablishmentType {
+    id: ID!
+    name: String!
+    email: String!
+    imageUrl: String!
+    price: Float!
+    maxGuests: Int!
+    googleLat: Float!
+    googleLong: Float!
+    description: String!
+    selfCatering: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    enquiries: [EnquiryType!]
+}
+
+type Mutation {
+    """
+    Adds a new message
+    """
+    addMessage(data: NewContactInput!): ContactType!
+
+    """
+    Adds a new enquiry
+    """
+    addEnquiry(data: NewEnquiryInput!): EnquiryType!
+
+    """
+    Updates a enquiry by ID
+    """
+    updateEnquiry(data: UpdateEnquiryInput!): EnquiryType!
+
+    """
+    Deletes a enquiry by ID
+    """
+    deleteEnquiry(id: ID!): EnquiryType!
+
+    """
+    Adds a new user
+    """
+    addUser(data: NewUserInput!): UserType!
+
+    """
+    Login a user
+    """
+    login(username: String!, password: String!): UserTypeWithTokens!
+
+    """
+    Changes a users password
+    """
+    changePassword(id: ID!, password: String!): UserType!
+
+    """
+    Refreshes auth tokens
+    """
+    refreshAuthTokens(id: ID!, refreshToken: String!): TokensType!
+
+    """
+    Adds a new establishment
+    """
+    addEstablishment(data: NewEstablishmentInput!): EstablishmentType!
+
+    """
+    Updates a establishment by ID
+    """
+    updateEstablishment(data: UpdateEstablishmentInput!): EstablishmentType!
+
+    """
+    Deletes a establishment by ID
+    """
+    deleteEstablishment(id: ID!): EstablishmentType!
+}
+
+"""
+New contact data
+"""
+input NewContactInput {
+    clientName: String!
+    email: String!
+    message: String!
+}
+
+"""
+New enquiry data
+"""
+input NewEnquiryInput {
+    establishmentId: ID!
+    clientName: String!
+    email: String!
+    checkin: DateTime!
+    checkout: DateTime!
+}
+
+"""
+New establishment data
+"""
+input NewEstablishmentInput {
+    name: String!
+    email: String!
+    imageUrl: String!
+    price: Float!
+    maxGuests: Float!
+    googleLat: Float!
+    googleLong: Float!
+    description: String!
+    selfCatering: Boolean!
+}
+
+"""
+New user data
+"""
+input NewUserInput {
+    username: String!
+    password: String!
+    email: String!
+}
+
+type Query {
+    """
+    Returns a message by ID
+    """
+    getMessage(id: ID!): ContactType!
+
+    """
+    Returns all messages
+    """
+    getAllMessages: [ContactType!]!
+
+    """
+    Returns a enquiry by ID
+    """
+    getEnquiry(withEstablishment: Boolean = false, id: ID!): EnquiryType!
+
+    """
+    Returns all enquiries
+    """
+    getAllEnquiries(withEstablishment: Boolean = false): [EnquiryType!]!
+
+    """
+    Returns a user by ID
+    """
+    getUser(id: ID!): UserType!
+
+    """
+    Returns all users
+    """
+    getAllUsers: [UserType!]!
+
+    """
+    Returns a establishment by ID
+    """
+    getEstablishment(withEnquiries: Boolean = false, id: ID!): EstablishmentType!
+
+    """
+    Returns all establishments
+    """
+    getAllEstablishments(withEnquiries: Boolean = false): [EstablishmentType!]!
+}
+
+"""
+Object representing auth token and refresh token
+"""
+type TokensType {
+    authToken: String!
+    refreshToken: String!
+}
+
+"""
+Update enquiry data
+"""
+input UpdateEnquiryInput {
+    id: ID!
+    clientName: String
+    checkin: DateTime
+    checkout: DateTime
+}
+
+"""
+New establishment data
+"""
+input UpdateEstablishmentInput {
+    id: ID!
+    name: String
+    email: String
+    imageUrl: String
+    price: Float
+    maxGuests: Float
+    googleLat: Float
+    googleLong: Float
+    description: String
+    selfCatering: Boolean
+}
+
+"""
+Object representing a user
+"""
+type UserType {
+    id: ID!
+    username: String!
+    email: String!
+    verified: Boolean!
+    accessLevel: Int!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+"""
+Object representing a user with auth token
+"""
+type UserTypeWithTokens {
+    user: UserType!
+    authToken: String!
+    refreshToken: String!
+}

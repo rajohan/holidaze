@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 823243a2b80478d4e164461054f3b1be */
+/* @relayHash 3e2fc528c6d6be0f779e2b9480455800 */
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
@@ -8,7 +8,7 @@ export type HomeGetAllUsersQueryVariables = {};
 export type HomeGetAllUsersQueryResponse = {
     readonly getAllUsers: ReadonlyArray<{
         readonly id: string;
-        readonly " $fragmentRefs": FragmentRefs<"HomeView_getAllUsers">;
+        readonly " $fragmentRefs": FragmentRefs<"HomeViewGetAllUsers">;
     }>;
 };
 export type HomeGetAllUsersQuery = {
@@ -20,11 +20,11 @@ export type HomeGetAllUsersQuery = {
 query HomeGetAllUsersQuery {
   getAllUsers {
     id
-    ...HomeView_getAllUsers
+    ...HomeViewGetAllUsers
   }
 }
 
-fragment HomeView_getAllUsers on UserType {
+fragment HomeViewGetAllUsers on UserType {
   username
   id
 }
@@ -59,7 +59,7 @@ const node: ConcreteRequest = (function () {
                         v0 /*: any*/,
                         {
                             kind: "FragmentSpread",
-                            name: "HomeView_getAllUsers",
+                            name: "HomeViewGetAllUsers",
                             args: null
                         }
                     ]
@@ -97,10 +97,10 @@ const node: ConcreteRequest = (function () {
             name: "HomeGetAllUsersQuery",
             id: null,
             text:
-                "query HomeGetAllUsersQuery {\n  getAllUsers {\n    id\n    ...HomeView_getAllUsers\n  }\n}\n\nfragment HomeView_getAllUsers on UserType {\n  username\n  id\n}\n",
+                "query HomeGetAllUsersQuery {\n  getAllUsers {\n    id\n    ...HomeViewGetAllUsers\n  }\n}\n\nfragment HomeViewGetAllUsers on UserType {\n  username\n  id\n}\n",
             metadata: {}
         }
     };
 })();
-(node as any).hash = "dfe05571492968cc8a6ebabcfe74881d";
+(node as any).hash = "96da43950b588274cbe7e5946d713216";
 export default node;

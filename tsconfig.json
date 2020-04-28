@@ -19,8 +19,8 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "experimentalDecorators": true,
-        "incremental": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "types": ["react-scripts", "react/experimental", "react-dom/experimental"]
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "build"]

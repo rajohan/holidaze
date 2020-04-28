@@ -2,41 +2,29 @@ import { ActionTypes } from "./actions/types";
 
 export type Action = {
     type: ActionTypes;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     payload?: any;
 };
 
-export type StoreApi = {
-    state: AppState;
-    dispatch: (action: Action | Function) => void;
-};
-
-export type Game = {
-    id: number;
-    name: string;
-    background_image: string;
-    rating: number;
-    released: string;
-    genres: [{ name: string }];
-    platforms: [{ platform: { name: string } }];
-    description: string;
-    website: string;
-};
-
-export type AppState = {
-    title: string;
-    game?: Game;
-    games: Game[];
-    nextApiPage: string;
-    category: string;
-    orderBy: string;
-    platform: number;
-    genre: number;
-    searchQuery: string;
-    favorites: Game[];
-    loading: boolean;
-    loadingMoreGames: boolean;
-    theme: number;
-};
-
 export type Dispatch = (action: Function | Action) => void;
+
+export type Store = {
+    state: GlobalState;
+    dispatch: Dispatch;
+};
+
+export type Reducer<State> = (state: State, action: Action) => State;
+export type Reducers<State> = { [key in keyof State]: Reducer<State[key]> };
+
+export type GlobalState = {
+    page: PageState;
+    state2: AnotherState;
+};
+
+export type PageState = {
+    title: string;
+    loading: true;
+};
+
+export type AnotherState = {
+    hello: string;
+};

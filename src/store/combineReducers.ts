@@ -1,11 +1,12 @@
-import { Action, AppState } from "./types";
-import { Reducer } from "react";
+import { forOwn, isEqual } from "lodash";
 
-const combineReducers = (reducers: Reducer<AppState, Action>[]): ((state: AppState, action: Action) => AppState) => {
-    return (state: AppState, action: Action): AppState => {
-        reducers.forEach((reducer: Reducer<AppState, Action>) => {
-            const newState: AppState = reducer(state, action);
-            state = state === newState ? state : { ...newState };
+import { Action, Reducer, Reducers } from "./types";
+
+const combineReducers = <State>(reducers: Reducers<State>): Reducer<State> => {
+    return (state: State, action: Action): State => {
+        forOwn(reducers, (reducer, stateKey) => {
+            const newState = reducer(state[stateKey as keyof State], action);
+            state = isEqual(newState, state[stateKey as keyof State]) ? state : { ...state, [stateKey]: newState };
         });
 
         return state;

@@ -1,13 +1,13 @@
-import React, { createContext, PropsWithChildren } from "react";
+import React, { createContext } from "react";
 
 import { useImprovedReducer } from "./improvedReducer";
-import { StoreApi } from "./types";
+import { Store } from "./types";
 import { globalReducer } from "./reducers";
 import { initialState } from "./initialState";
 
-const StoreContext = createContext({} as StoreApi);
+const StoreContext = createContext({} as Store);
 
-const StoreProvider: React.FC = (props: PropsWithChildren<{}>): React.ReactElement => {
+const StoreProvider: React.FC = (props): React.ReactElement => {
     const [state, dispatch] = useImprovedReducer(globalReducer, initialState);
 
     return <StoreContext.Provider value={{ state, dispatch }}>{props.children}</StoreContext.Provider>;

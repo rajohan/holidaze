@@ -1,8 +1,8 @@
-import { Reducer, useCallback, useReducer, useRef } from "react";
+import { useCallback, useReducer, useRef } from "react";
 
-import { Action, AppState, Dispatch } from "./types";
+import { Action, GlobalState, Dispatch, Reducer } from "./types";
 
-const useImprovedReducer = (reducer: Reducer<AppState, Action>, initialState: AppState): [AppState, Dispatch] => {
+const useImprovedReducer = (reducer: Reducer<GlobalState>, initialState: GlobalState): [GlobalState, Dispatch] => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const prevState = useRef({});
