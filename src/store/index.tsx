@@ -7,7 +7,11 @@ import { initialState } from "./initialState";
 
 const StoreContext = createContext({} as Store);
 
-const StoreProvider: React.FC = (props): React.ReactElement => {
+type Props = {
+    children: React.ReactNode;
+};
+
+const StoreProvider: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
     const [state, dispatch] = useImprovedReducer(globalReducer, initialState);
 
     return <StoreContext.Provider value={{ state, dispatch }}>{props.children}</StoreContext.Provider>;

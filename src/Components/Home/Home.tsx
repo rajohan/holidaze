@@ -1,38 +1,27 @@
-import React, { useState, Suspense } from "react";
-import { useLazyLoadQuery } from "react-relay/hooks";
-import graphql from "babel-plugin-relay/macro";
+import React, { Suspense } from "react";
 
-import { HomeGetAllUsersQuery } from "./__generated__/HomeGetAllUsersQuery.graphql";
-const HomeView = React.lazy(() => import("./HomeView"));
+import Loading from "../Shared/Loading";
+import Heading from "../Shared/Heading";
+import EstablishmentsCarousel from "./EstablishmentsCarousel/EstablishmentsCarousel";
+import Attractions from "./Attractions/Attractions";
+import Container1000 from "../Layout/Containers/Container1000";
+import Subscribe from "./Subscribe";
 
 const Home: React.FC = (): React.ReactElement => {
-    const [display, setDisplay] = useState(false);
-
-    const data = useLazyLoadQuery<HomeGetAllUsersQuery>(
-        graphql`
-            query HomeGetAllUsersQuery {
-                getAllUsers {
-                    id
-                    ...HomeViewGetAllUsers
-                }
-            }
-        `,
-        {},
-        { fetchPolicy: "store-or-network" }
-    );
-
-    const renderUsers = (): React.ReactNode => {
-        return data.getAllUsers.map((user, index) => <HomeView key={data.getAllUsers[index].id} getAllUsers={user} />);
-    };
-
     return (
-        <div>
-            {!display ? (
-                <button onClick={(): void => setDisplay(true)}>Click me</button>
-            ) : (
-                <Suspense fallback="Loading...">{renderUsers()}</Suspense>
-            )}
-        </div>
+        <Container1000>
+            <Heading size="h1">Ready to get away from home?</Heading>
+            <Heading size="h2">We got you covered with amazing establishments</Heading>
+            <Suspense fallback={<Loading />}>
+                <EstablishmentsCarousel />
+            </Suspense>
+            <Heading size="h1">Things to do while in bergen</Heading>
+            <Heading size="h2">We have prepared a list with our recommendations</Heading>
+            <Attractions />
+            <Heading size="h1">Subscribe to our newsletters</Heading>
+            <Heading size="h2">Get exclusive offers and updates on new establishments</Heading>
+            <Subscribe />
+        </Container1000>
     );
 };
 

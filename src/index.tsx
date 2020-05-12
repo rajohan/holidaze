@@ -5,20 +5,26 @@ import { RelayEnvironmentProvider } from "react-relay/hooks";
 
 import { StoreProvider } from "./store";
 import RelayEnvironment from "./relay/RelayEnvironment";
-
+import { defaultTheme, GlobalStyles } from "./themes";
+import { ThemeProvider } from "styled-components";
+import { Normalize } from "styled-normalize";
 import App from "./Components/App";
 
 const Root: React.FC = (): React.ReactElement => {
     return (
-        <React.StrictMode>
-            <StoreProvider>
-                <RelayEnvironmentProvider environment={RelayEnvironment}>
-                    <BrowserRouter>
-                        <App />
-                    </BrowserRouter>
-                </RelayEnvironmentProvider>
-            </StoreProvider>
-        </React.StrictMode>
+        <StoreProvider>
+            <RelayEnvironmentProvider environment={RelayEnvironment}>
+                <BrowserRouter>
+                    <ThemeProvider theme={defaultTheme}>
+                        <Normalize />
+                        <GlobalStyles />
+                        <React.StrictMode>
+                            <App />
+                        </React.StrictMode>
+                    </ThemeProvider>
+                </BrowserRouter>
+            </RelayEnvironmentProvider>
+        </StoreProvider>
     );
 };
 

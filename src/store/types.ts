@@ -22,7 +22,7 @@ export type GlobalState = {
 
 export type PageState = {
     title: string;
-    loading: true;
+    loading: boolean;
 };
 
 export type AnotherState = {

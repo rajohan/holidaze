@@ -8,22 +8,6 @@ const StyledContainer400 = styled.div`
     max-width: 400px;
     width: 100%;
     background-color: transparent;
-
-    p {
-        padding: 0 10px;
-
-        @media only screen and (min-width: 650px) {
-            padding: 0 30px;
-        }
-
-        &:first-of-type {
-            margin-top: 30px;
-        }
-
-        &:not(:last-of-type) {
-            margin-bottom: 30px;
-        }
-    }
 `;
 
 type Props = {

@@ -7,20 +7,21 @@ export const defaultTheme: DefaultTheme = {
         weight: 400
     },
     colors: {
-        primary: "#222222",
-        primaryLight: "#2f2f2f",
-        secondary: "#1f1f1f",
-        tertiary: "#3598db",
-        tertiaryDark: "#35599d",
+        primary: "#1B262C",
+        secondary: "#DBEDF3",
+        secondaryDark: "#B7E4F3",
+        secondary60: "rgb(219 237 243 / 60%)",
+        tertiary: "#3282B8",
+        tertiaryDark: "#245E85",
         error: "#ff4437",
         success: "#21ba45",
-        text: "#ffffff",
-        link: "#ffffff",
+        text: "#1B262C",
+        link: "#1B262C",
         white: "#ffffff",
         black: "#101010"
     },
     boxShadows: {
-        button: "0 10px 20px rgba(0, 0, 0, 0.7)"
+        button: "0 10px 10px rgba(0, 0, 0, 0.2)"
     },
     dropShadows: {
         small: "drop-shadow(0 1px 1px #000000)"

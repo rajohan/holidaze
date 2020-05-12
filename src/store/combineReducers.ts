@@ -1,4 +1,5 @@
-import { forOwn, isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
+import forOwn from "lodash/forOwn";
 
 import { Action, Reducer, Reducers } from "./types";
 

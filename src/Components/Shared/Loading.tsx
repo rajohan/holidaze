@@ -7,13 +7,15 @@ const StyledLoading = styled.div`
     align-items: center;
     grid-column: 1 / -1;
     justify-self: center;
+    color: ${(props): string => props.theme.colors.secondary};
+    margin: 10px;
 `;
 
 const LoadingCircle = styled.div`
     width: 30px;
     height: 30px;
-    border: 6px solid ${(props): string => props.theme.colors.secondaryLight};
-    border-top: 6px solid ${(props): string => props.theme.colors.secondary};
+    border: 6px solid ${(props): string => props.theme.colors.secondary};
+    border-top: 6px solid ${(props): string => props.theme.colors.tertiary};
     border-radius: 100px;
     margin: 10px;
     animation: load 1s linear infinite;

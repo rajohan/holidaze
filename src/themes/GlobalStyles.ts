@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle`
         background-color: ${(props): string => props.theme.colors.primary};
     }
     
-    #__next {
+    #root {
         display: flex;
         flex-direction: column;
         min-height: 100vh;

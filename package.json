@@ -13,6 +13,8 @@
         "getGQLSchema": "get-graphql-schema http://localhost:8080/graphql > ./src/relay/schema.graphql"
     },
     "dependencies": {
+        "@material-ui/core": "^4.9.13",
+        "@material-ui/icons": "^4.9.1",
         "axios": "^0.19.2",
         "lodash": "^4.17.15",
         "react": "^0.0.0-experimental-e5d06e34b",
@@ -21,6 +23,7 @@
         "react-relay": "^0.0.0-experimental-8cc94ddc",
         "react-router-dom": "^5.1.2",
         "react-scripts": "3.4.1",
+        "react-simply-carousel": "^2.1.9",
         "relay-runtime": "^9.0.0",
         "styled-components": "^5.1.0",
         "styled-normalize": "^8.0.7"

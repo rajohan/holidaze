@@ -3,15 +3,16 @@ import styled from "styled-components";
 
 const StyledHeading = styled.h1<{ as: string }>`
     text-align: center;
-    text-transform: ${(props): string => (props.as === "h1" ? "uppercase" : "capitalize")};
-    font-size: ${(props): string => (props.as === "h1" ? "24px" : "18px")};
-    color: ${(props): string => (props.as === "h1" ? props.theme.colors.text : props.theme.colors.tertiary)};
-    letter-spacing: ${(props): string => (props.as === "h1" ? "4px" : "2px")};
+    text-transform: capitalize;
+    font-size: ${(props): string => (props.as === "h1" ? "24px" : props.as === "h2" ? "18px" : "16px")};
+    font-weight: 700;
+    color: ${(props): string => (props.as === "h2" ? props.theme.colors.tertiary : props.theme.colors.secondary)};
     margin-bottom: ${(props): string => (props.as === "h1" ? "8px" : "0")};
+    letter-spacing: ${(props): string => (props.as === "h1" ? "4px" : "2px")};
     filter: ${(props): string => props.theme.dropShadows.small};
 
-    @media only screen and (min-width: 400px) {
-        font-size: ${(props): string => (props.as === "h1" ? "28px" : "18px")};
+    @media only screen and (min-width: 650px) {
+        font-size: ${(props): string => (props.as === "h1" ? "28px" : props.as === "h2" ? "18px" : "16px")};
         letter-spacing: ${(props): string => (props.as === "h1" ? "6px" : "2px")};
     }
 `;

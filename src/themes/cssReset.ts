@@ -108,6 +108,7 @@ export const cssReset = css`
     textarea,
     select {
         font: inherit;
+        border: none;
     }
 
     textarea {
