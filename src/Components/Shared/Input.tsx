@@ -85,16 +85,20 @@ const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
     input:-webkit-autofill:active {
-        -webkit-text-fill-color: ${(props): string => props.theme.colors.text};
+        -webkit-text-fill-color: ${(props): string => props.theme.colors.primary};
         box-shadow: 0 0 0 30px ${(props): string => props.theme.colors.white} inset;
-        caret-color: ${(props): string => props.theme.colors.text};
+        caret-color: ${(props): string => props.theme.colors.primary};
         padding-top: 15px;
 
         + label {
-            transform: translateY(4px);
+            transform: translateY(6px);
             font-size: 13px;
             font-weight: 700;
-            color: ${(props): string => props.theme.colors.tertiary};
+            color: ${(props): string => props.theme.colors.primary};
+
+            svg {
+                fill: ${(props): string => props.theme.colors.primary};
+            }
         }
     }
 `;
@@ -142,6 +146,7 @@ const Input: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Re
                     value={value}
                     onChange={(e): void => onChange && onChange({ name, value: e.target.value })}
                     onBlur={(): void => onBlur && onBlur({ name, value: value })}
+                    formNoValidate={true}
                 />
             )}
             {label && (

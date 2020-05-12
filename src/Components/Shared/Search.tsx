@@ -18,6 +18,7 @@ const Search: React.FC = (): React.ReactElement => {
             <Input
                 name="search"
                 size="big"
+                type="search"
                 label="Search our establishments"
                 value={search}
                 onChange={({ value }): void => setSearch(value)}

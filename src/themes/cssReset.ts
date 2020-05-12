@@ -119,4 +119,8 @@ export const cssReset = css`
     input::-ms-clear {
         display: none;
     }
+
+    input:invalid {
+        box-shadow: none;
+    }
 `;
