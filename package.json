@@ -27,7 +27,8 @@
         "react-simply-carousel": "^2.1.9",
         "relay-runtime": "^9.1.0",
         "styled-components": "^5.1.0",
-        "styled-normalize": "^8.0.7"
+        "styled-normalize": "^8.0.7",
+        "yup": "^0.28.5"
     },
     "devDependencies": {
         "@types/axios": "^0.14.0",
@@ -40,6 +41,7 @@
         "@types/react-router-dom": "^5.1.5",
         "@types/relay-runtime": "^8.0.8",
         "@types/styled-components": "^5.1.0",
+        "@types/yup": "^0.28.3",
         "@typescript-eslint/eslint-plugin": "^2.29.0",
         "@typescript-eslint/parser": "^2.29.0",
         "babel-plugin-relay": "^9.0.0",

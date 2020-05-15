@@ -7,12 +7,12 @@ import Loading from "./Shared/Loading";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
 import ErrorBoundary from "./Shared/ErrorBoundary";
-import Contact from "./Contact/Contact";
 const HomeHeader = React.lazy(() => import("./Home/HomeHeader"));
 const Header = React.lazy(() => import("./Layout/Header"));
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
 const Establishments = React.lazy(() => import("./Establishments/Establishments"));
+const Contact = React.lazy(() => import("./Contact/Contact"));
 const Login = React.lazy(() => import("./Login/Login"));
 
 const App: React.FC = (): React.ReactElement => {
@@ -49,7 +49,9 @@ const App: React.FC = (): React.ReactElement => {
                             </Suspense>
                         </Route>
                         <Route path="/contact">
-                            <Contact />
+                            <Suspense fallback={<Loading />}>
+                                <Contact />
+                            </Suspense>
                         </Route>
                         <Route path="/login">
                             <Login />

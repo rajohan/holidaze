@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 const InputErrorStyled = styled.div`
     background-color: ${(props): string => props.theme.colors.error};
+    color: ${(props): string => props.theme.colors.white};
     padding: 10px;
     border-radius: 5px;
-    margin: -8px 0 10px 0;
-    font-size: 13px;
+    margin: -18px 0 10px 0;
+    font-size: 15px;
     position: relative;
     width: 100%;
     animation: fadeIn 1s;

@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { useMutation } from "react-relay/hooks";
 import graphql from "babel-plugin-relay/macro";
+import { Formik } from "formik";
 
 import { LoginMutation, LoginMutationResponse } from "./__generated__/LoginMutation.graphql";
 import Input from "../Shared/Form/Input/Input";
 import Button from "../Shared/Form/Button";
-import { Formik } from "formik";
 import Form from "../Shared/Form/Form";
 
 const StyledLogin = styled.div``;

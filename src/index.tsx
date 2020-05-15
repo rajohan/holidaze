@@ -2,12 +2,12 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
+import { ThemeProvider } from "styled-components";
+import { Normalize } from "styled-normalize";
 
 import { StoreProvider } from "./store";
 import RelayEnvironment from "./relay/RelayEnvironment";
 import { defaultTheme, GlobalStyles } from "./themes";
-import { ThemeProvider } from "styled-components";
-import { Normalize } from "styled-normalize";
 import App from "./Components/App";
 import Loading from "./Components/Shared/Loading";
 

@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useField } from "formik";
-import InputError from "./InputError";
+
+const InputError = React.lazy(() => import("./InputError"));
 
 const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
     position: relative;

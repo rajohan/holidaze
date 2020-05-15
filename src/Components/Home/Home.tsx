@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
 
+import Container1000 from "../Layout/Containers/Container1000";
 import Loading from "../Shared/Loading";
 import Heading from "../Shared/Heading";
 import EstablishmentsCarousel from "./EstablishmentsCarousel/EstablishmentsCarousel";
 import Attractions from "./Attractions/Attractions";
-import Container1000 from "../Layout/Containers/Container1000";
 import Subscribe from "./Subscribe";
 
 const Home: React.FC = (): React.ReactElement => {
