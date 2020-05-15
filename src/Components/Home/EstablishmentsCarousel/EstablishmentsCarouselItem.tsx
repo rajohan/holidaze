@@ -87,6 +87,7 @@ const StyledEstablishmentsCarouselItem = styled.div`
                 display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                text-transform: capitalize;
             }
         }
     }
@@ -120,7 +121,7 @@ const EstablishmentsCarouselItem: React.FC<Props> = (props: React.PropsWithChild
                         {data.name}
                     </span>
                     <span className="establishmentDetailsRowMaxGuests">
-                        <People />
+                        <People titleAccess="Max Guests" />
                         {data.maxGuests}
                     </span>
                 </div>

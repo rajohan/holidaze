@@ -116,6 +116,13 @@ export const cssReset = css`
         vertical-align: bottom;
     }
 
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-results-button,
+    input[type="search"]::-webkit-search-results-decoration {
+        -webkit-appearance: none;
+    }
+
     input::-ms-clear {
         display: none;
     }

@@ -5,7 +5,7 @@ import { HeadsetMic, AttachMoney } from "@material-ui/icons";
 import headerBackground from "../../assets/images/homeHeader.jpg";
 import { ReactComponent as Logo } from "../../assets/images/logo/logoLight.svg";
 import { ReactComponent as MeetBergen } from "../../assets/images/meetBergen.svg";
-import Navigation from "../Layout/Navigation";
+import Navigation from "../Layout/Navigation/Navigation";
 import Search from "../Shared/Search";
 
 const StyledHomeHeader = styled.header`
@@ -57,29 +57,6 @@ const StyledHomeHeader = styled.header`
             max-width: 500px;
         }
     }
-
-    // .inputWrapper {
-    //     background-color: ${(props): string => props.theme.colors.secondary60};
-    //     border-radius: 2px;
-    //     padding: 7px;
-    //     margin-bottom: 30px;
-    //     max-width: 600px;
-    //     width: 100%;
-    //
-    //     @media only screen and (min-width: 575px) {
-    //         padding: 10px;
-    //     }
-    //
-    //     input {
-    //         width: 100%;
-    //         padding: 10px;
-    //         border-radius: 2px;
-    //
-    //         @media only screen and (min-width: 575px) {
-    //             padding: 15px;
-    //         }
-    //     }
-    // }
 
     .headerText {
         filter: ${(props): string => props.theme.dropShadows.small};

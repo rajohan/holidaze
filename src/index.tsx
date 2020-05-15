@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
@@ -9,6 +9,7 @@ import { defaultTheme, GlobalStyles } from "./themes";
 import { ThemeProvider } from "styled-components";
 import { Normalize } from "styled-normalize";
 import App from "./Components/App";
+import Loading from "./Components/Shared/Loading";
 
 const Root: React.FC = (): React.ReactElement => {
     return (
@@ -19,7 +20,9 @@ const Root: React.FC = (): React.ReactElement => {
                         <Normalize />
                         <GlobalStyles />
                         <React.StrictMode>
-                            <App />
+                            <Suspense fallback={<Loading />}>
+                                <App />
+                            </Suspense>
                         </React.StrictMode>
                     </ThemeProvider>
                 </BrowserRouter>

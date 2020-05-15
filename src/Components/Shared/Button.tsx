@@ -22,6 +22,11 @@ const StyledButton = styled.button`
         font-size: 16px;
     }
 
+    &:disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
     &:focus,
     &:hover {
         background-color: ${(props): string => props.theme.colors.tertiaryDark};
@@ -42,10 +47,11 @@ type Props = {
     target?: "_blank";
     onClick?: () => void;
     className?: string;
+    disabled?: boolean;
 };
 
 const Button: React.FC<Props> = (props: PropsWithChildren<Props>): React.ReactElement => {
-    const { href, external = false, target, onClick, children, className } = props;
+    const { href, external = false, disabled = false, target, onClick, children, className } = props;
 
     const handleOnClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>): void => {
         e.currentTarget.blur();
@@ -73,7 +79,7 @@ const Button: React.FC<Props> = (props: PropsWithChildren<Props>): React.ReactEl
         );
     } else {
         return (
-            <StyledButton onClick={handleOnClick} className={className}>
+            <StyledButton onClick={handleOnClick} disabled={disabled} className={className}>
                 {children}
             </StyledButton>
         );

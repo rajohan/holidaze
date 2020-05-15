@@ -1,248 +1,173 @@
-"""
-Object representing a contact message
-"""
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+"Object representing a contact message"
 type ContactType {
-    id: ID!
     clientName: String!
-    email: String!
-    message: String!
     createdAt: DateTime!
+    email: String!
+    id: ID!
+    message: String!
     updatedAt: DateTime!
 }
 
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
-scalar DateTime
-
-"""
-Object representing a enquiry
-"""
+"Object representing a enquiry"
 type EnquiryType {
-    id: ID!
-    clientName: String!
-    email: String!
     checkin: DateTime!
     checkout: DateTime!
+    clientName: String!
     createdAt: DateTime!
-    updatedAt: DateTime!
+    email: String!
     establishment: EstablishmentType!
+    id: ID!
+    updatedAt: DateTime!
 }
 
-"""
-Object representing a establishment
-"""
+"Object representing a establishment"
 type EstablishmentType {
-    id: ID!
-    name: String!
+    createdAt: DateTime!
+    description: String!
     email: String!
-    imageUrl: String!
-    price: Float!
-    maxGuests: Int!
+    enquiries: [EnquiryType!]
     googleLat: Float!
     googleLong: Float!
-    description: String!
+    id: ID!
+    imageUrl: String!
+    maxGuests: Int!
+    name: String!
+    price: Float!
     selfCatering: Boolean!
-    createdAt: DateTime!
     updatedAt: DateTime!
-    enquiries: [EnquiryType!]
 }
 
 type Mutation {
-    """
-    Adds a new message
-    """
-    addMessage(data: NewContactInput!): ContactType!
-
-    """
-    Adds a new enquiry
-    """
+    "Adds a new enquiry"
     addEnquiry(data: NewEnquiryInput!): EnquiryType!
-
-    """
-    Updates a enquiry by ID
-    """
-    updateEnquiry(data: UpdateEnquiryInput!): EnquiryType!
-
-    """
-    Deletes a enquiry by ID
-    """
-    deleteEnquiry(id: ID!): EnquiryType!
-
-    """
-    Adds a new user
-    """
-    addUser(data: NewUserInput!): UserType!
-
-    """
-    Login a user
-    """
-    login(username: String!, password: String!): UserTypeWithTokens!
-
-    """
-    Changes a users password
-    """
-    changePassword(id: ID!, password: String!): UserType!
-
-    """
-    Refreshes auth tokens
-    """
-    refreshAuthTokens(id: ID!, refreshToken: String!): TokensType!
-
-    """
-    Adds a new establishment
-    """
+    "Adds a new establishment"
     addEstablishment(data: NewEstablishmentInput!): EstablishmentType!
-
-    """
-    Updates a establishment by ID
-    """
-    updateEstablishment(data: UpdateEstablishmentInput!): EstablishmentType!
-
-    """
-    Deletes a establishment by ID
-    """
+    "Adds a new message"
+    addMessage(data: NewContactInput!): ContactType!
+    "Adds a new user"
+    addUser(data: NewUserInput!): UserType!
+    "Changes a users password"
+    changePassword(id: ID!, password: String!): UserType!
+    "Deletes a enquiry by ID"
+    deleteEnquiry(id: ID!): EnquiryType!
+    "Deletes a establishment by ID"
     deleteEstablishment(id: ID!): EstablishmentType!
+    "Login a user"
+    login(password: String!, username: String!): UserTypeWithToken!
+    "Refreshes auth token"
+    refreshAuthTokens(id: ID!, refreshToken: String!): TokensType!
+    "Updates a enquiry by ID"
+    updateEnquiry(data: UpdateEnquiryInput!): EnquiryType!
+    "Updates a establishment by ID"
+    updateEstablishment(data: UpdateEstablishmentInput!): EstablishmentType!
 }
 
-"""
-New contact data
-"""
+type Query {
+    "Returns all enquiries"
+    getAllEnquiries(withEstablishment: Boolean = false): [EnquiryType!]!
+    "Returns all establishments"
+    getAllEstablishments(withEnquiries: Boolean = false): [EstablishmentType!]!
+    "Returns all messages"
+    getAllMessages: [ContactType!]!
+    "Returns all users"
+    getAllUsers: [UserType!]!
+    "Returns a enquiry by ID"
+    getEnquiry(id: ID!, withEstablishment: Boolean = false): EnquiryType!
+    "Returns a establishment by ID"
+    getEstablishment(id: ID!, withEnquiries: Boolean = false): EstablishmentType!
+    "Returns a message by ID"
+    getMessage(id: ID!): ContactType!
+    "Returns a user by ID"
+    getUser(id: ID!): UserType!
+}
+
+"Object representing auth token and refresh token"
+type TokensType {
+    authToken: String!
+    refreshToken: String!
+}
+
+"Object representing a user"
+type UserType {
+    accessLevel: Int!
+    createdAt: DateTime!
+    email: String!
+    id: ID!
+    updatedAt: DateTime!
+    username: String!
+    verified: Boolean!
+}
+
+"Object representing a user with auth token"
+type UserTypeWithToken {
+    authToken: String!
+    user: UserType!
+}
+
+"New contact data"
 input NewContactInput {
     clientName: String!
     email: String!
     message: String!
 }
 
-"""
-New enquiry data
-"""
+"New enquiry data"
 input NewEnquiryInput {
-    establishmentId: ID!
-    clientName: String!
-    email: String!
     checkin: DateTime!
     checkout: DateTime!
+    clientName: String!
+    email: String!
+    establishmentId: ID!
 }
 
-"""
-New establishment data
-"""
+"New establishment data"
 input NewEstablishmentInput {
-    name: String!
+    description: String!
     email: String!
-    imageUrl: String!
-    price: Float!
-    maxGuests: Float!
     googleLat: Float!
     googleLong: Float!
-    description: String!
+    imageUrl: String!
+    maxGuests: Float!
+    name: String!
+    price: Float!
     selfCatering: Boolean!
 }
 
-"""
-New user data
-"""
+"New user data"
 input NewUserInput {
-    username: String!
-    password: String!
     email: String!
+    password: String!
+    username: String!
 }
 
-type Query {
-    """
-    Returns a message by ID
-    """
-    getMessage(id: ID!): ContactType!
-
-    """
-    Returns all messages
-    """
-    getAllMessages: [ContactType!]!
-
-    """
-    Returns a enquiry by ID
-    """
-    getEnquiry(withEstablishment: Boolean = false, id: ID!): EnquiryType!
-
-    """
-    Returns all enquiries
-    """
-    getAllEnquiries(withEstablishment: Boolean = false): [EnquiryType!]!
-
-    """
-    Returns a user by ID
-    """
-    getUser(id: ID!): UserType!
-
-    """
-    Returns all users
-    """
-    getAllUsers: [UserType!]!
-
-    """
-    Returns a establishment by ID
-    """
-    getEstablishment(withEnquiries: Boolean = false, id: ID!): EstablishmentType!
-
-    """
-    Returns all establishments
-    """
-    getAllEstablishments(withEnquiries: Boolean = false): [EstablishmentType!]!
-}
-
-"""
-Object representing auth token and refresh token
-"""
-type TokensType {
-    authToken: String!
-    refreshToken: String!
-}
-
-"""
-Update enquiry data
-"""
+"Update enquiry data"
 input UpdateEnquiryInput {
-    id: ID!
-    clientName: String
     checkin: DateTime
     checkout: DateTime
+    clientName: String
+    id: ID!
 }
 
-"""
-New establishment data
-"""
+"New establishment data"
 input UpdateEstablishmentInput {
-    id: ID!
-    name: String
+    description: String
     email: String
-    imageUrl: String
-    price: Float
-    maxGuests: Float
     googleLat: Float
     googleLong: Float
-    description: String
+    id: ID!
+    imageUrl: String
+    maxGuests: Float
+    name: String
+    price: Float
     selfCatering: Boolean
 }
 
-"""
-Object representing a user
-"""
-type UserType {
-    id: ID!
-    username: String!
-    email: String!
-    verified: Boolean!
-    accessLevel: Int!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-}
-
-"""
-Object representing a user with auth token
-"""
-type UserTypeWithTokens {
-    user: UserType!
-    authToken: String!
-    refreshToken: String!
-}
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime

@@ -29,7 +29,11 @@ const fetchGraphQL = async (text: string | null | undefined, variables?: Variabl
         })
     });
 
-    return response.data;
+    if (response.data && response.data.errors) {
+        return Promise.reject(response.data.errors[0]);
+    }
+
+    return Promise.resolve(response.data);
 };
 
 export { fetchGraphQL };

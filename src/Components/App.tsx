@@ -1,16 +1,22 @@
-import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { Suspense, useContext } from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { StoreContext } from "../store";
-import Header from "./Layout/Header";
+import Loading from "./Shared/Loading";
 import Main from "./Layout/Main";
-import Home from "./Home/Home";
 import Footer from "./Layout/Footer";
-import HomeHeader from "./Home/HomeHeader";
+import ErrorBoundary from "./Shared/ErrorBoundary";
+const HomeHeader = React.lazy(() => import("./Home/HomeHeader"));
+const Header = React.lazy(() => import("./Layout/Header"));
+const Home = React.lazy(() => import("./Home/Home"));
+const Establishment = React.lazy(() => import("./Establishment/Establishment"));
+const Establishments = React.lazy(() => import("./Establishments/Establishments"));
+const Login = React.lazy(() => import("./Login/Login"));
 
 const App: React.FC = (): React.ReactElement => {
     const { state } = useContext(StoreContext);
+    const location = useLocation();
 
     return (
         <HelmetProvider>
@@ -22,19 +28,34 @@ const App: React.FC = (): React.ReactElement => {
                 />
                 <title>{state.page.title}</title>
             </Helmet>
-            <Switch>
-                <Route path="/" exact>
-                    <HomeHeader />
-                    <Main>
-                        <Home />
-                    </Main>
-                </Route>
-                <Header />
+            <Suspense fallback={<Loading />}>
+                {location.pathname !== "/" ? <Header /> : <HomeHeader />}
                 <Main>
-                    <Route path="/contact">Contact</Route>
+                    <Switch>
+                        <Route path="/" exact>
+                            <Home />
+                        </Route>
+                        <Route path="/establishment/:id/:name">
+                            <ErrorBoundary fallback={"Sorry, the requested establishment could not be found"}>
+                                <Suspense fallback={<Loading />}>
+                                    <Establishment />
+                                </Suspense>
+                            </ErrorBoundary>
+                        </Route>
+                        <Route path="/establishments">
+                            <Suspense fallback={<Loading />}>
+                                <Establishments />
+                            </Suspense>
+                        </Route>
+                        <Route path="/contact">Contact</Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                        <Route>404: NOT FOUND</Route>
+                    </Switch>
                 </Main>
-            </Switch>
-            <Footer />
+                <Footer />
+            </Suspense>
         </HelmetProvider>
     );
 };
