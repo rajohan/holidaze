@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 0c668731c75cf67f5000304d75054353 */
+/* @relayHash 908ac15c400e7140b91c0c17e12036ed */
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
@@ -8,7 +8,7 @@ export type EstablishmentsCarouselGetAllEstablishmentsQueryVariables = {};
 export type EstablishmentsCarouselGetAllEstablishmentsQueryResponse = {
     readonly getAllEstablishments: ReadonlyArray<{
         readonly id: string;
-        readonly " $fragmentRefs": FragmentRefs<"EstablishmentsCarouselItemGetAllEstablishments">;
+        readonly " $fragmentRefs": FragmentRefs<"EstablishmentsItemGetAllEstablishments">;
     }>;
 };
 export type EstablishmentsCarouselGetAllEstablishmentsQuery = {
@@ -20,11 +20,11 @@ export type EstablishmentsCarouselGetAllEstablishmentsQuery = {
 query EstablishmentsCarouselGetAllEstablishmentsQuery {
   getAllEstablishments {
     id
-    ...EstablishmentsCarouselItemGetAllEstablishments
+    ...EstablishmentsItemGetAllEstablishments
   }
 }
 
-fragment EstablishmentsCarouselItemGetAllEstablishments on EstablishmentType {
+fragment EstablishmentsItemGetAllEstablishments on EstablishmentType {
   id
   name
   imageUrl
@@ -62,7 +62,7 @@ const node: ConcreteRequest = (function () {
                         v0 /*: any*/,
                         {
                             kind: "FragmentSpread",
-                            name: "EstablishmentsCarouselItemGetAllEstablishments",
+                            name: "EstablishmentsItemGetAllEstablishments",
                             args: null
                         }
                     ]
@@ -121,10 +121,10 @@ const node: ConcreteRequest = (function () {
             name: "EstablishmentsCarouselGetAllEstablishmentsQuery",
             id: null,
             text:
-                "query EstablishmentsCarouselGetAllEstablishmentsQuery {\n  getAllEstablishments {\n    id\n    ...EstablishmentsCarouselItemGetAllEstablishments\n  }\n}\n\nfragment EstablishmentsCarouselItemGetAllEstablishments on EstablishmentType {\n  id\n  name\n  imageUrl\n  maxGuests\n  price\n}\n",
+                "query EstablishmentsCarouselGetAllEstablishmentsQuery {\n  getAllEstablishments {\n    id\n    ...EstablishmentsItemGetAllEstablishments\n  }\n}\n\nfragment EstablishmentsItemGetAllEstablishments on EstablishmentType {\n  id\n  name\n  imageUrl\n  maxGuests\n  price\n}\n",
             metadata: {}
         }
     };
 })();
-(node as any).hash = "0b5e5cefb0de3372fd8921e535134360";
+(node as any).hash = "aa43828340124a5c7d77aa2d79c629a6";
 export default node;

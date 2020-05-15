@@ -18,13 +18,13 @@ const StyledAttractions = styled.div`
 `;
 
 const Attractions: React.FC = (): React.ReactElement => {
-    return (
-        <StyledAttractions>
-            {attractionsData.map((attraction, index) => (
-                <Attraction key={`attraction-${index}`} attraction={attraction} />
-            ))}
-        </StyledAttractions>
-    );
+    const renderAttractions = (): React.ReactNode => {
+        return attractionsData.map((attraction, index) => (
+            <Attraction key={`attraction-${index}`} attraction={attraction} />
+        ));
+    };
+
+    return <StyledAttractions>{renderAttractions()}</StyledAttractions>;
 };
 
 export default Attractions;

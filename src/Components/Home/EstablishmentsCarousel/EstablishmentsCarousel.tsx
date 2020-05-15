@@ -6,8 +6,8 @@ import { NavigateBefore, NavigateNext } from "@material-ui/icons";
 import Carousel from "react-simply-carousel";
 
 import { EstablishmentsCarouselGetAllEstablishmentsQuery } from "./__generated__/EstablishmentsCarouselGetAllEstablishmentsQuery.graphql";
-import EstablishmentsCarouselItem from "./EstablishmentsCarouselItem";
 import Button from "../../Shared/Form/Button";
+import EstablishmentsCarouselItem from "./EstablishmentsCarouselItem";
 
 const StyledEstablishmentsCarousel = styled.div`
     background-color: ${(props): string => props.theme.colors.secondary};
@@ -38,7 +38,7 @@ const EstablishmentsCarousel: React.FC = (): React.ReactElement => {
             query EstablishmentsCarouselGetAllEstablishmentsQuery {
                 getAllEstablishments {
                     id
-                    ...EstablishmentsCarouselItemGetAllEstablishments
+                    ...EstablishmentsItemGetAllEstablishments
                 }
             }
         `,
