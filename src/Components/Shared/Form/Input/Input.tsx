@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useField } from "formik";
+import InputError from "./InputError";
 
 const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
     position: relative;
@@ -23,7 +25,7 @@ const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
         color: ${(props): string => props.theme.colors.primary};
         font-size: ${(props): string => (props.value ? "13px" : "inherit")};
         font-weight: ${(props): number => (props.value ? 700 : 400)};
-        transform: translateY(${(props): string => (props.value ? "6px" : "calc(50% + 5px)")});
+        transform: translateY(${(props): string => (props.value ? "8px" : "calc(50% + 5px)")});
         transition: transform 0.2s, font-size 0.2s, color 0.2s;
 
         svg {
@@ -49,7 +51,7 @@ const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
         width: 100%;
 
         &:focus + label {
-            transform: translateY(6px);
+            transform: translateY(8px);
             font-size: 13px;
             font-weight: 700;
             color: ${(props): string => props.theme.colors.tertiary};
@@ -91,7 +93,7 @@ const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
         padding-top: 15px;
 
         + label {
-            transform: translateY(6px);
+            transform: translateY(8px);
             font-size: 13px;
             font-weight: 700;
             color: ${(props): string => props.theme.colors.primary};
@@ -105,56 +107,34 @@ const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
 
 export type Props = {
     name: string;
-    value?: string;
     type?: "text" | "number" | "email" | "tel" | "password" | "search" | "url" | "textarea";
     size?: "small" | "big";
     label?: string;
-    onChange?: ({ name, value }: { name: string; value: string }) => void;
-    onBlur?: ({ name, value }: { name: string; value: string }) => void;
     className?: string;
     children?: React.ReactNode;
 };
 
 const Input: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const {
-        name = "",
-        type = "text",
-        size = "small",
-        value = "",
-        label,
-        onChange,
-        onBlur,
-        className,
-        children
-    } = props;
+    const { size = "small", children, label, name, className, ...rest } = props;
+
+    const [field, meta] = useField(props);
 
     return (
-        <StyledInput value={value} className={className} size={size}>
-            {type === "textarea" ? (
-                <textarea
-                    id={name}
-                    name={name}
-                    value={value}
-                    onChange={(e): void => onChange && onChange({ name, value: e.target.value })}
-                    onBlur={(): void => onBlur && onBlur({ name, value })}
-                />
-            ) : (
-                <input
-                    id={name}
-                    name={name}
-                    type={type}
-                    value={value}
-                    onChange={(e): void => onChange && onChange({ name, value: e.target.value })}
-                    onBlur={(): void => onBlur && onBlur({ name, value: value })}
-                    formNoValidate={true}
-                />
-            )}
-            {label && (
-                <label htmlFor={name}>
-                    {children} {label}
-                </label>
-            )}
-        </StyledInput>
+        <React.Fragment>
+            <StyledInput value={meta.value} className={className} size={size}>
+                {props.type === "textarea" ? (
+                    <textarea {...field} {...rest} id={name} />
+                ) : (
+                    <input {...field} {...rest} id={name} />
+                )}
+                {label && (
+                    <label htmlFor={name}>
+                        {children} {label}
+                    </label>
+                )}
+            </StyledInput>
+            {meta.touched && meta.error ? <InputError>{meta.error}</InputError> : null}
+        </React.Fragment>
     );
 };
 

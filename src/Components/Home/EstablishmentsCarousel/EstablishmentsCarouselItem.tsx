@@ -4,7 +4,7 @@ import { useFragment } from "react-relay/hooks";
 import graphql from "babel-plugin-relay/macro";
 import { People } from "@material-ui/icons";
 
-import Button from "../../Shared/Button";
+import Button from "../../Shared/Form/Button";
 import { EstablishmentsCarouselItemGetAllEstablishments$key } from "./__generated__/EstablishmentsCarouselItemGetAllEstablishments.graphql";
 
 const StyledEstablishmentsCarouselItem = styled.div`

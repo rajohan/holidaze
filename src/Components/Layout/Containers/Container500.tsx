@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledContainer400 = styled.div`
+const StyledContainer500 = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
     background-color: transparent;
 `;
@@ -15,10 +15,10 @@ type Props = {
     className?: string;
 };
 
-const Container400: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
+const Container500: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
     const { children, className } = props;
 
-    return <StyledContainer400 className={className}>{children}</StyledContainer400>;
+    return <StyledContainer500 className={className}>{children}</StyledContainer500>;
 };
 
-export default Container400;
+export default Container500;

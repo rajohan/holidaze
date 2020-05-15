@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Search as SearchIcon } from "@material-ui/icons";
+import { Formik } from "formik";
 
-import Input from "./Input";
+import Input from "./Form/Input/Input";
+import Form from "./Form/Form";
 
 const StyledSearch = styled.div`
     margin-bottom: 30px;
@@ -11,20 +13,15 @@ const StyledSearch = styled.div`
 `;
 
 const Search: React.FC = (): React.ReactElement => {
-    const [search, setSearch] = useState("");
-
     return (
         <StyledSearch>
-            <Input
-                name="search"
-                size="big"
-                type="search"
-                label="Search our establishments"
-                value={search}
-                onChange={({ value }): void => setSearch(value)}
-            >
-                <SearchIcon />
-            </Input>
+            <Formik initialValues={{ search: "" }} onSubmit={(): void => console.log("test")}>
+                <Form>
+                    <Input name="search" size="big" type="search" label="Search our establishments">
+                        <SearchIcon />
+                    </Input>
+                </Form>
+            </Formik>
         </StyledSearch>
     );
 };

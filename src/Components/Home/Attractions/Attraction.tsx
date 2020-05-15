@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Heading from "../../Shared/Heading";
-import Button from "../../Shared/Button";
+import Button from "../../Shared/Form/Button";
 
 const StyledAttraction = styled.div`
     display: flex;

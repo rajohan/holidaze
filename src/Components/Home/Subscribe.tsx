@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Mail } from "@material-ui/icons";
+import { Formik } from "formik";
 
-import Input from "../Shared/Input";
-import Button from "../Shared/Button";
+import Input from "../Shared/Form/Input/Input";
+import Button from "../Shared/Form/Button";
+import Form from "../Shared/Form/Form";
 
 const StyledSubscribe = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     border-radius: 2px;
     padding: 30px 30px;
     margin: 30px;
@@ -17,9 +16,6 @@ const StyledSubscribe = styled.div`
     background-color: ${(props): string => props.theme.colors.secondary};
 
     @media only screen and (min-width: 703px) {
-        flex-direction: row;
-        align-items: stretch;
-        justify-content: center;
         max-width: 656px;
         padding: 60px 30px;
     }
@@ -35,6 +31,17 @@ const StyledSubscribe = styled.div`
             margin-top: 0;
         }
     }
+
+    form {
+        flex-direction: column;
+        align-items: center;
+
+        @media only screen and (min-width: 703px) {
+            flex-direction: row;
+            justify-content: center;
+            align-items: stretch;
+        }
+    }
 `;
 
 const StyledInput = styled(Input)`
@@ -48,20 +55,16 @@ const StyledInput = styled(Input)`
 `;
 
 const Subscribe: React.FC = (): React.ReactElement => {
-    const [email, setEmail] = useState("");
-
     return (
         <StyledSubscribe>
-            <StyledInput
-                name="subscribeEmail"
-                label="Your email address"
-                type="email"
-                value={email}
-                onChange={({ value }): void => setEmail(value)}
-            >
-                <Mail />
-            </StyledInput>
-            <Button>Subscribe</Button>
+            <Formik initialValues={{ subscribeEmail: "" }} onSubmit={(): void => console.log("test")}>
+                <Form>
+                    <StyledInput name="subscribeEmail" label="Your email address" type="email">
+                        <Mail />
+                    </StyledInput>
+                    <Button>Subscribe</Button>
+                </Form>
+            </Formik>
         </StyledSubscribe>
     );
 };

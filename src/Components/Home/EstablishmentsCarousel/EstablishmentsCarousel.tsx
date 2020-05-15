@@ -7,7 +7,7 @@ import Carousel from "react-simply-carousel";
 
 import { EstablishmentsCarouselGetAllEstablishmentsQuery } from "./__generated__/EstablishmentsCarouselGetAllEstablishmentsQuery.graphql";
 import EstablishmentsCarouselItem from "./EstablishmentsCarouselItem";
-import Button from "../../Shared/Button";
+import Button from "../../Shared/Form/Button";
 
 const StyledEstablishmentsCarousel = styled.div`
     background-color: ${(props): string => props.theme.colors.secondary};

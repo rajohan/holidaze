@@ -7,6 +7,7 @@ import Loading from "./Shared/Loading";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
 import ErrorBoundary from "./Shared/ErrorBoundary";
+import Contact from "./Contact/Contact";
 const HomeHeader = React.lazy(() => import("./Home/HomeHeader"));
 const Header = React.lazy(() => import("./Layout/Header"));
 const Home = React.lazy(() => import("./Home/Home"));
@@ -47,7 +48,9 @@ const App: React.FC = (): React.ReactElement => {
                                 <Establishments />
                             </Suspense>
                         </Route>
-                        <Route path="/contact">Contact</Route>
+                        <Route path="/contact">
+                            <Contact />
+                        </Route>
                         <Route path="/login">
                             <Login />
                         </Route>

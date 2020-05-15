@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Container400 from "./Container400";
+import Container400 from "./Container500";
 
 const StyledContainer1000 = styled(Container400)`
     max-width: 1000px;
