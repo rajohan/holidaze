@@ -5,9 +5,7 @@ import { Person } from "@material-ui/icons";
 const NavigationBox = React.lazy(() => import("./NavigationBox"));
 
 const StyledNavigation = styled.nav<{ showPageNav: boolean }>`
-    position: absolute;
-    top: -2px;
-    right: 0;
+    position: relative;
 
     .navButtons {
         display: flex;
@@ -105,14 +103,18 @@ const StyledNavigation = styled.nav<{ showPageNav: boolean }>`
     }
 `;
 
-const Navigation: React.FC = (): React.ReactElement => {
+type Props = {
+    className?: string;
+};
+
+const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.ReactElement => {
     const [showPageNav, setShowPageNav] = useState(false);
     const [showUserNav, setShowUserNav] = useState(false);
     const pageNavRef = useRef<HTMLDivElement>(null);
     const userNavRef = useRef<HTMLDivElement>(null);
 
     return (
-        <StyledNavigation showPageNav={showPageNav}>
+        <StyledNavigation showPageNav={showPageNav} className={props.className}>
             <div className="navButtons" ref={userNavRef}>
                 <div className="navButton">
                     <button

@@ -95,6 +95,7 @@ const NavigationBox: React.FC<Props> = (props: React.PropsWithChildren<Props>): 
                 <li key={`nav-${item.name}`}>
                     <NavLink
                         to={item.href}
+                        exact={item.href === "/"}
                         activeClassName="navActive"
                         onClick={(e: React.MouseEvent<HTMLAnchorElement>): void => {
                             e.currentTarget.blur();

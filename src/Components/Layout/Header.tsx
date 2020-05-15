@@ -1,10 +1,38 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-const StyledHeader = styled.header``;
+import { ReactComponent as Logo } from "../../assets/images/logo/logoLight.svg";
+import Navigation from "./Navigation/Navigation";
+
+const StyledHeader = styled.header`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: ${(props): string => props.theme.colors.tertiary};
+    padding: 20px;
+    position: relative;
+    margin-bottom: 30px;
+
+    .logo {
+        width: 150px;
+        height: auto;
+
+        @media only screen and (min-width: 400px) {
+            width: 200px;
+        }
+    }
+`;
 
 const Header: React.FC = (): React.ReactElement => {
-    return <StyledHeader>Header</StyledHeader>;
+    return (
+        <StyledHeader>
+            <Link to="/">
+                <Logo className="logo" title="Holidaze" />
+            </Link>
+            <Navigation />
+        </StyledHeader>
+    );
 };
 
 export default Header;

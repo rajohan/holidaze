@@ -73,12 +73,18 @@ const StyledHomeHeader = styled.header`
     }
 `;
 
+const StyledNavigation = styled(Navigation)`
+    position: absolute;
+    top: -2px;
+    right: 0;
+`;
+
 const HomeHeader: React.FC = (): React.ReactElement => {
     return (
         <StyledHomeHeader>
             <div className="logoNav">
                 <Logo className="logo" title="Holidaze" />
-                <Navigation />
+                <StyledNavigation />
             </div>
             <MeetBergen className="meetBergen" title="Meet Bergen" />
             <Search />

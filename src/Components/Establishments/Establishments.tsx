@@ -48,7 +48,7 @@ const Establishments: React.FC = (): React.ReactElement => {
     return (
         <Container1000>
             <Search />
-            <Heading size="h1">Take a look at our establishments?</Heading>
+            <Heading size="h1">Take a look at our establishments</Heading>
             <Heading size="h2">We got amazing establishments all over bergen</Heading>
             <StyledEstablishments>{renderEstablishments()}</StyledEstablishments>
         </Container1000>
