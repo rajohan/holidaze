@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 143b718c41de297f436b898475580a2a */
+/* @relayHash b5e4fb87074eb2da58f03edf398f398d */
 
 import { ConcreteRequest } from "relay-runtime";
 export type EstablishmentGetEstablishmentQueryVariables = {
@@ -10,6 +10,15 @@ export type EstablishmentGetEstablishmentQueryResponse = {
     readonly getEstablishment: {
         readonly id: string;
         readonly name: string;
+        readonly imageUrl: string;
+        readonly price: number;
+        readonly maxGuests: number;
+        readonly googleLat: number;
+        readonly googleLong: number;
+        readonly description: string;
+        readonly selfCatering: boolean;
+        readonly createdAt: unknown;
+        readonly updatedAt: unknown;
     };
 };
 export type EstablishmentGetEstablishmentQuery = {
@@ -24,6 +33,15 @@ query EstablishmentGetEstablishmentQuery(
   getEstablishment(id: $id, withEnquiries: false) {
     id
     name
+    imageUrl
+    price
+    maxGuests
+    googleLat
+    googleLong
+    description
+    selfCatering
+    createdAt
+    updatedAt
   }
 }
 */
@@ -71,6 +89,69 @@ const node: ConcreteRequest = (function () {
                         name: "name",
                         args: null,
                         storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "imageUrl",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "price",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "maxGuests",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "googleLat",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "googleLong",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "description",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "selfCatering",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "createdAt",
+                        args: null,
+                        storageKey: null
+                    },
+                    {
+                        kind: "ScalarField",
+                        alias: null,
+                        name: "updatedAt",
+                        args: null,
+                        storageKey: null
                     }
                 ]
             }
@@ -96,10 +177,10 @@ const node: ConcreteRequest = (function () {
             name: "EstablishmentGetEstablishmentQuery",
             id: null,
             text:
-                "query EstablishmentGetEstablishmentQuery(\n  $id: ID!\n) {\n  getEstablishment(id: $id, withEnquiries: false) {\n    id\n    name\n  }\n}\n",
+                "query EstablishmentGetEstablishmentQuery(\n  $id: ID!\n) {\n  getEstablishment(id: $id, withEnquiries: false) {\n    id\n    name\n    imageUrl\n    price\n    maxGuests\n    googleLat\n    googleLong\n    description\n    selfCatering\n    createdAt\n    updatedAt\n  }\n}\n",
             metadata: {}
         }
     };
 })();
-(node as any).hash = "0fb5e794a32f0482eae6771601031f34";
+(node as any).hash = "96ffe539062b67f89206926e395f20dd";
 export default node;

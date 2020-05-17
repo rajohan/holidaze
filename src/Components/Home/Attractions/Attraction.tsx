@@ -26,7 +26,7 @@ const StyledAttraction = styled.div`
     }
 
     p {
-        padding: 10px;
+        padding: 10px 20px;
         width: 100%;
 
         &:last-of-type {
