@@ -106,17 +106,20 @@ const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
     }
 `;
 
-export type Props = {
+type Props = {
     name: string;
     type?: "text" | "number" | "email" | "tel" | "password" | "search" | "url" | "textarea";
     size?: "small" | "big";
     label?: string;
     className?: string;
     children?: React.ReactNode;
+    min?: number;
+    max?: number;
+    step?: number;
 };
 
 const Input: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { size = "small", children, label, name, className, ...rest } = props;
+    const { size = "small", children, label, name, className, min, max, step, ...rest } = props;
 
     const [field, meta] = useField(props);
 
@@ -126,7 +129,7 @@ const Input: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Re
                 {props.type === "textarea" ? (
                     <textarea {...field} {...rest} id={name} />
                 ) : (
-                    <input {...field} {...rest} id={name} />
+                    <input {...field} {...rest} id={name} min={min} max={max} step={step} />
                 )}
                 {label && (
                     <label htmlFor={name}>

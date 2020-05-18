@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import graphql from "babel-plugin-relay/macro";
-import { Formik } from "formik";
+import { Formik, FormikProps } from "formik";
 import moment from "moment";
-import DatePicker from "react-date-picker";
 import { Event, People, Today, AttachMoney, RestaurantMenu, Favorite } from "@material-ui/icons";
 
 import { EstablishmentGetEstablishmentQuery } from "./__generated__/EstablishmentGetEstablishmentQuery.graphql";
@@ -14,6 +13,7 @@ import Heading from "../Shared/Heading";
 import Form from "../Shared/Form/Form";
 import Button from "../Shared/Form/Button";
 import Input from "../Shared/Form/Input/Input";
+import DatePicker from "../Shared/Form/DatePicker";
 
 const StyledHeading = styled(Heading)`
     letter-spacing: 2px;
@@ -226,7 +226,7 @@ const StyledEstablishment = styled.div`
                 margin: 10px 0 0 10px;
             }
 
-            span {
+            &Price {
                 margin-top: 20px;
                 font-weight: 700;
             }
@@ -248,78 +248,6 @@ const StyledEstablishment = styled.div`
                         margin: 0 0 10px 10px;
                     }
                 }
-            }
-        }
-    }
-`;
-
-const StyledDatePicker = styled(DatePicker)`
-    background-color: ${(props): string => props.theme.colors.white};
-    margin-bottom: 10px;
-    border-radius: 2px;
-
-    .react-date-picker {
-        &__wrapper {
-            height: 50px;
-            padding: 0 10px;
-            border: 2px solid ${(props): string => props.theme.colors.tertiary};
-            border-radius: 2px;
-            align-items: center;
-        }
-
-        &__inputGroup {
-            order: 2;
-            cursor: text;
-
-            &__divider {
-                color: ${(props): string => props.theme.colors.primary};
-            }
-
-            &__input {
-                outline: none;
-
-                &::placeholder {
-                    color: ${(props): string => props.theme.colors.primary};
-                }
-
-                &:invalid {
-                    background: ${(props): string => props.theme.colors.white};
-                }
-            }
-        }
-
-        &__clear-button {
-            order: 3;
-        }
-
-        &__calendar-button {
-            order: 1;
-            padding: 0;
-            outline: none;
-
-            svg {
-                width: 24px;
-                height: 24px;
-                fill: ${(props): string => props.theme.colors.primary};
-                margin-right: 2px;
-            }
-        }
-    }
-
-    .react-calendar {
-        color: ${(props): string => props.theme.colors.primary};
-
-        &__month-view__days__day--weekend {
-            color: ${(props): string => props.theme.colors.primary};
-        }
-
-        &__tile--now {
-            background-color: ${(props): string => props.theme.colors.tertiary};
-            color: ${(props): string => props.theme.colors.white};
-
-            &:enabled:hover,
-            &:enabled:focus {
-                background-color: ${(props): string => props.theme.colors.tertiaryDark};
             }
         }
     }
@@ -413,38 +341,67 @@ const Establishment: React.FC = (): React.ReactElement => {
                                 console.log(values);
                             }}
                         >
-                            <Form>
-                                <StyledDatePicker
-                                    name="checkInDate"
-                                    calendarIcon={<Today />}
-                                    dayPlaceholder="Day"
-                                    monthPlaceholder="Month"
-                                    yearPlaceholder="Year"
-                                    format="dd-MM-y"
-                                    showLeadingZeros={true}
-                                    clearIcon={null}
-                                    minDate={new Date()}
-                                />
-                                <StyledDatePicker
-                                    name="checkOutDate"
-                                    calendarIcon={<Event />}
-                                    dayPlaceholder="Day"
-                                    monthPlaceholder="Month"
-                                    yearPlaceholder="Year"
-                                    format="dd-MM-y"
-                                    showLeadingZeros={true}
-                                    clearIcon={null}
-                                    minDate={new Date()}
-                                />
-                                <div className="establishmentEnquiryInputGroup">
-                                    <StyledInput name="guests" label="Number of guests" type="number">
-                                        <People />
-                                    </StyledInput>
-                                    <Button>Send Message</Button>
-                                </div>
-                            </Form>
+                            {(
+                                props: FormikProps<{
+                                    checkInDate: Date | string;
+                                    checkOutDate: Date | string;
+                                    guests: number | string;
+                                }>
+                            ): React.ReactNode => (
+                                <Form>
+                                    <DatePicker
+                                        name="checkInDate"
+                                        minDate={new Date()}
+                                        label="Check in date"
+                                        onChange={(value): void => {
+                                            const checkOutDate =
+                                                !!props.values.checkInDate && !!props.values.checkOutDate
+                                                    ? moment(new Date(value as Date)).isBefore(
+                                                          new Date(props.values.checkOutDate)
+                                                      )
+                                                        ? props.values.checkOutDate
+                                                        : moment(new Date(value as Date))
+                                                              .add(1, "days")
+                                                              .toDate()
+                                                    : props.values.checkOutDate;
+
+                                            props.setFieldValue("checkInDate", value);
+                                            props.setFieldValue("checkOutDate", checkOutDate);
+                                        }}
+                                    >
+                                        <Today />
+                                    </DatePicker>
+                                    <DatePicker
+                                        name="checkOutDate"
+                                        label="Check out date"
+                                        activeStartDate={
+                                            props.values.checkInDate ? new Date(props.values.checkInDate) : new Date()
+                                        }
+                                        minDate={
+                                            props.values.checkInDate
+                                                ? moment(new Date(props.values.checkInDate)).add(1, "days").toDate()
+                                                : new Date()
+                                        }
+                                    >
+                                        <Event />
+                                    </DatePicker>
+                                    <div className="establishmentEnquiryInputGroup">
+                                        <StyledInput
+                                            name="guests"
+                                            label="Number of guests"
+                                            type="number"
+                                            min={1}
+                                            max={maxGuests}
+                                            step={1}
+                                        >
+                                            <People />
+                                        </StyledInput>
+                                        <Button>Continue</Button>
+                                    </div>
+                                </Form>
+                            )}
                         </Formik>
-                        <span>Total price: $200.00</span>
+                        <span className="establishmentEnquiryPrice">Total price: $200.00</span>
                     </div>
                 </div>
             </StyledEstablishment>
