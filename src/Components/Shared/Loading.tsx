@@ -1,21 +1,23 @@
 import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
 
-const StyledLoading = styled.div`
+const StyledLoading = styled.div<{ color: "dark" | "light" }>`
     display: flex;
     flex-direction: column;
     align-items: center;
     grid-column: 1 / -1;
     justify-self: center;
-    color: ${(props): string => props.theme.colors.secondary};
+    color: ${(props): string => (props.color === "light" ? props.theme.colors.secondary : props.theme.colors.primary)};
     margin: 10px;
 `;
 
-const LoadingCircle = styled.div`
+const LoadingCircle = styled.div<{ color: "dark" | "light" }>`
     width: 30px;
     height: 30px;
-    border: 6px solid ${(props): string => props.theme.colors.secondary};
-    border-top: 6px solid ${(props): string => props.theme.colors.tertiary};
+    border: 6px solid
+        ${(props): string => (props.color === "light" ? props.theme.colors.secondary : props.theme.colors.tertiary)};
+    border-top: 6px solid
+        ${(props): string => (props.color === "light" ? props.theme.colors.tertiary : props.theme.colors.tertiaryDark)};
     border-radius: 100px;
     margin: 10px;
     animation: load 1s linear infinite;
@@ -73,12 +75,16 @@ const LoadingDots = styled.div`
 
 type Props = {
     text?: string;
+    className?: string;
+    color?: "dark" | "light";
 };
 
-const Loading: React.FC<Props> = ({ text }: PropsWithChildren<Props>): React.ReactElement => {
+const Loading: React.FC<Props> = (props: PropsWithChildren<Props>): React.ReactElement => {
+    const { text, className, color = "light" } = props;
+
     return (
-        <StyledLoading>
-            <LoadingCircle />
+        <StyledLoading className={className} color={color}>
+            <LoadingCircle color={color} />
             <LoadingDots>
                 <span>
                     {text || "Loading"}

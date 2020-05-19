@@ -4,11 +4,12 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { StoreContext } from "../store";
 import Loading from "./Shared/Loading";
+import Header from "./Layout/Header";
+import HomeHeader from "./Home/HomeHeader";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
+
 import ErrorBoundary from "./Shared/ErrorBoundary";
-const HomeHeader = React.lazy(() => import("./Home/HomeHeader"));
-const Header = React.lazy(() => import("./Layout/Header"));
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
 const Establishments = React.lazy(() => import("./Establishments/Establishments"));
@@ -34,17 +35,19 @@ const App: React.FC = (): React.ReactElement => {
                 <Main>
                     <Switch>
                         <Route path="/" exact>
-                            <Home />
+                            <Suspense fallback={<Loading />}>
+                                <Home />
+                            </Suspense>
                         </Route>
                         <Route path="/establishment/:id/:name">
                             <ErrorBoundary fallback={"Sorry, the requested establishment could not be found"}>
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading text="Loading establishment" />}>
                                     <Establishment />
                                 </Suspense>
                             </ErrorBoundary>
                         </Route>
                         <Route path="/establishments">
-                            <Suspense fallback={<Loading />}>
+                            <Suspense fallback={<Loading text="Loading establishments" />}>
                                 <Establishments />
                             </Suspense>
                         </Route>

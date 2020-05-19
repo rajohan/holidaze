@@ -3,16 +3,16 @@ import React, { Suspense } from "react";
 import Container1000 from "../Layout/Containers/Container1000";
 import Loading from "../Shared/Loading";
 import Heading from "../Shared/Heading";
-import EstablishmentsCarousel from "./EstablishmentsCarousel/EstablishmentsCarousel";
 import Attractions from "./Attractions/Attractions";
 import Subscribe from "./Subscribe";
+const EstablishmentsCarousel = React.lazy(() => import("./EstablishmentsCarousel/EstablishmentsCarousel"));
 
 const Home: React.FC = (): React.ReactElement => {
     return (
         <Container1000>
             <Heading size="h1">Ready to get away from home?</Heading>
             <Heading size="h2">We got you covered with amazing establishments</Heading>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading text="Loading establishments" />}>
                 <EstablishmentsCarousel />
             </Suspense>
             <Heading size="h1">Things to do while in bergen</Heading>

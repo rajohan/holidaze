@@ -6,6 +6,7 @@ import styled from "styled-components";
 const StyledDatePickerWithLabel = styled.div<{ value: string; isCalendarOpen: boolean }>`
     position: relative;
     width: 100%;
+    z-index: 1000;
 
     label {
         display: flex;
