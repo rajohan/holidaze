@@ -15,6 +15,7 @@ const StyledEstablishmentMap = styled.div`
     margin: 10px 0 0;
     position: relative;
     height: 200px;
+    z-index: 1;
 
     @media only screen and (min-width: 340px) {
         height: 281px;
@@ -35,6 +36,12 @@ const StyledEstablishmentMap = styled.div`
         left: 0;
         bottom: 0;
         border-radius: 2px;
+    }
+
+    .mapboxgl-canvas-container {
+        canvas {
+            width: 100% !important;
+        }
     }
 
     .mapboxgl-popup {

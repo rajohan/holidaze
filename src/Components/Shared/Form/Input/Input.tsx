@@ -124,8 +124,8 @@ const Input: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Re
     const [field, meta] = useField(props);
 
     return (
-        <React.Fragment>
-            <StyledInput value={meta.value} className={className} size={size}>
+        <div className={className}>
+            <StyledInput value={meta.value} size={size}>
                 {props.type === "textarea" ? (
                     <textarea {...field} {...rest} id={name} />
                 ) : (
@@ -138,7 +138,7 @@ const Input: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Re
                 )}
             </StyledInput>
             {meta.touched && meta.error ? <InputError>{meta.error}</InputError> : null}
-        </React.Fragment>
+        </div>
     );
 };
 

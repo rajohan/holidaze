@@ -3,10 +3,12 @@ import ReactDatePicker from "react-date-picker";
 import { useField } from "formik";
 import styled from "styled-components";
 
+import InputError from "./Input/InputError";
+
 const StyledDatePickerWithLabel = styled.div<{ value: string; isCalendarOpen: boolean }>`
     position: relative;
     width: 100%;
-    z-index: 1000;
+    margin-bottom: 10px;
 
     label {
         display: flex;
@@ -34,7 +36,6 @@ const StyledDatePickerWithLabel = styled.div<{ value: string; isCalendarOpen: bo
 
 const StyledDatePicker = styled(ReactDatePicker)<{ isCalendarOpen: boolean }>`
     background-color: ${(props): string => props.theme.colors.white};
-    margin-bottom: 10px;
     border-radius: 2px;
     width: 100%;
 
@@ -91,6 +92,7 @@ const StyledDatePicker = styled(ReactDatePicker)<{ isCalendarOpen: boolean }>`
 
     .react-calendar {
         color: ${(props): string => props.theme.colors.primary};
+        z-index: 1000;
 
         &__month-view__days__day {
             &--weekend {
@@ -173,6 +175,7 @@ const DatePicker: React.FC<Props> = (props: React.PropsWithChildren<Props>): Rea
                     {children} {label}
                 </label>
             )}
+            {meta.touched && meta.error ? <InputError>{meta.error}</InputError> : null}
         </StyledDatePickerWithLabel>
     );
 };

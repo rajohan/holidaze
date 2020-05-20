@@ -6,7 +6,7 @@ const InputErrorStyled = styled.div`
     color: ${(props): string => props.theme.colors.white};
     padding: 10px;
     border-radius: 5px;
-    margin: -18px 0 10px 0;
+    margin: 2px 0 0 0;
     font-size: 15px;
     position: relative;
     width: 100%;
