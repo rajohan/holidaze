@@ -5,6 +5,8 @@ import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 const StyledTable = styled(ReactTable)`
     border-radius: 2px;
+    border-collapse: collapse;
+    border-style: hidden;
     overflow: hidden;
 
     th,

@@ -115,8 +115,8 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
 
     return (
         <StyledNavigation showPageNav={showPageNav} className={props.className}>
-            <div className="navButtons" ref={userNavRef}>
-                <div className="navButton">
+            <div className="navButtons">
+                <div className="navButton" ref={userNavRef}>
                     <button
                         onClick={(elm): void => {
                             elm.currentTarget.blur();
