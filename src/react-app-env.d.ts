@@ -4,6 +4,7 @@ declare module "babel-plugin-relay/macro" {
 }
 
 declare module "react-simply-carousel";
+declare module "react-super-responsive-table";
 
 declare module "react-date-picker" {
     export interface DatePickerProps {

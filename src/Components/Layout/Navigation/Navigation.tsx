@@ -129,7 +129,10 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
                         show={showUserNav}
                         setShow={setShowUserNav}
                         navRef={userNavRef}
-                        items={[{ name: "User nav", href: "/" }]}
+                        items={[
+                            { name: "User nav", href: "/" },
+                            { name: "Admin", href: "/admin" }
+                        ]}
                     />
                 </div>
                 <div className="navButton" ref={pageNavRef}>
