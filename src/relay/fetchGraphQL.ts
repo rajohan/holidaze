@@ -13,12 +13,16 @@ axios.interceptors.request.use(
     }
 );
 
-const fetchGraphQL = async (text: string | null | undefined, variables?: Variables): Promise<GraphQLResponse> => {
+const fetchGraphQL = async (
+    text: string | null | undefined,
+    variables?: Variables,
+    authToken?: string
+): Promise<GraphQLResponse> => {
     const response = await axios({
         method: "post",
         url: API_URL,
         headers: {
-            Authorization: `bearer test`,
+            Authorization: authToken && `bearer ${authToken}`,
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": API_URL
         },

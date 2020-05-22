@@ -1,5 +1,4 @@
 export enum ActionTypes {
-    SET_LOADING = "SET_LOADING",
     SET_TITLE = "SET_TITLE",
-    SET_TEST = "SET_TEST"
+    SET_AUTH_TOKEN = "SET_AUTH_TOKEN"
 }

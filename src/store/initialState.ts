@@ -5,7 +5,7 @@ export const initialState: GlobalState = {
         title: "Holidaze",
         loading: true
     },
-    state2: {
-        hello: ""
+    user: {
+        authToken: undefined
     }
 };

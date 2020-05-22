@@ -1,4 +1,4 @@
-import React, { Suspense, useContext } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -10,6 +10,7 @@ import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
 
 import ErrorBoundary from "./Shared/ErrorBoundary";
+import { setTitle } from "../store/actions";
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
 const Establishments = React.lazy(() => import("./Establishments/Establishments"));
@@ -18,8 +19,25 @@ const Login = React.lazy(() => import("./Login/Login"));
 const Admin = React.lazy(() => import("./Admin/Admin"));
 
 const App: React.FC = (): React.ReactElement => {
-    const { state } = useContext(StoreContext);
+    const { state, dispatch } = useContext(StoreContext);
     const location = useLocation();
+
+    useEffect(() => {
+        switch (true) {
+            case /^\/$/.test(location.pathname):
+                return dispatch(setTitle("Home"));
+            case /^\/establishment\/.*/.test(location.pathname):
+                return dispatch(setTitle(location.pathname.split("/")[3]));
+            case /^\/establishments(?:[/].*)?$/.test(location.pathname):
+                return dispatch(setTitle("Establishments"));
+            case /^\/contact(?:[/].*)?$/.test(location.pathname):
+                return dispatch(setTitle("Contact"));
+            case /^\/admin(?:[/].*)?$/.test(location.pathname):
+                return dispatch(setTitle("Admin"));
+            default:
+                return dispatch(setTitle("404 Page not found"));
+        }
+    }, [dispatch, location.pathname]);
 
     return (
         <HelmetProvider>

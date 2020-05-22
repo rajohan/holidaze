@@ -1,9 +1,9 @@
 import { combineReducers } from "../combineReducers";
 import { pageReducer } from "./pageReducer";
-import { reducer2 } from "./reducer2";
+import { userReducer } from "./userReducer";
 import { GlobalState } from "../types";
 
 export const globalReducer = combineReducers<GlobalState>({
     page: pageReducer,
-    state2: reducer2
+    user: userReducer
 });

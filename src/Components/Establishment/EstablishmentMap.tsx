@@ -101,7 +101,9 @@ const EstablishmentMap: React.FC<Props> = (props: React.PropsWithChildren<Props>
                 .setLngLat([long, lat])
                 .setPopup(
                     new MapboxGl.Popup({ offset: 25 }).setHTML(
-                        `<h3>${name}</h3><p>${location.data.features[0].place_name}</p>`
+                        `<h3>${name}</h3><p>${
+                            location.data.features[0] ? location.data.features[0].place_name : "Address not available"
+                        }</p>`
                     )
                 )
                 .addTo(map);

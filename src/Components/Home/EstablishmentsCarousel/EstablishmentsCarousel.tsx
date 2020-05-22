@@ -13,6 +13,7 @@ const StyledEstablishmentsCarousel = styled.div`
     background-color: ${(props): string => props.theme.colors.secondary};
     margin: 30px 0;
     border-radius: 2px;
+    max-width: 100%;
 
     svg {
         width: 36px;

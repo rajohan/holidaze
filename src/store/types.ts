@@ -17,7 +17,7 @@ export type Reducers<State> = { [key in keyof State]: Reducer<State[key]> };
 
 export type GlobalState = {
     page: PageState;
-    state2: AnotherState;
+    user: UserState;
 };
 
 export type PageState = {
@@ -25,6 +25,6 @@ export type PageState = {
     loading: boolean;
 };
 
-export type AnotherState = {
-    hello: string;
+export type UserState = {
+    authToken?: string;
 };
