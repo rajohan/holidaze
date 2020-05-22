@@ -3,14 +3,14 @@ import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { StoreContext } from "../store";
+import { setTitle } from "../store/actions";
+import ErrorBoundary from "./Shared/ErrorBoundary";
 import Loading from "./Shared/Loading";
 import Header from "./Layout/Header";
 import HomeHeader from "./Home/HomeHeader";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
 
-import ErrorBoundary from "./Shared/ErrorBoundary";
-import { setTitle } from "../store/actions";
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
 const Establishments = React.lazy(() => import("./Establishments/Establishments"));
