@@ -20,8 +20,8 @@ const fetchGraphQL = async (text: string | null | undefined, variables?: Variabl
         })
     });
 
-    if (response.data && response.data.errors) {
-        return Promise.reject(response.data.errors[0]);
+    if (response.data && response.data.errors && response.data.errors[0].statusCode !== 401) {
+        return Promise.reject({ data: response.data.data, error: response.data.errors[0] });
     }
 
     return Promise.resolve(response.data);

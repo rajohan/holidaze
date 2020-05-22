@@ -78,6 +78,8 @@ type Query {
     getAllMessages: [ContactType!]!
     "Returns all users"
     getAllUsers: [UserType!]!
+    "Returns current signed in user"
+    getCurrentUser: UserType!
     "Returns a enquiry by ID"
     getEnquiry(id: ID!, withEstablishment: Boolean = false): EnquiryType!
     "Returns a establishment by ID"

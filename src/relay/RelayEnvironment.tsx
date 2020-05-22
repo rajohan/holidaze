@@ -66,13 +66,9 @@ const RelayEnvironment: React.FC<Props> = (props: React.PropsWithChildren<Props>
                             query: "mutation { refreshAuthTokens { authToken } }"
                         })
                     }).then(({ data }) => {
-                        if (data.data && data.data.refreshAuthTokens) {
-                            dispatch(setAuthToken(data.data.refreshAuthTokens.authToken));
-                            response.config.headers.Authorization = `Bearer ${data.data.refreshAuthTokens.authToken}`;
-                            return axios(response.config);
-                        } else {
-                            return response;
-                        }
+                        dispatch(setAuthToken(data.data.refreshAuthTokens.authToken));
+                        response.config.headers.Authorization = `Bearer ${data.data.refreshAuthTokens.authToken}`;
+                        return axios(response.config);
                     });
                 }
 

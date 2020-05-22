@@ -1,6 +1,8 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import graphql from "babel-plugin-relay/macro";
+import { useMutation } from "react-relay/hooks";
 
 import ErrorBoundary from "./Shared/ErrorBoundary";
 import Loading from "./Shared/Loading";
@@ -8,6 +10,13 @@ import Header from "./Layout/Header";
 import HomeHeader from "./Home/HomeHeader";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
+
+import { setAuthToken } from "../store/actions";
+import { StoreContext } from "../store";
+import {
+    AppRefreshAuthTokensMutation,
+    AppRefreshAuthTokensMutationResponse
+} from "./__generated__/AppRefreshAuthTokensMutation.graphql";
 
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
@@ -18,6 +27,26 @@ const Admin = React.lazy(() => import("./Admin/Admin"));
 
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
+    const { dispatch } = useContext(StoreContext);
+
+    const [commit] = useMutation<AppRefreshAuthTokensMutation>(graphql`
+        mutation AppRefreshAuthTokensMutation {
+            refreshAuthTokens {
+                authToken
+            }
+        }
+    `);
+
+    const mutationConfig = {
+        onCompleted: (response: AppRefreshAuthTokensMutationResponse): void => {
+            dispatch(setAuthToken(response.refreshAuthTokens.authToken));
+        }
+    };
+
+    useEffect(() => {
+        commit({ ...mutationConfig, variables: {} });
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <HelmetProvider>
