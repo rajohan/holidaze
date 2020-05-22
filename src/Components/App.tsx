@@ -1,9 +1,7 @@
-import React, { Suspense, useContext, useEffect } from "react";
+import React, { Suspense } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { StoreContext } from "../store";
-import { setTitle } from "../store/actions";
 import ErrorBoundary from "./Shared/ErrorBoundary";
 import Loading from "./Shared/Loading";
 import Header from "./Layout/Header";
@@ -19,25 +17,7 @@ const Login = React.lazy(() => import("./Login/Login"));
 const Admin = React.lazy(() => import("./Admin/Admin"));
 
 const App: React.FC = (): React.ReactElement => {
-    const { state, dispatch } = useContext(StoreContext);
     const location = useLocation();
-
-    useEffect(() => {
-        switch (true) {
-            case /^\/$/.test(location.pathname):
-                return dispatch(setTitle("Home"));
-            case /^\/establishment\/.*/.test(location.pathname):
-                return dispatch(setTitle(location.pathname.split("/")[3]));
-            case /^\/establishments(?:[/].*)?$/.test(location.pathname):
-                return dispatch(setTitle("Establishments"));
-            case /^\/contact(?:[/].*)?$/.test(location.pathname):
-                return dispatch(setTitle("Contact"));
-            case /^\/admin(?:[/].*)?$/.test(location.pathname):
-                return dispatch(setTitle("Admin"));
-            default:
-                return dispatch(setTitle("404 Page not found"));
-        }
-    }, [dispatch, location.pathname]);
 
     return (
         <HelmetProvider>
@@ -47,47 +27,37 @@ const App: React.FC = (): React.ReactElement => {
                     href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
                     rel="stylesheet"
                 />
-                <title>{state.page.title}</title>
+                <title>Holidaze</title>
             </Helmet>
-            <Suspense fallback={<Loading />}>
-                {location.pathname !== "/" ? <Header /> : <HomeHeader />}
-                <Main>
-                    <Switch>
-                        <Route path="/" exact>
-                            <Suspense fallback={<Loading />}>
-                                <Home />
+            {location.pathname !== "/" ? <Header /> : <HomeHeader />}
+            <Main>
+                <Switch>
+                    <Route path="/" exact>
+                        <Home />
+                    </Route>
+                    <Route path="/establishment/:id/:name">
+                        <ErrorBoundary fallback={"Sorry, the requested establishment could not be found"}>
+                            <Suspense fallback={<Loading text="Loading establishment" />}>
+                                <Establishment />
                             </Suspense>
-                        </Route>
-                        <Route path="/establishment/:id/:name">
-                            <ErrorBoundary fallback={"Sorry, the requested establishment could not be found"}>
-                                <Suspense fallback={<Loading text="Loading establishment" />}>
-                                    <Establishment />
-                                </Suspense>
-                            </ErrorBoundary>
-                        </Route>
-                        <Route path="/establishments">
-                            <Suspense fallback={<Loading text="Loading establishments" />}>
-                                <Establishments />
-                            </Suspense>
-                        </Route>
-                        <Route path="/contact">
-                            <Suspense fallback={<Loading />}>
-                                <Contact />
-                            </Suspense>
-                        </Route>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-                        <Route path="/admin">
-                            <Suspense fallback={<Loading />}>
-                                <Admin />
-                            </Suspense>
-                        </Route>
-                        <Route>404: NOT FOUND</Route>
-                    </Switch>
-                </Main>
-                <Footer />
-            </Suspense>
+                        </ErrorBoundary>
+                    </Route>
+                    <Route path="/establishments">
+                        <Establishments />
+                    </Route>
+                    <Route path="/contact">
+                        <Contact />
+                    </Route>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/admin">
+                        <Admin />
+                    </Route>
+                    <Route>404: NOT FOUND</Route>
+                </Switch>
+            </Main>
+            <Footer />
         </HelmetProvider>
     );
 };

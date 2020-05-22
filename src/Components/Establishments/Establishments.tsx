@@ -2,12 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import graphql from "babel-plugin-relay/macro";
+import { Helmet } from "react-helmet-async";
 
-import EstablishmentsItem from "./EstablishmentsItem";
 import { EstablishmentsGetAllEstablishmentsQuery } from "./__generated__/EstablishmentsGetAllEstablishmentsQuery.graphql";
 import Container1000 from "../Layout/Containers/Container1000";
 import Heading from "../Shared/Heading";
 import Search from "../Shared/Search";
+import EstablishmentsItem from "./EstablishmentsItem";
 
 const StyledEstablishments = styled.div`
     display: grid;
@@ -46,12 +47,17 @@ const Establishments: React.FC = (): React.ReactElement => {
     };
 
     return (
-        <Container1000>
-            <Search />
-            <Heading size="h1">Take a look at our establishments</Heading>
-            <Heading size="h2">We got amazing establishments all over bergen</Heading>
-            <StyledEstablishments>{renderEstablishments()}</StyledEstablishments>
-        </Container1000>
+        <React.Fragment>
+            <Helmet>
+                <title>Holidaze - Establishments</title>
+            </Helmet>
+            <Container1000>
+                <Search />
+                <Heading size="h1">Take a look at our establishments</Heading>
+                <Heading size="h2">We got amazing establishments all over bergen</Heading>
+                <StyledEstablishments>{renderEstablishments()}</StyledEstablishments>
+            </Container1000>
+        </React.Fragment>
     );
 };
 

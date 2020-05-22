@@ -1,30 +1,17 @@
 import axios from "axios";
 import { GraphQLResponse, Variables } from "relay-runtime";
 
-import { API_URL } from "../constants";
+import { GRAPHQL_API_URL } from "../constants";
 
-axios.interceptors.request.use(
-    (config) => {
-        return config;
-    },
-    (error) => {
-        // Do something with request error
-        return Promise.reject(error);
-    }
-);
+const axiosInstance = axios.create();
 
-const fetchGraphQL = async (
-    text: string | null | undefined,
-    variables?: Variables,
-    authToken?: string
-): Promise<GraphQLResponse> => {
-    const response = await axios({
+const fetchGraphQL = async (text: string | null | undefined, variables?: Variables): Promise<GraphQLResponse> => {
+    const response = await axiosInstance({
         method: "post",
-        url: API_URL,
+        url: GRAPHQL_API_URL,
         headers: {
-            Authorization: authToken && `bearer ${authToken}`,
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": API_URL
+            "Access-Control-Allow-Origin": GRAPHQL_API_URL
         },
         withCredentials: true,
         data: JSON.stringify({
@@ -40,4 +27,4 @@ const fetchGraphQL = async (
     return Promise.resolve(response.data);
 };
 
-export { fetchGraphQL };
+export { fetchGraphQL, axiosInstance };

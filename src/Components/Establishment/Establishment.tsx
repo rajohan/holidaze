@@ -3,15 +3,17 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import graphql from "babel-plugin-relay/macro";
+import { Helmet } from "react-helmet-async";
 
 import { EstablishmentGetEstablishmentQuery } from "./__generated__/EstablishmentGetEstablishmentQuery.graphql";
+import Loading from "../Shared/Loading";
 import Container1000 from "../Layout/Containers/Container1000";
 import Heading from "../Shared/Heading";
 import EstablishmentEnquiry from "./EstablishmentEnquiry";
 import EstablishmentDetails from "./EstablishmentDetails";
 import EstablishmentDescription from "./EstablishmentDescription";
 import EstablishmentPrice from "./EstablishmentPrice";
-import Loading from "../Shared/Loading";
+
 const EstablishmentMap = React.lazy(() => import("./EstablishmentMap"));
 
 const StyledLoading = styled(Loading)`
@@ -145,29 +147,34 @@ const Establishment: React.FC = (): React.ReactElement => {
     } = data.getEstablishment;
 
     return (
-        <Container1000>
-            <StyledHeading size="h1">{name}</StyledHeading>
-            <StyledEstablishment>
-                <div className="establishmentColumn">
-                    <img src={imageUrl} alt={name} />
-                    <div className="establishmentDetailsPrice">
-                        <EstablishmentDetails maxGuests={maxGuests} selfCatering={selfCatering} />
-                        <EstablishmentPrice price={price} />
+        <React.Fragment>
+            <Helmet>
+                <title>Holidaze - {name}</title>
+            </Helmet>
+            <Container1000>
+                <StyledHeading size="h1">{name}</StyledHeading>
+                <StyledEstablishment>
+                    <div className="establishmentColumn">
+                        <img src={imageUrl} alt={name} />
+                        <div className="establishmentDetailsPrice">
+                            <EstablishmentDetails maxGuests={maxGuests} selfCatering={selfCatering} />
+                            <EstablishmentPrice price={price} />
+                        </div>
+                        <EstablishmentDescription
+                            description={description}
+                            createdAt={createdAt as Date}
+                            updatedAt={updatedAt as Date}
+                        />
                     </div>
-                    <EstablishmentDescription
-                        description={description}
-                        createdAt={createdAt as Date}
-                        updatedAt={updatedAt as Date}
-                    />
-                </div>
-                <div className="establishmentColumn">
-                    <Suspense fallback={<StyledLoading color="dark" text="Loading map" />}>
-                        <EstablishmentMap long={googleLong} lat={googleLat} name={name} />
-                    </Suspense>
-                    <EstablishmentEnquiry maxGuests={maxGuests} />
-                </div>
-            </StyledEstablishment>
-        </Container1000>
+                    <div className="establishmentColumn">
+                        <Suspense fallback={<StyledLoading color="dark" text="Loading map" />}>
+                            <EstablishmentMap long={googleLong} lat={googleLat} name={name} />
+                        </Suspense>
+                        <EstablishmentEnquiry maxGuests={maxGuests} />
+                    </div>
+                </StyledEstablishment>
+            </Container1000>
+        </React.Fragment>
     );
 };
 
