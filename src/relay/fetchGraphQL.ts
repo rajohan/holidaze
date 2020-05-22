@@ -1,17 +1,17 @@
 import axios from "axios";
 import { GraphQLResponse, Variables } from "relay-runtime";
 
-import { GRAPHQL_API_URL } from "../constants";
+import { API_URL } from "../constants";
 
 const axiosInstance = axios.create();
 
 const fetchGraphQL = async (text: string | null | undefined, variables?: Variables): Promise<GraphQLResponse> => {
     const response = await axiosInstance({
         method: "post",
-        url: GRAPHQL_API_URL,
+        url: API_URL,
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": GRAPHQL_API_URL
+            "Access-Control-Allow-Origin": API_URL
         },
         withCredentials: true,
         data: JSON.stringify({

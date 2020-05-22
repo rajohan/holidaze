@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
-
+import axios from "axios";
 import {
     Environment,
     GraphQLResponse,
@@ -13,6 +13,8 @@ import {
 
 import { fetchGraphQL, axiosInstance } from "./fetchGraphQL";
 import { StoreContext } from "../store";
+import { API_URL } from "../constants";
+import { setAuthToken } from "../store/actions";
 
 const fetchRelay = async (params: RequestParameters, variables: Variables): Promise<GraphQLResponse> => {
     return fetchGraphQL(params.text, variables);
@@ -28,7 +30,7 @@ type Props = {
 };
 
 const RelayEnvironment: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { state } = useContext(StoreContext);
+    const { state, dispatch } = useContext(StoreContext);
 
     useEffect(() => {
         const authRequestInterceptor = axiosInstance.interceptors.request.use(
@@ -41,12 +43,37 @@ const RelayEnvironment: React.FC<Props> = (props: React.PropsWithChildren<Props>
             }
         );
 
+        return (): void => {
+            axiosInstance.interceptors.request.eject(authRequestInterceptor);
+        };
+    }, [state.user.authToken]);
+
+    useEffect(() => {
         const authResponseInterceptor = axiosInstance.interceptors.response.use(
             (response) => {
-                if (response.data && response.data.errors) {
-                    if (response.data.errors[0].statusCode === 401) {
-                        console.log("login please");
-                    }
+                if (response.data && response.data.errors && response.data.errors[0].statusCode === 401) {
+                    // Make sure to use a new axios instance to not create a endless request loop
+                    // on new 401 error because of response interceptors.
+                    return axios({
+                        method: "post",
+                        url: API_URL,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": API_URL
+                        },
+                        withCredentials: true,
+                        data: JSON.stringify({
+                            query: "mutation { refreshAuthTokens { authToken } }"
+                        })
+                    }).then(({ data }) => {
+                        if (data.data && data.data.refreshAuthTokens) {
+                            dispatch(setAuthToken(data.data.refreshAuthTokens.authToken));
+                            response.config.headers.Authorization = `Bearer ${data.data.refreshAuthTokens.authToken}`;
+                            return axios(response.config);
+                        } else {
+                            return response;
+                        }
+                    });
                 }
 
                 return response;
@@ -57,10 +84,9 @@ const RelayEnvironment: React.FC<Props> = (props: React.PropsWithChildren<Props>
         );
 
         return (): void => {
-            axiosInstance.interceptors.request.eject(authRequestInterceptor);
             axiosInstance.interceptors.response.eject(authResponseInterceptor);
         };
-    }, [state.user.authToken]);
+    }, [dispatch]);
 
     return <RelayEnvironmentProvider environment={environment}>{props.children}</RelayEnvironmentProvider>;
 };

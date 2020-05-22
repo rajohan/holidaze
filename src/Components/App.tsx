@@ -52,7 +52,9 @@ const App: React.FC = (): React.ReactElement => {
                         <Login />
                     </Route>
                     <Route path="/admin">
-                        <Admin />
+                        <ErrorBoundary fallback={"Sorry, you do not have access to the admin section"}>
+                            <Admin />
+                        </ErrorBoundary>
                     </Route>
                     <Route>404: NOT FOUND</Route>
                 </Switch>
