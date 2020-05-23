@@ -1,27 +1,33 @@
 import React from "react";
-import { useLazyLoadQuery } from "react-relay/hooks";
+import { preloadQuery, usePreloadedQuery } from "react-relay/hooks";
 import graphql from "babel-plugin-relay/macro";
 import moment from "moment";
 import { Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
 import Table from "../Shared/Table";
 import { AdminMessagesGetAllMessagesQuery } from "./__generated__/AdminMessagesGetAllMessagesQuery.graphql";
+import { environment } from "../../relay/RelayEnvironment";
+
+const query = graphql`
+    query AdminMessagesGetAllMessagesQuery {
+        getAllMessages {
+            id
+            clientName
+            email
+            createdAt
+        }
+    }
+`;
+
+const result = preloadQuery<AdminMessagesGetAllMessagesQuery>(
+    environment,
+    query,
+    {},
+    { fetchPolicy: "store-or-network" }
+);
 
 const AdminMessages: React.FC = (): React.ReactElement => {
-    const data = useLazyLoadQuery<AdminMessagesGetAllMessagesQuery>(
-        graphql`
-            query AdminMessagesGetAllMessagesQuery {
-                getAllMessages {
-                    id
-                    clientName
-                    email
-                    createdAt
-                }
-            }
-        `,
-        {},
-        { fetchPolicy: "store-or-network" }
-    );
+    const data = usePreloadedQuery<AdminMessagesGetAllMessagesQuery>(query, result);
 
     return (
         <Table>

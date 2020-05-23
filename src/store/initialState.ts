@@ -2,10 +2,10 @@ import { GlobalState } from "./types";
 
 export const initialState: GlobalState = {
     page: {
-        title: "Holidaze",
-        loading: true
+        title: "Holidaze"
     },
     user: {
-        authToken: undefined
+        authToken: undefined,
+        userId: null
     }
 };

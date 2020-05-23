@@ -62,7 +62,7 @@ type Mutation {
     "Login a user"
     login(password: String!, username: String!): UserTypeWithToken!
     "Refreshes auth token"
-    refreshAuthTokens: TokenType!
+    refreshAuthTokens: UserTypeWithToken!
     "Updates a enquiry by ID"
     updateEnquiry(data: UpdateEnquiryInput!): EnquiryType!
     "Updates a establishment by ID"
@@ -88,11 +88,6 @@ type Query {
     getMessage(id: ID!): ContactType!
     "Returns a user by ID"
     getUser(id: ID!): UserType!
-}
-
-"Object representing auth token"
-type TokenType {
-    authToken: String!
 }
 
 "Object representing a user"

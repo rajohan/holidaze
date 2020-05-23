@@ -5,7 +5,7 @@ import graphql from "babel-plugin-relay/macro";
 import { Formik } from "formik";
 
 import { LoginMutation, LoginMutationResponse } from "./__generated__/LoginMutation.graphql";
-import { setAuthToken } from "../../store/actions";
+import { setAuthToken, setUserId } from "../../store/actions";
 import { StoreContext } from "../../store";
 import Input from "../Shared/Form/Input/Input";
 import Button from "../Shared/Form/Button";
@@ -20,6 +20,10 @@ const Login: React.FC = (): React.ReactElement => {
         mutation LoginMutation($username: String!, $password: String!) {
             login(username: $username, password: $password) {
                 authToken
+
+                user {
+                    id
+                }
             }
         }
     `);
@@ -27,6 +31,7 @@ const Login: React.FC = (): React.ReactElement => {
     const mutationConfig = {
         onCompleted: (response: LoginMutationResponse): void => {
             dispatch(setAuthToken(response.login.authToken));
+            dispatch(setUserId(response.login.user.id));
         },
         onError: (error: Error): void => console.log(error)
     };

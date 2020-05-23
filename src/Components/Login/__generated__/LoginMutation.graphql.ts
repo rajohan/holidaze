@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 32bdeab43347227dbff066998b219552 */
+/* @relayHash 02e82551875e9d7ef3dd6936f895a501 */
 
 import { ConcreteRequest } from "relay-runtime";
 export type LoginMutationVariables = {
@@ -10,6 +10,9 @@ export type LoginMutationVariables = {
 export type LoginMutationResponse = {
     readonly login: {
         readonly authToken: string;
+        readonly user: {
+            readonly id: string;
+        };
     };
 };
 export type LoginMutation = {
@@ -24,6 +27,9 @@ mutation LoginMutation(
 ) {
   login(username: $username, password: $password) {
     authToken
+    user {
+      id
+    }
   }
 }
 */
@@ -70,6 +76,24 @@ const node: ConcreteRequest = (function () {
                         name: "authToken",
                         args: null,
                         storageKey: null
+                    },
+                    {
+                        kind: "LinkedField",
+                        alias: null,
+                        name: "user",
+                        storageKey: null,
+                        args: null,
+                        concreteType: "UserType",
+                        plural: false,
+                        selections: [
+                            {
+                                kind: "ScalarField",
+                                alias: null,
+                                name: "id",
+                                args: null,
+                                storageKey: null
+                            }
+                        ]
                     }
                 ]
             }
@@ -95,10 +119,10 @@ const node: ConcreteRequest = (function () {
             name: "LoginMutation",
             id: null,
             text:
-                "mutation LoginMutation(\n  $username: String!\n  $password: String!\n) {\n  login(username: $username, password: $password) {\n    authToken\n  }\n}\n",
+                "mutation LoginMutation(\n  $username: String!\n  $password: String!\n) {\n  login(username: $username, password: $password) {\n    authToken\n    user {\n      id\n    }\n  }\n}\n",
             metadata: {}
         }
     };
 })();
-(node as any).hash = "b06b87c734065027d783775d353d5108";
+(node as any).hash = "56e2b6bfe4e031ef5d691501a40708fe";
 export default node;

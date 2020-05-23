@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { Person } from "@material-ui/icons";
 
+import { StoreContext } from "../../../store";
 const NavigationBox = React.lazy(() => import("./NavigationBox"));
 
 const StyledNavigation = styled.nav<{ showPageNav: boolean }>`
@@ -112,6 +113,7 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
     const [showUserNav, setShowUserNav] = useState(false);
     const pageNavRef = useRef<HTMLDivElement>(null);
     const userNavRef = useRef<HTMLDivElement>(null);
+    const { state } = useContext(StoreContext);
 
     return (
         <StyledNavigation showPageNav={showPageNav} className={props.className}>
@@ -131,7 +133,8 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
                         navRef={userNavRef}
                         items={[
                             { name: "User nav", href: "/" },
-                            { name: "Admin", href: "/admin" }
+                            { name: "Admin", href: "/admin" },
+                            { name: `Logged in: ${state.user.userId ? "Yes" : "No"}`, href: "/" }
                         ]}
                     />
                 </div>

@@ -22,9 +22,9 @@ export type GlobalState = {
 
 export type PageState = {
     title: string;
-    loading: boolean;
 };
 
 export type UserState = {
     authToken?: string;
+    userId: null | string;
 };

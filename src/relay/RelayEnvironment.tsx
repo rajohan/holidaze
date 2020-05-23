@@ -14,7 +14,7 @@ import {
 import { fetchGraphQL, axiosInstance } from "./fetchGraphQL";
 import { StoreContext } from "../store";
 import { API_URL } from "../constants";
-import { setAuthToken } from "../store/actions";
+import { setAuthToken, setUserId } from "../store/actions";
 
 const fetchRelay = async (params: RequestParameters, variables: Variables): Promise<GraphQLResponse> => {
     return fetchGraphQL(params.text, variables);
@@ -63,16 +63,18 @@ const RelayEnvironment: React.FC<Props> = (props: React.PropsWithChildren<Props>
                         },
                         withCredentials: true,
                         data: JSON.stringify({
-                            query: "mutation { refreshAuthTokens { authToken } }"
+                            query: "mutation { refreshAuthTokens { authToken user { id } } }"
                         })
                     }).then(({ data }) => {
                         if (data.data && data.data.refreshAuthTokens) {
                             dispatch(setAuthToken(data.data.refreshAuthTokens.authToken));
+                            dispatch(setUserId(data.data.refreshAuthTokens.user.id));
                             response.config.headers.Authorization = `Bearer ${data.data.refreshAuthTokens.authToken}`;
                             return axios(response.config);
                         } else {
                             response.config.headers.Authorization = undefined;
                             dispatch(setAuthToken(""));
+                            dispatch(setUserId(null));
                             return response;
                         }
                     });
@@ -94,3 +96,4 @@ const RelayEnvironment: React.FC<Props> = (props: React.PropsWithChildren<Props>
 };
 
 export default RelayEnvironment;
+export { environment };
