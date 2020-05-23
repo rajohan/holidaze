@@ -1,11 +1,11 @@
 import React, { Suspense } from "react";
-import styled from "styled-components";
+import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { useLazyLoadQuery } from "react-relay/hooks";
-import graphql from "babel-plugin-relay/macro";
+import styled from "styled-components";
 import { Helmet } from "react-helmet-async";
 
-import { EstablishmentGetEstablishmentQuery } from "./__generated__/EstablishmentGetEstablishmentQuery.graphql";
+import { GetEstablishmentData } from "../../GraphQL/types";
+import { GET_ESTABLISHMENT_QUERY } from "../../GraphQL/Queries";
 import Loading from "../Shared/Loading";
 import Container1000 from "../Layout/Containers/Container1000";
 import Heading from "../Shared/Heading";
@@ -111,40 +111,28 @@ const StyledEstablishment = styled.div`
 const Establishment: React.FC = (): React.ReactElement => {
     const { id } = useParams<{ id: string }>();
 
-    const data = useLazyLoadQuery<EstablishmentGetEstablishmentQuery>(
-        graphql`
-            query EstablishmentGetEstablishmentQuery($id: ID!) {
-                getEstablishment(id: $id, withEnquiries: false) {
-                    id
-                    name
-                    imageUrl
-                    price
-                    maxGuests
-                    googleLat
-                    googleLong
-                    description
-                    selfCatering
-                    createdAt
-                    updatedAt
-                }
-            }
-        `,
-        { id: id },
-        { fetchPolicy: "store-or-network" }
-    );
+    const { loading, data } = useQuery<GetEstablishmentData>(GET_ESTABLISHMENT_QUERY, {
+        variables: { id: id }
+    });
+
+    if (loading || !data) {
+        return <Loading text="Loading establishment" />;
+    }
 
     const {
-        name,
-        imageUrl,
-        price,
-        maxGuests,
-        googleLat,
-        googleLong,
-        description,
-        selfCatering,
-        createdAt,
-        updatedAt
-    } = data.getEstablishment;
+        getEstablishment: {
+            name,
+            imageUrl,
+            description,
+            createdAt,
+            updatedAt,
+            googleLat,
+            googleLong,
+            maxGuests,
+            selfCatering,
+            price
+        }
+    } = data;
 
     return (
         <React.Fragment>
@@ -162,8 +150,8 @@ const Establishment: React.FC = (): React.ReactElement => {
                         </div>
                         <EstablishmentDescription
                             description={description}
-                            createdAt={createdAt as Date}
-                            updatedAt={updatedAt as Date}
+                            createdAt={createdAt}
+                            updatedAt={updatedAt}
                         />
                     </div>
                     <div className="establishmentColumn">

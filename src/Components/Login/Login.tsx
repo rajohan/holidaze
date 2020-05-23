@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useMutation } from "@apollo/client";
 import styled from "styled-components";
-import { useMutation } from "react-relay/hooks";
-import graphql from "babel-plugin-relay/macro";
 import { Formik } from "formik";
 
-import { LoginMutation, LoginMutationResponse } from "./__generated__/LoginMutation.graphql";
-import { setAuthToken, setUserId } from "../../store/actions";
-import { StoreContext } from "../../store";
+import { LOGIN_MUTATION } from "../../GraphQL/Mutations";
+import { LoginResponse } from "../../GraphQL/types";
+import { LOCAL_STORAGE_AUTH_TOKEN } from "../../constants";
 import Input from "../Shared/Form/Input/Input";
 import Button from "../Shared/Form/Button";
 import Form from "../Shared/Form/Form";
@@ -14,40 +13,26 @@ import Form from "../Shared/Form/Form";
 const StyledLogin = styled.div``;
 
 const Login: React.FC = (): React.ReactElement => {
-    const { dispatch } = useContext(StoreContext);
-
-    const [commit, isInFlight] = useMutation<LoginMutation>(graphql`
-        mutation LoginMutation($username: String!, $password: String!) {
-            login(username: $username, password: $password) {
-                authToken
-
-                user {
-                    id
-                }
-            }
-        }
-    `);
-
-    const mutationConfig = {
-        onCompleted: (response: LoginMutationResponse): void => {
-            dispatch(setAuthToken(response.login.authToken));
-            dispatch(setUserId(response.login.user.id));
-        },
-        onError: (error: Error): void => console.log(error)
-    };
+    const [login, { loading }] = useMutation<LoginResponse>(LOGIN_MUTATION);
 
     return (
         <StyledLogin>
             <Formik
                 initialValues={{ username: "", password: "" }}
                 onSubmit={(values): void => {
-                    commit({ ...mutationConfig, variables: { ...values } });
+                    login({ variables: { username: values.username, password: values.password } })
+                        .then((response) => {
+                            if (response.data) {
+                                localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, response.data.login.authToken);
+                            }
+                        })
+                        .catch((error) => console.log(error));
                 }}
             >
                 <Form>
                     <Input name="username" label="Username" />
                     <Input name="password" type="password" label="Password" />
-                    <Button disabled={isInFlight}>Login</Button>
+                    <Button disabled={loading}>Login</Button>
                 </Form>
             </Formik>
         </StyledLogin>

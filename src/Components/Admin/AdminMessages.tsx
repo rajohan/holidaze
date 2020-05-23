@@ -1,33 +1,19 @@
 import React from "react";
-import { preloadQuery, usePreloadedQuery } from "react-relay/hooks";
-import graphql from "babel-plugin-relay/macro";
+import { useQuery } from "@apollo/client";
 import moment from "moment";
 import { Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
+import { GetAllMessagesData } from "../../GraphQL/types";
+import { GET_ALL_MESSAGES_QUERY } from "../../GraphQL/Queries";
+import Loading from "../Shared/Loading";
 import Table from "../Shared/Table";
-import { AdminMessagesGetAllMessagesQuery } from "./__generated__/AdminMessagesGetAllMessagesQuery.graphql";
-import { environment } from "../../relay/RelayEnvironment";
-
-const query = graphql`
-    query AdminMessagesGetAllMessagesQuery {
-        getAllMessages {
-            id
-            clientName
-            email
-            createdAt
-        }
-    }
-`;
-
-const result = preloadQuery<AdminMessagesGetAllMessagesQuery>(
-    environment,
-    query,
-    {},
-    { fetchPolicy: "store-or-network" }
-);
 
 const AdminMessages: React.FC = (): React.ReactElement => {
-    const data = usePreloadedQuery<AdminMessagesGetAllMessagesQuery>(query, result);
+    const { loading, data } = useQuery<GetAllMessagesData>(GET_ALL_MESSAGES_QUERY);
+
+    if (loading) {
+        return <Loading text="Loading messages" />;
+    }
 
     return (
         <Table>
@@ -41,15 +27,16 @@ const AdminMessages: React.FC = (): React.ReactElement => {
                 </Tr>
             </Thead>
             <Tbody>
-                {data.getAllMessages.map((message) => (
-                    <Tr key={`message-${message.id}`}>
-                        <Td>{message.clientName}</Td>
-                        <Td>{message.email}</Td>
-                        <Td>{moment(message.createdAt as Date).format("DD.MM.YYYY - HH:mm")}</Td>
-                        <Td>Unresolved</Td>
-                        <Td>View Message</Td>
-                    </Tr>
-                ))}
+                {data &&
+                    data.getAllMessages.map((message) => (
+                        <Tr key={`message-${message.id}`}>
+                            <Td>{message.clientName}</Td>
+                            <Td>{message.email}</Td>
+                            <Td>{moment(message.createdAt).format("DD.MM.YYYY - HH:mm")}</Td>
+                            <Td>Unresolved</Td>
+                            <Td>View Message</Td>
+                        </Tr>
+                    ))}
             </Tbody>
         </Table>
     );

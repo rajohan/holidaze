@@ -3,9 +3,10 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Normalize } from "styled-normalize";
+import { ApolloProvider } from "@apollo/client";
 
 import { StoreProvider } from "./store";
-import RelayEnvironment from "./relay/RelayEnvironment";
+import { client } from "./apollo-client";
 import { defaultTheme, GlobalStyles } from "./themes";
 import App from "./Components/App";
 import Loading from "./Components/Shared/Loading";
@@ -13,7 +14,7 @@ import Loading from "./Components/Shared/Loading";
 const Root: React.FC = (): React.ReactElement => {
     return (
         <StoreProvider>
-            <RelayEnvironment>
+            <ApolloProvider client={client}>
                 <BrowserRouter>
                     <ThemeProvider theme={defaultTheme}>
                         <Normalize />
@@ -25,7 +26,7 @@ const Root: React.FC = (): React.ReactElement => {
                         </React.StrictMode>
                     </ThemeProvider>
                 </BrowserRouter>
-            </RelayEnvironment>
+            </ApolloProvider>
         </StoreProvider>
     );
 };

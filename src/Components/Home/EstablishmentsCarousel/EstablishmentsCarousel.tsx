@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
 import styled from "styled-components";
-import { useLazyLoadQuery } from "react-relay/hooks";
-import graphql from "babel-plugin-relay/macro";
-import { NavigateBefore, NavigateNext } from "@material-ui/icons";
 import Carousel from "react-simply-carousel";
+import { NavigateBefore, NavigateNext } from "@material-ui/icons";
 
-import { EstablishmentsCarouselGetAllEstablishmentsQuery } from "./__generated__/EstablishmentsCarouselGetAllEstablishmentsQuery.graphql";
+import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../../GraphQL/Queries";
+import { GetAllEstablishmentsData } from "../../../GraphQL/types";
 import Button from "../../Shared/Form/Button";
 import EstablishmentsCarouselItem from "./EstablishmentsCarouselItem";
+import Loading from "../../Shared/Loading";
 
 const StyledEstablishmentsCarousel = styled.div`
     background-color: ${(props): string => props.theme.colors.secondary};
@@ -33,30 +34,20 @@ const StyledButton = styled(Button)`
 
 const EstablishmentsCarousel: React.FC = (): React.ReactElement => {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-
-    const data = useLazyLoadQuery<EstablishmentsCarouselGetAllEstablishmentsQuery>(
-        graphql`
-            query EstablishmentsCarouselGetAllEstablishmentsQuery {
-                getAllEstablishments {
-                    id
-                    ...EstablishmentsItemGetAllEstablishments
-                }
-            }
-        `,
-        {},
-        { fetchPolicy: "store-or-network" }
-    );
+    const { loading, data } = useQuery<GetAllEstablishmentsData>(GET_ALL_ESTABLISHMENTS_QUERY);
 
     const renderEstablishments = (): React.ReactNode => {
-        return data.getAllEstablishments.map((establishment, index) => (
-            <EstablishmentsCarouselItem
-                key={`establishment-${data.getAllEstablishments[index].id}`}
-                getAllEstablishments={establishment}
-            />
-        ));
+        return (
+            data &&
+            data.getAllEstablishments.map((establishment) => (
+                <EstablishmentsCarouselItem key={`${establishment.id}`} establishment={establishment} />
+            ))
+        );
     };
 
-    return (
+    return loading ? (
+        <Loading text="Loading establishments" />
+    ) : (
         <React.Fragment>
             <StyledEstablishmentsCarousel>
                 <Carousel

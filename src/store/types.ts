@@ -25,6 +25,5 @@ export type PageState = {
 };
 
 export type UserState = {
-    authToken?: string;
     userId: null | string;
 };

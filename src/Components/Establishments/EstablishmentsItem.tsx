@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { useFragment } from "react-relay/hooks";
-import graphql from "babel-plugin-relay/macro";
 
-import { EstablishmentsItemGetAllEstablishments$key } from "./__generated__/EstablishmentsItemGetAllEstablishments.graphql";
+import { Establishment } from "../../GraphQL/types";
 import { People } from "@material-ui/icons";
 import Button from "../Shared/Form/Button";
 
@@ -85,38 +83,29 @@ const StyledEstablishmentsItem = styled.div`
 
 type Props = {
     className?: string;
-    getAllEstablishments: EstablishmentsItemGetAllEstablishments$key;
+    establishment: Establishment;
 };
 
 const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const data = useFragment<EstablishmentsItemGetAllEstablishments$key>(
-        graphql`
-            fragment EstablishmentsItemGetAllEstablishments on EstablishmentType {
-                id
-                name
-                imageUrl
-                maxGuests
-                price
-            }
-        `,
-        props.getAllEstablishments
-    );
+    const { className, establishment } = props;
 
     return (
-        <StyledEstablishmentsItem className={props.className}>
-            <img src={data.imageUrl} alt={data.name} />
-            <span className="establishmentPrice">${data.price} / Person</span>
+        <StyledEstablishmentsItem className={className}>
+            <img src={establishment.imageUrl} alt={establishment.name} />
+            <span className="establishmentPrice">${establishment.price} / Person</span>
             <div className="establishmentDetails">
                 <div className="establishmentDetailsRow">
-                    <span className="establishmentDetailsRowName" title={data.name}>
-                        {data.name}
+                    <span className="establishmentDetailsRowName" title={establishment.name}>
+                        {establishment.name}
                     </span>
                     <span className="establishmentDetailsRowMaxGuests">
                         <People titleAccess="Max Guests" />
-                        {data.maxGuests}
+                        {establishment.maxGuests}
                     </span>
                 </div>
-                <Button href={`/establishment/${data.id}/${data.name.replace(/\s/g, "-")}`}>View</Button>
+                <Button href={`/establishment/${establishment.id}/${establishment.name.replace(/\s/g, "-")}`}>
+                    View
+                </Button>
             </div>
         </StyledEstablishmentsItem>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { EstablishmentsItemGetAllEstablishments$key } from "../../Establishments/__generated__/EstablishmentsItemGetAllEstablishments.graphql";
+import { Establishment } from "../../../GraphQL/types";
 import EstablishmentsItem from "../../Establishments/EstablishmentsItem";
 
 const StyledEstablishmentsCarouselItem = styled(EstablishmentsItem)`
@@ -49,11 +49,11 @@ const StyledEstablishmentsCarouselItem = styled(EstablishmentsItem)`
 `;
 
 type Props = {
-    getAllEstablishments: EstablishmentsItemGetAllEstablishments$key;
+    establishment: Establishment;
 };
 
 const EstablishmentsCarouselItem: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    return <StyledEstablishmentsCarouselItem getAllEstablishments={props.getAllEstablishments} />;
+    return <StyledEstablishmentsCarouselItem establishment={props.establishment} />;
 };
 
 export default EstablishmentsCarouselItem;

@@ -60,9 +60,9 @@ const EstablishmentDescription: React.FC<Props> = (props: React.PropsWithChildre
             <h2>Description</h2>
             <p>{description}</p>
             <small>
-                <span>Establishment added: {moment(createdAt as Date).format("DD.MM.YYYY")}</span>
+                <span>Establishment added: {moment(createdAt).format("DD.MM.YYYY")}</span>
                 <span>-</span>
-                <span>Establishment last updated: {moment(updatedAt as Date).format("DD.MM.YYYY")}</span>
+                <span>Establishment last updated: {moment(updatedAt).format("DD.MM.YYYY")}</span>
             </small>
         </StyledEstablishmentDescription>
     );

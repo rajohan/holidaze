@@ -1,22 +1,18 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import graphql from "babel-plugin-relay/macro";
-import { useMutation } from "react-relay/hooks";
+import { useMutation } from "@apollo/client";
 
+import { StoreContext } from "../store";
+import { RefreshAuthTokensResponse } from "../GraphQL/types";
+import { REFRESH_AUTH_TOKENS_MUTATION } from "../GraphQL/Mutations";
+import { LOCAL_STORAGE_AUTH_TOKEN } from "../constants";
 import ErrorBoundary from "./Shared/ErrorBoundary";
 import Loading from "./Shared/Loading";
 import Header from "./Layout/Header";
 import HomeHeader from "./Home/HomeHeader";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
-
-import { setAuthToken, setUserId } from "../store/actions";
-import { StoreContext } from "../store";
-import {
-    AppRefreshAuthTokensMutation,
-    AppRefreshAuthTokensMutationResponse
-} from "./__generated__/AppRefreshAuthTokensMutation.graphql";
 
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
@@ -28,37 +24,20 @@ const Admin = React.lazy(() => import("./Admin/Admin"));
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
     const { dispatch } = useContext(StoreContext);
-    const [initialTokenRequestDone, setInitialTokenRequestDone] = useState(false);
 
-    const [commit] = useMutation<AppRefreshAuthTokensMutation>(graphql`
-        mutation AppRefreshAuthTokensMutation {
-            refreshAuthTokens {
-                authToken
-
-                user {
-                    id
-                }
-            }
-        }
-    `);
-
-    const mutationConfig = {
-        onCompleted: (response: AppRefreshAuthTokensMutationResponse): void => {
-            dispatch(setAuthToken(response.refreshAuthTokens.authToken));
-            dispatch(setUserId(response.refreshAuthTokens.user.id));
-            setInitialTokenRequestDone(true);
-        },
-        onError: (): void => setInitialTokenRequestDone(true)
-    };
+    const [initialTokenCheck] = useMutation<RefreshAuthTokensResponse>(REFRESH_AUTH_TOKENS_MUTATION);
 
     useEffect(() => {
-        commit({ ...mutationConfig, variables: {} });
-        // eslint-disable-next-line
-    }, []);
-
-    if (!initialTokenRequestDone) {
-        return <Loading />;
-    }
+        initialTokenCheck()
+            .then((response) => {
+                if (response.data) {
+                    localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, response.data.refreshAuthTokens.authToken);
+                }
+            })
+            .catch(() => {
+                localStorage.removeItem(LOCAL_STORAGE_AUTH_TOKEN);
+            });
+    }, [initialTokenCheck, dispatch]);
 
     return (
         <HelmetProvider>

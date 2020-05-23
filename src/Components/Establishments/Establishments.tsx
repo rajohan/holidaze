@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useLazyLoadQuery } from "react-relay/hooks";
-import graphql from "babel-plugin-relay/macro";
 import { Helmet } from "react-helmet-async";
+import { useQuery } from "@apollo/client";
 
-import { EstablishmentsGetAllEstablishmentsQuery } from "./__generated__/EstablishmentsGetAllEstablishmentsQuery.graphql";
+import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
+import { GetAllEstablishmentsData } from "../../GraphQL/types";
+import Loading from "../Shared/Loading";
 import Container1000 from "../Layout/Containers/Container1000";
 import Heading from "../Shared/Heading";
 import Search from "../Shared/Search";
@@ -24,26 +25,15 @@ const StyledEstablishments = styled.div`
 `;
 
 const Establishments: React.FC = (): React.ReactElement => {
-    const data = useLazyLoadQuery<EstablishmentsGetAllEstablishmentsQuery>(
-        graphql`
-            query EstablishmentsGetAllEstablishmentsQuery {
-                getAllEstablishments {
-                    id
-                    ...EstablishmentsItemGetAllEstablishments
-                }
-            }
-        `,
-        {},
-        { fetchPolicy: "store-or-network" }
-    );
+    const { loading, data } = useQuery<GetAllEstablishmentsData>(GET_ALL_ESTABLISHMENTS_QUERY);
 
     const renderEstablishments = (): React.ReactNode => {
-        return data.getAllEstablishments.map((establishment, index) => (
-            <EstablishmentsItem
-                key={`establishment-${data.getAllEstablishments[index].id}`}
-                getAllEstablishments={establishment}
-            />
-        ));
+        return (
+            data &&
+            data.getAllEstablishments.map((establishment) => (
+                <EstablishmentsItem key={`${establishment.id}`} establishment={establishment} />
+            ))
+        );
     };
 
     return (
@@ -55,7 +45,7 @@ const Establishments: React.FC = (): React.ReactElement => {
                 <Search />
                 <Heading size="h1">Take a look at our establishments</Heading>
                 <Heading size="h2">We got amazing establishments all over bergen</Heading>
-                <StyledEstablishments>{renderEstablishments()}</StyledEstablishments>
+                <StyledEstablishments>{loading ? <Loading /> : renderEstablishments()}</StyledEstablishments>
             </Container1000>
         </React.Fragment>
     );
