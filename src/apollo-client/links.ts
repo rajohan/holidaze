@@ -58,11 +58,7 @@ const authLink = setContext((_, { headers }) => {
 
 const httpLink = createHttpLink({
     uri: API_URL,
-    credentials: "include",
-    fetch: (input, init) => {
-        console.log(init);
-        return fetch(input, init);
-    }
+    credentials: "include"
 });
 
 export { errorLink, authLink, httpLink };

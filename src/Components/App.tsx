@@ -1,9 +1,8 @@
-import React, { Suspense, useContext, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useMutation } from "@apollo/client";
 
-import { StoreContext } from "../store";
 import { RefreshAuthTokensResponse } from "../GraphQL/types";
 import { REFRESH_AUTH_TOKENS_MUTATION } from "../GraphQL/Mutations";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "../constants";
@@ -23,7 +22,6 @@ const Admin = React.lazy(() => import("./Admin/Admin"));
 
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
-    const { dispatch } = useContext(StoreContext);
 
     const [initialTokenCheck] = useMutation<RefreshAuthTokensResponse>(REFRESH_AUTH_TOKENS_MUTATION);
 
@@ -37,7 +35,7 @@ const App: React.FC = (): React.ReactElement => {
             .catch(() => {
                 localStorage.removeItem(LOCAL_STORAGE_AUTH_TOKEN);
             });
-    }, [initialTokenCheck, dispatch]);
+    }, [initialTokenCheck]);
 
     return (
         <HelmetProvider>
