@@ -5,6 +5,11 @@ schema {
     mutation: Mutation
 }
 
+"Object representing a user with auth token"
+type AuthTokenType {
+    authToken: String!
+}
+
 "Object representing a contact message"
 type ContactType {
     clientName: String!
@@ -60,9 +65,9 @@ type Mutation {
     "Deletes a establishment by ID"
     deleteEstablishment(id: ID!): EstablishmentType!
     "Login a user"
-    login(password: String!, username: String!): UserTypeWithToken!
+    login(password: String!, username: String!): AuthTokenType!
     "Refreshes auth token"
-    refreshAuthTokens: UserTypeWithToken!
+    refreshAuthTokens: AuthTokenType!
     "Updates a enquiry by ID"
     updateEnquiry(data: UpdateEnquiryInput!): EnquiryType!
     "Updates a establishment by ID"
@@ -99,12 +104,6 @@ type UserType {
     updatedAt: DateTime!
     username: String!
     verified: Boolean!
-}
-
-"Object representing a user with auth token"
-type UserTypeWithToken {
-    authToken: String!
-    user: UserType!
 }
 
 "New contact data"
