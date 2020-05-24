@@ -13,7 +13,9 @@ module.exports = {
             jsx: true
         }
     },
-    rules: {},
+    rules: {
+        "@typescript-eslint/camelcase": "off"
+    },
     settings: {
         react: {
             version: "detect"

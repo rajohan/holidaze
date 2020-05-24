@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import axios from "axios";
 import MapboxGl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import styled from "styled-components";
@@ -82,9 +81,13 @@ const EstablishmentMap: React.FC<Props> = (props: React.PropsWithChildren<Props>
                 return;
             }
 
-            const location = await axios.get(
+            const location = await fetch(
                 `${MAPBOX_GEOCODE_API}${long},${lat}.json?types=address&access_token=${MAPBOX_ACCESS_TOKEN}`
             );
+
+            const locationJson = await location.json();
+
+            console.log(locationJson);
 
             const map = new MapboxGl.Map({
                 accessToken: MAPBOX_ACCESS_TOKEN,
@@ -102,7 +105,7 @@ const EstablishmentMap: React.FC<Props> = (props: React.PropsWithChildren<Props>
                 .setPopup(
                     new MapboxGl.Popup({ offset: 25 }).setHTML(
                         `<h3>${name}</h3><p>${
-                            location.data.features[0] ? location.data.features[0].place_name : "Address not available"
+                            locationJson.features[0] ? locationJson.features[0].place_name : "Address not available"
                         }</p>`
                     )
                 )

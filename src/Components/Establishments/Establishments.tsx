@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 
+import { GetAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
 import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
-import { GetAllEstablishmentsData } from "../../GraphQL/types";
 import Loading from "../Shared/Loading";
 import Container1000 from "../Layout/Containers/Container1000";
 import Heading from "../Shared/Heading";
@@ -25,7 +25,7 @@ const StyledEstablishments = styled.div`
 `;
 
 const Establishments: React.FC = (): React.ReactElement => {
-    const { loading, data } = useQuery<GetAllEstablishmentsData>(GET_ALL_ESTABLISHMENTS_QUERY);
+    const { loading, data } = useQuery<GetAllEstablishments>(GET_ALL_ESTABLISHMENTS_QUERY);
 
     const renderEstablishments = (): React.ReactNode => {
         return (

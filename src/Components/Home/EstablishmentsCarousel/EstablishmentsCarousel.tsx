@@ -4,8 +4,8 @@ import styled from "styled-components";
 import Carousel from "react-simply-carousel";
 import { NavigateBefore, NavigateNext } from "@material-ui/icons";
 
+import { GetAllEstablishments } from "../../../GraphQL/__generated__/GetAllEstablishments";
 import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../../GraphQL/Queries";
-import { GetAllEstablishmentsData } from "../../../GraphQL/types";
 import Button from "../../Shared/Form/Button";
 import EstablishmentsCarouselItem from "./EstablishmentsCarouselItem";
 import Loading from "../../Shared/Loading";
@@ -34,7 +34,7 @@ const StyledButton = styled(Button)`
 
 const EstablishmentsCarousel: React.FC = (): React.ReactElement => {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-    const { loading, data } = useQuery<GetAllEstablishmentsData>(GET_ALL_ESTABLISHMENTS_QUERY);
+    const { loading, data } = useQuery<GetAllEstablishments>(GET_ALL_ESTABLISHMENTS_QUERY);
 
     const renderEstablishments = (): React.ReactNode => {
         return (

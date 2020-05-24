@@ -1,5 +1,16 @@
 import { gql } from "@apollo/client";
 
+export const CURRENT_USER_QUERY = gql`
+    query CurrentUser {
+        user @client {
+            id
+            username
+            email
+            accessLevel
+        }
+    }
+`;
+
 export const GET_ALL_ESTABLISHMENTS_QUERY = gql`
     query GetAllEstablishments {
         getAllEstablishments {

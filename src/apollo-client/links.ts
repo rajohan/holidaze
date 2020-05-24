@@ -3,8 +3,10 @@ import { ErrorResponse, onError } from "@apollo/link-error";
 import { setContext } from "@apollo/link-context";
 import { GraphQLError } from "graphql";
 
+import { client } from "./index";
 import { API_URL, LOCAL_STORAGE_AUTH_TOKEN } from "../constants";
 import { refreshAuthToken } from "./refreshAuthToken";
+import { CURRENT_USER_QUERY } from "../GraphQL/Queries";
 
 interface ErrorResponseWithStatusCode extends ErrorResponse {
     graphQLErrors?: ReadonlyArray<GraphQLError & { statusCode?: number }>;
@@ -14,15 +16,20 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }: 
     if (graphQLErrors && graphQLErrors[0].statusCode && graphQLErrors[0].statusCode === 401) {
         return new Observable((observer) => {
             refreshAuthToken()
-                .then((token) => {
-                    if (!token) {
+                .then((response) => {
+                    if (!response || !response.authToken || !response.user) {
                         throw new Error("Not Signed In");
                     }
+
+                    client.writeQuery({
+                        query: CURRENT_USER_QUERY,
+                        data: { user: response.user }
+                    });
 
                     operation.setContext(({ headers = {} }) => ({
                         headers: {
                             ...headers,
-                            authorization: `Bearer ${token}`
+                            authorization: `Bearer ${response.authToken}`
                         }
                     }));
                 })
@@ -36,6 +43,11 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }: 
                     forward(operation).subscribe(subscriber);
                 })
                 .catch((error) => {
+                    client.writeQuery({
+                        query: CURRENT_USER_QUERY,
+                        data: { user: null }
+                    });
+
                     observer.error(error);
                 });
         });

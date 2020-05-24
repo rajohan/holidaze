@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Establishment } from "../../GraphQL/types";
+import { GetAllEstablishments_getAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
 import { People } from "@material-ui/icons";
 import Button from "../Shared/Form/Button";
 
@@ -83,7 +83,7 @@ const StyledEstablishmentsItem = styled.div`
 
 type Props = {
     className?: string;
-    establishment: Establishment;
+    establishment: GetAllEstablishments_getAllEstablishments;
 };
 
 const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {

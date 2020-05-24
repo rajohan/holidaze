@@ -8,6 +8,8 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "getGQLSchema": "apollo client:download-schema --tagName=gql --endpoint=https://api-holidaze.herokuapp.com/graphql ./src/GraphQL/schema.graphql",
+        "createGQLTypeDefs": "apollo client:codegen --target=typescript --outputFlat ./src/GraphQL/__generated__",
         "eject": "react-scripts eject"
     },
     "dependencies": {
@@ -16,11 +18,8 @@
         "@apollo/link-error": "^2.0.0-beta.3",
         "@material-ui/core": "^4.9.13",
         "@material-ui/icons": "^4.9.1",
-        "@types/body-scroll-lock": "^2.6.1",
-        "axios": "^0.19.2",
         "body-scroll-lock": "^3.0.2",
         "formik": "^2.1.4",
-        "lodash": "^4.17.15",
         "mapbox-gl": "^1.10.1",
         "moment": "^2.25.3",
         "react": "^0.0.0-experimental-e5d06e34b",
@@ -36,8 +35,7 @@
         "yup": "^0.28.5"
     },
     "devDependencies": {
-        "@types/axios": "^0.14.0",
-        "@types/lodash": "^4.14.150",
+        "@types/body-scroll-lock": "^2.6.1",
         "@types/mapbox-gl": "^1.10.1",
         "@types/node": "^13.13.4",
         "@types/react": "^16.9.34",
@@ -48,11 +46,12 @@
         "@types/yup": "^0.28.3",
         "@typescript-eslint/eslint-plugin": "^2.29.0",
         "@typescript-eslint/parser": "^2.29.0",
+        "apollo": "^2.28.0",
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.3",
         "eslint-plugin-react": "^7.19.0",
-        "graphql": "^15.0.0",
+        "graphql": "^14.6.0",
         "prettier": "^2.0.5",
         "typescript": "^3.8.3"
     },
@@ -67,5 +66,8 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "resolutions": {
+        "graphql": "^14.6.0"
     }
 }

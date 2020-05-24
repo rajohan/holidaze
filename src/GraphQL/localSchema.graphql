@@ -1,0 +1,10 @@
+type CurrentUser {
+    id: String!
+    username: String!
+    email: String!
+    accessLevel: Int!
+}
+
+extend type Query {
+    user: CurrentUser
+}

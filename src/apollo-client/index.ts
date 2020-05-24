@@ -1,5 +1,7 @@
 import { ApolloClient, DefaultOptions, InMemoryCache } from "@apollo/client";
 import { authLink, errorLink, httpLink } from "./links";
+import { IS_DEV_MODE } from "../constants";
+import { CURRENT_USER_QUERY } from "../GraphQL/Queries";
 
 const defaultOptions: DefaultOptions = {
     watchQuery: {
@@ -18,7 +20,15 @@ const defaultOptions: DefaultOptions = {
 const client = new ApolloClient({
     cache: new InMemoryCache(),
     link: errorLink.concat(authLink.concat(httpLink)),
-    defaultOptions
+    defaultOptions,
+    connectToDevTools: IS_DEV_MODE
+});
+
+client.cache.writeQuery({
+    query: CURRENT_USER_QUERY,
+    data: {
+        user: null
+    }
 });
 
 export { client };

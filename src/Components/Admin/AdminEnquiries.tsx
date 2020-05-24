@@ -3,13 +3,13 @@ import { useQuery } from "@apollo/client";
 import moment from "moment";
 import { Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
+import { GET_ALL_ENQUIRIES_QUERY } from "../../GraphQL/Queries";
+import { GetAllEnquiries } from "../../GraphQL/__generated__/GetAllEnquiries";
 import Table from "../Shared/Table";
 import Loading from "../Shared/Loading";
-import { GetAllEnquiriesData } from "../../GraphQL/types";
-import { GET_ALL_ENQUIRIES_QUERY } from "../../GraphQL/Queries";
 
 const AdminEnquiries: React.FC = (): React.ReactElement => {
-    const { loading, data } = useQuery<GetAllEnquiriesData>(GET_ALL_ENQUIRIES_QUERY);
+    const { loading, data } = useQuery<GetAllEnquiries>(GET_ALL_ENQUIRIES_QUERY);
 
     if (loading) {
         return <Loading text="Loading enquiries" />;

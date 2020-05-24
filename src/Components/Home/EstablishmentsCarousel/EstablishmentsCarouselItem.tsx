@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Establishment } from "../../../GraphQL/types";
+import { GetAllEstablishments_getAllEstablishments } from "../../../GraphQL/__generated__/GetAllEstablishments";
 import EstablishmentsItem from "../../Establishments/EstablishmentsItem";
 
 const StyledEstablishmentsCarouselItem = styled(EstablishmentsItem)`
@@ -49,7 +49,7 @@ const StyledEstablishmentsCarouselItem = styled(EstablishmentsItem)`
 `;
 
 type Props = {
-    establishment: Establishment;
+    establishment: GetAllEstablishments_getAllEstablishments;
 };
 
 const EstablishmentsCarouselItem: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {

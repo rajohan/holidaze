@@ -1,9 +1,11 @@
 import React, { Suspense, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
-import { RefreshAuthTokensResponse } from "../GraphQL/types";
+import { CurrentUser } from "../GraphQL/__generated__/CurrentUser";
+import { RefreshAuthTokens } from "../GraphQL/__generated__/RefreshAuthTokens";
+import { CURRENT_USER_QUERY } from "../GraphQL/Queries";
 import { REFRESH_AUTH_TOKENS_MUTATION } from "../GraphQL/Mutations";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "../constants";
 import ErrorBoundary from "./Shared/ErrorBoundary";
@@ -22,20 +24,30 @@ const Admin = React.lazy(() => import("./Admin/Admin"));
 
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
-
-    const [initialTokenCheck] = useMutation<RefreshAuthTokensResponse>(REFRESH_AUTH_TOKENS_MUTATION);
+    const [initialTokenCheck] = useMutation<RefreshAuthTokens>(REFRESH_AUTH_TOKENS_MUTATION);
+    const { data, client } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
 
     useEffect(() => {
         initialTokenCheck()
             .then((response) => {
                 if (response.data) {
+                    client.writeQuery({
+                        query: CURRENT_USER_QUERY,
+                        data: { user: response.data.refreshAuthTokens.user }
+                    });
+
                     localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, response.data.refreshAuthTokens.authToken);
                 }
             })
             .catch(() => {
+                client.writeQuery({
+                    query: CURRENT_USER_QUERY,
+                    data: { user: null }
+                });
+
                 localStorage.removeItem(LOCAL_STORAGE_AUTH_TOKEN);
             });
-    }, [initialTokenCheck]);
+    }, [initialTokenCheck, client]);
 
     return (
         <HelmetProvider>
@@ -48,6 +60,7 @@ const App: React.FC = (): React.ReactElement => {
                 <title>Holidaze</title>
             </Helmet>
             {location.pathname !== "/" ? <Header /> : <HomeHeader />}
+            {console.log(data)}
             <Main>
                 <Switch>
                     <Route path="/" exact>

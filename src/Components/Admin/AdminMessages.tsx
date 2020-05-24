@@ -3,13 +3,13 @@ import { useQuery } from "@apollo/client";
 import moment from "moment";
 import { Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
-import { GetAllMessagesData } from "../../GraphQL/types";
+import { GetAllMessages } from "../../GraphQL/__generated__/GetAllMessages";
 import { GET_ALL_MESSAGES_QUERY } from "../../GraphQL/Queries";
 import Loading from "../Shared/Loading";
 import Table from "../Shared/Table";
 
 const AdminMessages: React.FC = (): React.ReactElement => {
-    const { loading, data } = useQuery<GetAllMessagesData>(GET_ALL_MESSAGES_QUERY);
+    const { loading, data } = useQuery<GetAllMessages>(GET_ALL_MESSAGES_QUERY);
 
     if (loading) {
         return <Loading text="Loading messages" />;

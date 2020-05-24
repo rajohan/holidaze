@@ -1,8 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Person } from "@material-ui/icons";
 
-import { StoreContext } from "../../../store";
+import { CURRENT_USER_QUERY } from "../../../GraphQL/Queries";
+
 const NavigationBox = React.lazy(() => import("./NavigationBox"));
 
 const StyledNavigation = styled.nav<{ showPageNav: boolean }>`
@@ -113,7 +115,7 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
     const [showUserNav, setShowUserNav] = useState(false);
     const pageNavRef = useRef<HTMLDivElement>(null);
     const userNavRef = useRef<HTMLDivElement>(null);
-    const { state } = useContext(StoreContext);
+    const { data } = useQuery(CURRENT_USER_QUERY);
 
     return (
         <StyledNavigation showPageNav={showPageNav} className={props.className}>
@@ -134,7 +136,7 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
                         items={[
                             { name: "User nav", href: "/" },
                             { name: "Admin", href: "/admin" },
-                            { name: `Logged in: ${state.user.userId ? "Yes" : "No"}`, href: "/" }
+                            { name: `Logged in: ${data.user ? "Yes" : "No"}`, href: "/" }
                         ]}
                     />
                 </div>

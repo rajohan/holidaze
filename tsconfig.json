@@ -23,5 +23,5 @@
         "types": ["react-scripts", "react/experimental", "react-dom/experimental"]
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "build"]
+    "exclude": ["node_modules", "build", "src/GraphQL/__generated__/globalTypes.ts"]
 }

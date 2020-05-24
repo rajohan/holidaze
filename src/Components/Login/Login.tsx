@@ -1,10 +1,12 @@
 import React from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Formik } from "formik";
 
+import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
+import { Login as LoginType, LoginVariables } from "../../GraphQL/__generated__/Login";
+import { CURRENT_USER_QUERY } from "../../GraphQL/Queries";
 import { LOGIN_MUTATION } from "../../GraphQL/Mutations";
-import { LoginResponse } from "../../GraphQL/types";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "../../constants";
 import Input from "../Shared/Form/Input/Input";
 import Button from "../Shared/Form/Button";
@@ -13,7 +15,8 @@ import Form from "../Shared/Form/Form";
 const StyledLogin = styled.div``;
 
 const Login: React.FC = (): React.ReactElement => {
-    const [login, { loading }] = useMutation<LoginResponse>(LOGIN_MUTATION);
+    const [login, { loading }] = useMutation<LoginType, LoginVariables>(LOGIN_MUTATION);
+    const { client } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
 
     return (
         <StyledLogin>
@@ -23,6 +26,11 @@ const Login: React.FC = (): React.ReactElement => {
                     login({ variables: { username: values.username, password: values.password } })
                         .then((response) => {
                             if (response.data) {
+                                client.writeQuery({
+                                    query: CURRENT_USER_QUERY,
+                                    data: { user: response.data.login.user }
+                                });
+
                                 localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, response.data.login.authToken);
                             }
                         })

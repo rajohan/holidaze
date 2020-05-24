@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Helmet } from "react-helmet-async";
 
-import { GetEstablishmentData } from "../../GraphQL/types";
+import { GetEstablishment, GetEstablishmentVariables } from "../../GraphQL/__generated__/GetEstablishment";
 import { GET_ESTABLISHMENT_QUERY } from "../../GraphQL/Queries";
 import Loading from "../Shared/Loading";
 import Container1000 from "../Layout/Containers/Container1000";
@@ -111,7 +111,7 @@ const StyledEstablishment = styled.div`
 const Establishment: React.FC = (): React.ReactElement => {
     const { id } = useParams<{ id: string }>();
 
-    const { loading, data } = useQuery<GetEstablishmentData>(GET_ESTABLISHMENT_QUERY, {
+    const { loading, data } = useQuery<GetEstablishment, GetEstablishmentVariables>(GET_ESTABLISHMENT_QUERY, {
         variables: { id: id }
     });
 
