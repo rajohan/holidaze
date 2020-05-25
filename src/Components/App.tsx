@@ -19,7 +19,6 @@ const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
 const Establishments = React.lazy(() => import("./Establishments/Establishments"));
 const Contact = React.lazy(() => import("./Contact/Contact"));
-const Login = React.lazy(() => import("./Login/Login"));
 const Admin = React.lazy(() => import("./Admin/Admin"));
 
 const App: React.FC = (): React.ReactElement => {
@@ -77,9 +76,6 @@ const App: React.FC = (): React.ReactElement => {
                     </Route>
                     <Route path="/contact">
                         <Contact />
-                    </Route>
-                    <Route path="/login">
-                        <Login />
                     </Route>
                     <Route path="/admin">
                         <Admin />
