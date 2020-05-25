@@ -42,13 +42,13 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }: 
 
                     forward(operation).subscribe(subscriber);
                 })
-                .catch((error) => {
+                .catch(() => {
                     client.writeQuery({
                         query: CURRENT_USER_QUERY,
                         data: { user: null }
                     });
 
-                    observer.error(error);
+                    observer.complete();
                 });
         });
     }

@@ -87,8 +87,6 @@ const EstablishmentMap: React.FC<Props> = (props: React.PropsWithChildren<Props>
 
             const locationJson = await location.json();
 
-            console.log(locationJson);
-
             const map = new MapboxGl.Map({
                 accessToken: MAPBOX_ACCESS_TOKEN,
                 container: mapRef.current,

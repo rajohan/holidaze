@@ -31,7 +31,7 @@ const StyledButton = styled.button`
     &:hover {
         background-color: ${(props): string => props.theme.colors.tertiaryDark};
         transform: translateY(-2px);
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
         box-shadow: ${(props): string => props.theme.boxShadows.button};
     }
 

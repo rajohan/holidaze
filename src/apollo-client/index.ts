@@ -24,11 +24,18 @@ const client = new ApolloClient({
     connectToDevTools: IS_DEV_MODE
 });
 
-client.cache.writeQuery({
-    query: CURRENT_USER_QUERY,
-    data: {
-        user: null
-    }
-});
+const writeInitialData = async (): Promise<void> => {
+    client.cache.writeQuery({
+        query: CURRENT_USER_QUERY,
+        data: {
+            user: null
+        }
+    });
+};
+
+writeInitialData();
+
+client.onClearStore(writeInitialData);
+client.onResetStore(writeInitialData);
 
 export { client };

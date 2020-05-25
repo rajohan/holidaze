@@ -15,6 +15,14 @@ export const LOGIN_MUTATION = gql`
     }
 `;
 
+export const LOGOUT_MUTATION = gql`
+    mutation Logout {
+        logout {
+            loggedOut
+        }
+    }
+`;
+
 export const REFRESH_AUTH_TOKENS_MUTATION = gql`
     mutation RefreshAuthTokens {
         refreshAuthTokens {

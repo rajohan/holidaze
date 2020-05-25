@@ -36,53 +36,6 @@ directive @connection(
     filter: [String!]
 ) on FIELD
 
-type Query {
-    """
-    Returns a message by ID
-    """
-    getMessage(id: ID!): ContactType!
-
-    """
-    Returns all messages
-    """
-    getAllMessages: [ContactType!]!
-
-    """
-    Returns a enquiry by ID
-    """
-    getEnquiry(withEstablishment: Boolean = false, id: ID!): EnquiryType!
-
-    """
-    Returns all enquiries
-    """
-    getAllEnquiries(withEstablishment: Boolean = false): [EnquiryType!]!
-
-    """
-    Returns a user by ID
-    """
-    getUser(id: ID!): UserType!
-
-    """
-    Returns current signed in user
-    """
-    getCurrentUser: UserType!
-
-    """
-    Returns all users
-    """
-    getAllUsers: [UserType!]!
-
-    """
-    Returns a establishment by ID
-    """
-    getEstablishment(withEnquiries: Boolean = false, id: ID!): EstablishmentType!
-
-    """
-    Returns all establishments
-    """
-    getAllEstablishments(withEnquiries: Boolean = false): [EstablishmentType!]!
-}
-
 """
 Object representing a contact message
 """
@@ -134,16 +87,10 @@ type EstablishmentType {
 }
 
 """
-Object representing a user
+Object representing a logout response
 """
-type UserType {
-    id: ID!
-    username: String!
-    email: String!
-    verified: Boolean!
-    accessLevel: Int!
-    createdAt: DateTime!
-    updatedAt: DateTime!
+type LogoutType {
+    loggedOut: Boolean!
 }
 
 type Mutation {
@@ -176,6 +123,11 @@ type Mutation {
     Login a user
     """
     login(username: String!, password: String!): UserWithTokenType!
+
+    """
+    Logout a user
+    """
+    logout: LogoutType!
 
     """
     Changes a users password
@@ -224,33 +176,6 @@ input NewEnquiryInput {
 }
 
 """
-Update enquiry data
-"""
-input UpdateEnquiryInput {
-    id: ID!
-    clientName: String
-    checkin: DateTime
-    checkout: DateTime
-}
-
-"""
-New user data
-"""
-input NewUserInput {
-    username: String!
-    password: String!
-    email: String!
-}
-
-"""
-Object representing a user with auth token
-"""
-type UserWithTokenType {
-    authToken: String!
-    user: UserType!
-}
-
-"""
 New establishment data
 """
 input NewEstablishmentInput {
@@ -263,6 +188,67 @@ input NewEstablishmentInput {
     googleLong: Float!
     description: String!
     selfCatering: Boolean!
+}
+
+"""
+New user data
+"""
+input NewUserInput {
+    username: String!
+    password: String!
+    email: String!
+}
+
+type Query {
+    """
+    Returns a message by ID
+    """
+    getMessage(id: ID!): ContactType!
+
+    """
+    Returns all messages
+    """
+    getAllMessages: [ContactType!]!
+
+    """
+    Returns a enquiry by ID
+    """
+    getEnquiry(withEstablishment: Boolean = false, id: ID!): EnquiryType!
+
+    """
+    Returns all enquiries
+    """
+    getAllEnquiries(withEstablishment: Boolean = false): [EnquiryType!]!
+
+    """
+    Returns a user by ID
+    """
+    getUser(id: ID!): UserType!
+
+    """
+    Returns all users
+    """
+    getAllUsers: [UserType!]!
+
+    """
+    Returns a establishment by ID
+    """
+    getEstablishment(withEnquiries: Boolean = false, id: ID!): EstablishmentType!
+
+    """
+    Returns all establishments
+    """
+    getAllEstablishments(withEnquiries: Boolean = false): [EstablishmentType!]!
+}
+
+"""
+Update enquiry data
+"""
+input UpdateEnquiryInput {
+    id: ID!
+    clientName: String
+    checkin: DateTime
+    checkout: DateTime
 }
 
 """
@@ -279,4 +265,25 @@ input UpdateEstablishmentInput {
     googleLong: Float
     description: String
     selfCatering: Boolean
+}
+
+"""
+Object representing a user
+"""
+type UserType {
+    id: ID!
+    username: String!
+    email: String!
+    verified: Boolean!
+    accessLevel: Int!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+"""
+Object representing a user with auth token
+"""
+type UserWithTokenType {
+    authToken: String!
+    user: UserType!
 }
