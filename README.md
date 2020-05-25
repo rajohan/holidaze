@@ -22,11 +22,6 @@ Runs Apollo Client Codegen to generate GraphQL TypeScript definitions.
 
 Fetches the GraphQL schema from the GraphQL API server
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
