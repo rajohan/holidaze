@@ -10,12 +10,16 @@ const StyledHeader = styled.header`
     justify-content: space-between;
     align-items: center;
     background-color: ${(props): string => props.theme.colors.tertiary};
-    padding: 20px;
+    padding: 10px;
     position: relative;
     margin-bottom: 30px;
 
+    @media only screen and (min-width: 400px) {
+        padding: 20px;
+    }
+
     .logo {
-        width: 150px;
+        width: 143px;
         height: auto;
 
         @media only screen and (min-width: 400px) {

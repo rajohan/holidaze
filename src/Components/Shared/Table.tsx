@@ -8,6 +8,7 @@ const StyledTable = styled(ReactTable)`
     border-collapse: collapse;
     border-style: hidden;
     overflow: hidden;
+    margin: 30px 0;
 
     th,
     td.pivoted {

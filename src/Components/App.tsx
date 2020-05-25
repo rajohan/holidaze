@@ -25,7 +25,7 @@ const Admin = React.lazy(() => import("./Admin/Admin"));
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
     const [initialTokenCheck] = useMutation<RefreshAuthTokens>(REFRESH_AUTH_TOKENS_MUTATION);
-    const { data, client } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
+    const { client } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
 
     useEffect(() => {
         initialTokenCheck()
@@ -60,7 +60,6 @@ const App: React.FC = (): React.ReactElement => {
                 <title>Holidaze</title>
             </Helmet>
             {location.pathname !== "/" ? <Header /> : <HomeHeader />}
-            {console.log(data)}
             <Main>
                 <Switch>
                     <Route path="/" exact>
@@ -83,9 +82,7 @@ const App: React.FC = (): React.ReactElement => {
                         <Login />
                     </Route>
                     <Route path="/admin">
-                        <ErrorBoundary fallback={"Sorry, you do not have access to the admin section"}>
-                            <Admin />
-                        </ErrorBoundary>
+                        <Admin />
                     </Route>
                     <Route>404: NOT FOUND</Route>
                 </Switch>
