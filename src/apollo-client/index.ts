@@ -25,7 +25,7 @@ const client = new ApolloClient({
 });
 
 const writeInitialData = async (): Promise<void> => {
-    client.cache.writeQuery({
+    client.writeQuery({
         query: CURRENT_USER_QUERY,
         data: {
             user: null
