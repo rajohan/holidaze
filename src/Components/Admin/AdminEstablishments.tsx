@@ -10,7 +10,7 @@ import Table from "../Shared/Table";
 const AdminEstablishments: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<AdminGetAllEstablishments>(ADMIN_GET_ALL_ESTABLISHMENTS_QUERY);
 
-    if (loading) {
+    if (loading && !data) {
         return <Loading text="Loading enquiries" />;
     }
 

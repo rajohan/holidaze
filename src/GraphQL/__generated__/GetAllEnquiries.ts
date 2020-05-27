@@ -18,6 +18,7 @@ export interface GetAllEnquiries_getAllEnquiries {
     id: string;
     clientName: string;
     email: string;
+    guests: number;
     checkin: any;
     checkout: any;
     status: number;

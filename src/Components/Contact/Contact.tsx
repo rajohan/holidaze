@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Formik } from "formik";
 import { Mail, Chat, Face } from "@material-ui/icons";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet-async";
 
+import { NEW_MESSAGE_MUTATION } from "../../GraphQL/Mutations";
+import { AddMessage, AddMessageVariables } from "../../GraphQL/__generated__/AddMessage";
 import Container400 from "../Layout/Containers/Container500";
 import Heading from "../Shared/Heading";
 import Form from "../Shared/Form/Form";
 import Input from "../Shared/Form/Input/Input";
 import Button from "../Shared/Form/Button";
-
-const Success = React.lazy(() => import("../Shared/Form/Success"));
+import Success from "../Shared/Form/Success";
 
 const StyledContact = styled.div`
     display: flex;
@@ -34,6 +36,7 @@ const StyledInput = styled(Input)`
 
 const Contact: React.FC = (): React.ReactElement => {
     const [success, setSuccess] = useState(false);
+    const [sendMessage, { loading }] = useMutation<AddMessage, AddMessageVariables>(NEW_MESSAGE_MUTATION);
 
     return (
         <React.Fragment>
@@ -56,10 +59,12 @@ const Contact: React.FC = (): React.ReactElement => {
                                 .required("Message is required.")
                                 .min(10, "The message must be at least 10 characters.")
                         })}
-                        onSubmit={(values, { resetForm }): void => {
+                        onSubmit={async (values, { resetForm }): Promise<void> => {
+                            await sendMessage({
+                                variables: { clientName: values.name, email: values.email, message: values.message }
+                            });
                             resetForm();
                             setSuccess(true);
-                            console.log(values);
                         }}
                     >
                         <Form>
@@ -72,7 +77,9 @@ const Contact: React.FC = (): React.ReactElement => {
                             <StyledInput name="message" label="Your message" type="textarea">
                                 <Chat />
                             </StyledInput>
-                            <Button onClick={(): void => setSuccess(false)}>Send Message</Button>
+                            <Button disabled={loading} onClick={(): void => setSuccess(false)}>
+                                Send Message
+                            </Button>
                         </Form>
                     </Formik>
                 </StyledContact>

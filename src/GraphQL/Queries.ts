@@ -57,6 +57,7 @@ export const GET_ALL_ENQUIRIES_QUERY = gql`
             id
             clientName
             email
+            guests
             checkin
             checkout
             status

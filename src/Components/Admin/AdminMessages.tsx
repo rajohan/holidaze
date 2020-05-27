@@ -5,13 +5,13 @@ import styled from "styled-components";
 import { Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
 import { GetAllMessages, GetAllMessages_getAllMessages } from "../../GraphQL/__generated__/GetAllMessages";
+import { ChangeMessageStatus, ChangeMessageStatusVariables } from "../../GraphQL/__generated__/ChangeMessageStatus";
+import { CHANGE_MESSAGE_STATUS_MUTATION } from "../../GraphQL/Mutations";
 import { GET_ALL_MESSAGES_QUERY } from "../../GraphQL/Queries";
 import Loading from "../Shared/Loading";
 import Table from "../Shared/Table";
 import Link from "../Shared/Link";
 import Modal from "../Shared/Modal";
-import { CHANGE_MESSAGE_STATUS } from "../../GraphQL/Mutations";
-import { ChangeMessageStatus, ChangeMessageStatusVariables } from "../../GraphQL/__generated__/ChangeMessageStatus";
 
 const StyledModal = styled(Modal)`
     max-width: 500px;
@@ -42,7 +42,9 @@ const StyledModal = styled(Modal)`
 
 const AdminMessages: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<GetAllMessages>(GET_ALL_MESSAGES_QUERY);
-    const [changeStatus] = useMutation<ChangeMessageStatus, ChangeMessageStatusVariables>(CHANGE_MESSAGE_STATUS);
+    const [changeStatus] = useMutation<ChangeMessageStatus, ChangeMessageStatusVariables>(
+        CHANGE_MESSAGE_STATUS_MUTATION
+    );
     const [showModal, setShowModal] = useState(false);
     const [modalData, setModalData] = useState<GetAllMessages_getAllMessages>();
 
@@ -64,7 +66,7 @@ const AdminMessages: React.FC = (): React.ReactElement => {
         }));
     };
 
-    if (loading) {
+    if (loading && !data) {
         return <Loading text="Loading messages" />;
     }
 

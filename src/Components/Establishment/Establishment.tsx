@@ -121,6 +121,7 @@ const Establishment: React.FC = (): React.ReactElement => {
 
     const {
         getEstablishment: {
+            id: establishmentId,
             name,
             imageUrl,
             description,
@@ -158,7 +159,7 @@ const Establishment: React.FC = (): React.ReactElement => {
                         <Suspense fallback={<StyledLoading color="dark" text="Loading map" />}>
                             <EstablishmentMap long={googleLong} lat={googleLat} name={name} />
                         </Suspense>
-                        <EstablishmentEnquiry maxGuests={maxGuests} />
+                        <EstablishmentEnquiry price={price} establishmentId={establishmentId} maxGuests={maxGuests} />
                     </div>
                 </StyledEstablishment>
             </Container1000>

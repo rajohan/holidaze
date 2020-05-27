@@ -57,10 +57,11 @@ type Props = {
     children: React.ReactNode;
     className?: string;
     closeOnClickOutside?: boolean;
+    onCloseButtonClick?: () => void;
 };
 
 const Modal: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { showModal, setShowModal, children, className, closeOnClickOutside = true } = props;
+    const { showModal, setShowModal, children, className, onCloseButtonClick, closeOnClickOutside = true } = props;
 
     const modalRef = useRef<HTMLDivElement>(null);
 
@@ -84,7 +85,13 @@ const Modal: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Re
                     }}
                 >
                     <ModalContent className={className} onClick={(e): void => e.stopPropagation()}>
-                        <Close onClick={(): void => setShowModal(false)} className="modalClose" />
+                        <Close
+                            onClick={(): void => {
+                                setShowModal(false);
+                                onCloseButtonClick && onCloseButtonClick();
+                            }}
+                            className="modalClose"
+                        />
                         {children}
                     </ModalContent>
                 </StyledModal>

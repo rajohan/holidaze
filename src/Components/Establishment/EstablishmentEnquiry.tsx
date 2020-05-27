@@ -33,6 +33,7 @@ const StyledEstablishmentEnquiry = styled.div`
     .enquiryPrice {
         margin-top: 20px;
         font-weight: 700;
+        text-align: center;
     }
 
     .enquiryInputGroup {
@@ -58,12 +59,22 @@ const StyledEstablishmentEnquiry = styled.div`
 
 type Props = {
     maxGuests: number;
+    establishmentId: string;
+    price: number;
 };
 
 const EstablishmentEnquiry: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { maxGuests } = props;
+    const { maxGuests, establishmentId, price } = props;
     const [showModal, setShowModal] = useState(false);
+    const [reset, setReset] = useState<() => void>();
     const [formValues, setFormValues] = useState({ checkInDate: "", checkOutDate: "", guests: "" });
+
+    const calculateTotPrice = (price: number, guests: number, date1: Date | string, date2: Date | string): number => {
+        const days = moment(date2).diff(moment(date1), "days");
+        const priceWithoutDays = guests > 1 ? price * guests : price;
+
+        return days > 1 ? priceWithoutDays * days : priceWithoutDays;
+    };
 
     return (
         <React.Fragment>
@@ -71,10 +82,6 @@ const EstablishmentEnquiry: React.FC<Props> = (props: React.PropsWithChildren<Pr
                 <h2>Enquiry this establishment</h2>
                 <Formik
                     initialValues={{ checkInDate: "", checkOutDate: "", guests: "" }}
-                    onSubmit={(values): void => {
-                        setFormValues(values);
-                        setShowModal(true);
-                    }}
                     validationSchema={Yup.object({
                         checkInDate: Yup.date().required("Check in date is required."),
                         checkOutDate: Yup.date().required("Check out date is required."),
@@ -83,6 +90,11 @@ const EstablishmentEnquiry: React.FC<Props> = (props: React.PropsWithChildren<Pr
                             .min(1, "Minimum 1 guest is required")
                             .max(maxGuests, `Max ${maxGuests} guests allowed on this establishment.`)
                     })}
+                    onSubmit={(values, { resetForm }): void => {
+                        setFormValues(values);
+                        setReset(() => resetForm);
+                        setShowModal(true);
+                    }}
                 >
                     {(
                         props: FormikProps<{
@@ -141,18 +153,32 @@ const EstablishmentEnquiry: React.FC<Props> = (props: React.PropsWithChildren<Pr
                                 </StyledInput>
                                 <Button>Continue</Button>
                             </div>
+                            <span className="enquiryPrice">
+                                Total price: $
+                                {calculateTotPrice(
+                                    price,
+                                    parseInt(props.values.guests as string),
+                                    props.values.checkInDate,
+                                    props.values.checkOutDate
+                                )}
+                            </span>
                         </Form>
                     )}
                 </Formik>
-                <span className="enquiryPrice">Total price: $200.00</span>
             </StyledEstablishmentEnquiry>
             <EstablishmentModal
                 showModal={showModal}
                 setShowModal={setShowModal}
                 checkInDate={new Date(formValues.checkInDate)}
                 checkOutDate={new Date(formValues.checkOutDate)}
-                guests={formValues.guests}
+                guests={parseInt(formValues.guests)}
                 maxGuests={maxGuests}
+                establishmentId={establishmentId}
+                price={price}
+                resetMainForm={(): void => {
+                    reset && reset();
+                    setFormValues({ checkInDate: "", checkOutDate: "", guests: "" });
+                }}
             />
         </React.Fragment>
     );

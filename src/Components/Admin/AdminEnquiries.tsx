@@ -4,7 +4,7 @@ import moment from "moment";
 import { Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
 import { GET_ALL_ENQUIRIES_QUERY } from "../../GraphQL/Queries";
-import { CHANGE_ENQUIRY_STATUS } from "../../GraphQL/Mutations";
+import { CHANGE_ENQUIRY_STATUS_MUTATION } from "../../GraphQL/Mutations";
 import { ChangeEnquiryStatus, ChangeEnquiryStatusVariables } from "../../GraphQL/__generated__/ChangeEnquiryStatus";
 import { GetAllEnquiries } from "../../GraphQL/__generated__/GetAllEnquiries";
 import Table from "../Shared/Table";
@@ -13,7 +13,9 @@ import Link from "../Shared/Link";
 
 const AdminEnquiries: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<GetAllEnquiries>(GET_ALL_ENQUIRIES_QUERY);
-    const [changeStatus] = useMutation<ChangeEnquiryStatus, ChangeEnquiryStatusVariables>(CHANGE_ENQUIRY_STATUS);
+    const [changeStatus] = useMutation<ChangeEnquiryStatus, ChangeEnquiryStatusVariables>(
+        CHANGE_ENQUIRY_STATUS_MUTATION
+    );
 
     const handleChangeStatus = async (id: string, status: 1 | 2): Promise<void> => {
         await changeStatus({
@@ -28,7 +30,7 @@ const AdminEnquiries: React.FC = (): React.ReactElement => {
         });
     };
 
-    if (loading) {
+    if (loading && !data) {
         return <Loading text="Loading enquiries" />;
     }
 
@@ -39,6 +41,7 @@ const AdminEnquiries: React.FC = (): React.ReactElement => {
                     <Th>Client Name</Th>
                     <Th>Email</Th>
                     <Th>Establishment</Th>
+                    <Th>Guests</Th>
                     <Th>Check In</Th>
                     <Th>Check Out</Th>
                     <Th>Status</Th>
@@ -64,6 +67,7 @@ const AdminEnquiries: React.FC = (): React.ReactElement => {
                                     {enquiry.establishment.name}
                                 </Link>
                             </Td>
+                            <Td>{enquiry.guests}</Td>
                             <Td>{moment(enquiry.checkin).format("DD.MM.YYYY")}</Td>
                             <Td>{moment(enquiry.checkout).format("DD.MM.YYYY")}</Td>
                             <Td>{enquiry.status === 0 ? "Pending" : enquiry.status === 1 ? "Accepted" : "Declined"}</Td>

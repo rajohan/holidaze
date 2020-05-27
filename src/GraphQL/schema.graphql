@@ -77,6 +77,7 @@ type EnquiryType {
     id: ID!
     clientName: String!
     email: String!
+    guests: Int!
     checkin: DateTime!
     checkout: DateTime!
     status: Int!
@@ -199,6 +200,7 @@ input NewEnquiryInput {
     establishmentId: ID!
     clientName: String!
     email: String!
+    guests: Int!
     checkin: DateTime!
     checkout: DateTime!
 }
@@ -275,6 +277,7 @@ Update enquiry data
 input UpdateEnquiryInput {
     id: ID!
     clientName: String
+    guests: Int!
     checkin: DateTime
     checkout: DateTime
 }
