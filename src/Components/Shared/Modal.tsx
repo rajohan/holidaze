@@ -28,6 +28,7 @@ const ModalContent = styled.div`
     background-color: ${(props): string => props.theme.colors.secondary};
     overflow: auto;
     border-radius: 2px;
+    color: ${(props): string => props.theme.colors.primary};
 
     @media only screen and (min-width: 400px) {
         margin: 0 30px;

@@ -12,6 +12,8 @@ export interface GetAllMessages_getAllMessages {
     id: string;
     clientName: string;
     email: string;
+    status: number;
+    message: string;
     createdAt: any;
 }
 

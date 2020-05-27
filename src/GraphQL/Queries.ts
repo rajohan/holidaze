@@ -59,6 +59,7 @@ export const GET_ALL_ENQUIRIES_QUERY = gql`
             email
             checkin
             checkout
+            status
 
             establishment {
                 id
@@ -74,6 +75,8 @@ export const GET_ALL_MESSAGES_QUERY = gql`
             id
             clientName
             email
+            status
+            message
             createdAt
         }
     }

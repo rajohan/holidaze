@@ -57,7 +57,11 @@ const Link: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Rea
     const { href, external = false, color = "dark", target, children, className, onClick } = props;
 
     if (!href) {
-        return <StyledLink onClick={onClick}>{children}</StyledLink>;
+        return (
+            <StyledLink onClick={onClick} className={className} color={color}>
+                {children}
+            </StyledLink>
+        );
     }
 
     return external ? (

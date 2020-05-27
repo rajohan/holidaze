@@ -9,7 +9,7 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "getGQLSchema": "apollo client:download-schema --tagName=gql --endpoint=https://api-holidaze.herokuapp.com/graphql ./src/GraphQL/schema.graphql",
-        "createGQLTypeDefs": "apollo client:codegen --target=typescript --outputFlat ./src/GraphQL/__generated__",
+        "createGQLTypeDefs": "apollo client:codegen --target=typescript --addTypename --outputFlat ./src/GraphQL/__generated__",
         "eject": "react-scripts eject"
     },
     "dependencies": {

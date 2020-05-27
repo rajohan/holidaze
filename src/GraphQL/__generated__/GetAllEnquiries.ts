@@ -20,6 +20,7 @@ export interface GetAllEnquiries_getAllEnquiries {
     email: string;
     checkin: any;
     checkout: any;
+    status: number;
     establishment: GetAllEnquiries_getAllEnquiries_establishment;
 }
 

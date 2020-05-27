@@ -37,6 +37,22 @@ directive @connection(
 ) on FIELD
 
 """
+Change message status data
+"""
+input ChangeContactStatusInput {
+    id: ID!
+    status: Int!
+}
+
+"""
+Change enquiry status data
+"""
+input ChangeEnquiryStatusInput {
+    id: ID!
+    status: Int!
+}
+
+"""
 Object representing a contact message
 """
 type ContactType {
@@ -44,6 +60,7 @@ type ContactType {
     clientName: String!
     email: String!
     message: String!
+    status: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
 }
@@ -62,6 +79,7 @@ type EnquiryType {
     email: String!
     checkin: DateTime!
     checkout: DateTime!
+    status: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
     establishment: EstablishmentType!
@@ -100,6 +118,11 @@ type Mutation {
     addMessage(data: NewContactInput!): ContactType!
 
     """
+    Changes the status on a message
+    """
+    changeMessageStatus(data: ChangeContactStatusInput!): ContactType!
+
+    """
     Adds a new enquiry
     """
     addEnquiry(data: NewEnquiryInput!): EnquiryType!
@@ -108,6 +131,11 @@ type Mutation {
     Updates a enquiry by ID
     """
     updateEnquiry(data: UpdateEnquiryInput!): EnquiryType!
+
+    """
+    Changes the status on a enquiry
+    """
+    changeEnquiryStatus(data: ChangeEnquiryStatusInput!): EnquiryType!
 
     """
     Deletes a enquiry by ID

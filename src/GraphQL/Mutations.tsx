@@ -37,3 +37,21 @@ export const REFRESH_AUTH_TOKENS_MUTATION = gql`
         }
     }
 `;
+
+export const CHANGE_MESSAGE_STATUS = gql`
+    mutation ChangeMessageStatus($id: ID!, $status: Int!) {
+        changeMessageStatus(data: { id: $id, status: $status }) {
+            id
+            status
+        }
+    }
+`;
+
+export const CHANGE_ENQUIRY_STATUS = gql`
+    mutation ChangeEnquiryStatus($id: ID!, $status: Int!) {
+        changeEnquiryStatus(data: { id: $id, status: $status }) {
+            id
+            status
+        }
+    }
+`;

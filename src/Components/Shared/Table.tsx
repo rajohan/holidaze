@@ -35,6 +35,15 @@ const StyledTable = styled(ReactTable)`
             border: 1px solid transparent;
         }
     }
+
+    a {
+        color: ${(props): string => props.theme.colors.tertiary};
+
+        &:focus,
+        &:hover {
+            color: ${(props): string => props.theme.colors.primary};
+        }
+    }
 `;
 
 type Props = {
