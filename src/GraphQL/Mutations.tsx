@@ -87,3 +87,11 @@ export const CHANGE_ENQUIRY_STATUS_MUTATION = gql`
         }
     }
 `;
+
+export const DELETE_ESTABLISHMENT_MUTATION = gql`
+    mutation DeleteEstablishment($id: ID!) {
+        deleteEstablishment(id: $id) {
+            id
+        }
+    }
+`;

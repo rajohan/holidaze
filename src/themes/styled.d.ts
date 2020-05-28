@@ -16,7 +16,9 @@ declare module "styled-components" {
             tertiary: string;
             tertiaryDark: string;
             error: string;
+            errorDark: string;
             success: string;
+            successDark: string;
             text: string;
             link: string;
             white: string;
