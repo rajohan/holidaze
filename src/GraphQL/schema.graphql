@@ -213,7 +213,7 @@ input NewEstablishmentInput {
     email: String!
     imageUrl: String!
     price: Float!
-    maxGuests: Float!
+    maxGuests: Int!
     googleLat: Float!
     googleLong: Float!
     description: String!
@@ -291,7 +291,7 @@ input UpdateEstablishmentInput {
     email: String
     imageUrl: String
     price: Float
-    maxGuests: Float
+    maxGuests: Int
     googleLat: Float
     googleLong: Float
     description: String

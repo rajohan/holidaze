@@ -88,6 +88,88 @@ export const CHANGE_ENQUIRY_STATUS_MUTATION = gql`
     }
 `;
 
+export const ADD_ESTABLISHMENT_MUTATION = gql`
+    mutation AddEstablishment(
+        $name: String!
+        $email: String!
+        $imageUrl: String!
+        $price: Float!
+        $maxGuests: Int!
+        $googleLat: Float!
+        $googleLong: Float!
+        $description: String!
+        $selfCatering: Boolean!
+    ) {
+        addEstablishment(
+            data: {
+                name: $name
+                email: $email
+                imageUrl: $imageUrl
+                price: $price
+                maxGuests: $maxGuests
+                googleLat: $googleLat
+                googleLong: $googleLong
+                description: $description
+                selfCatering: $selfCatering
+            }
+        ) {
+            id
+            name
+            imageUrl
+            price
+            maxGuests
+            googleLat
+            googleLong
+            description
+            selfCatering
+            createdAt
+            updatedAt
+        }
+    }
+`;
+
+export const UPDATE_ESTABLISHMENT_MUTATION = gql`
+    mutation UpdateEstablishment(
+        $id: ID!
+        $name: String!
+        $email: String!
+        $imageUrl: String!
+        $price: Float!
+        $maxGuests: Int!
+        $googleLat: Float!
+        $googleLong: Float!
+        $description: String!
+        $selfCatering: Boolean!
+    ) {
+        updateEstablishment(
+            data: {
+                id: $id
+                name: $name
+                email: $email
+                imageUrl: $imageUrl
+                price: $price
+                maxGuests: $maxGuests
+                googleLat: $googleLat
+                googleLong: $googleLong
+                description: $description
+                selfCatering: $selfCatering
+            }
+        ) {
+            id
+            name
+            imageUrl
+            price
+            maxGuests
+            googleLat
+            googleLong
+            description
+            selfCatering
+            createdAt
+            updatedAt
+        }
+    }
+`;
+
 export const DELETE_ESTABLISHMENT_MUTATION = gql`
     mutation DeleteEstablishment($id: ID!) {
         deleteEstablishment(id: $id) {
