@@ -4,6 +4,7 @@ import styled from "styled-components";
 const StyledAdminNav = styled.nav`
     margin: 30px 0 0 0;
     width: 100%;
+    user-select: none;
 
     ul {
         display: flex;

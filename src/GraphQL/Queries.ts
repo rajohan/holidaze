@@ -29,6 +29,13 @@ export const ADMIN_GET_ALL_ESTABLISHMENTS_QUERY = gql`
             id
             name
             email
+            imageUrl
+            price
+            maxGuests
+            googleLat
+            googleLong
+            selfCatering
+            description
         }
     }
 `;

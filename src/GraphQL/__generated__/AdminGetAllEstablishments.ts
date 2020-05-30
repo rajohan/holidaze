@@ -12,6 +12,13 @@ export interface AdminGetAllEstablishments_getAllEstablishments {
     id: string;
     name: string;
     email: string;
+    imageUrl: string;
+    price: number;
+    maxGuests: number;
+    googleLat: number;
+    googleLong: number;
+    selfCatering: boolean;
+    description: string;
 }
 
 export interface AdminGetAllEstablishments {

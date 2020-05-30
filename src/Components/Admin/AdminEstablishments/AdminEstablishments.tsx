@@ -3,7 +3,10 @@ import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 
-import { AdminGetAllEstablishments } from "../../../GraphQL/__generated__/AdminGetAllEstablishments";
+import {
+    AdminGetAllEstablishments,
+    AdminGetAllEstablishments_getAllEstablishments
+} from "../../../GraphQL/__generated__/AdminGetAllEstablishments";
 import { ADMIN_GET_ALL_ESTABLISHMENTS_QUERY } from "../../../GraphQL/Queries";
 import Loading from "../../Shared/Loading";
 import Table from "../../Shared/Table";
@@ -11,6 +14,7 @@ import Link from "../../Shared/Link";
 import Button from "../../Shared/Form/Button";
 
 const AddEstablishmentModal = React.lazy(() => import("./AddEstablishmentModal"));
+const EditEstablishmentModal = React.lazy(() => import("./EditEstablishmentModal"));
 const DeleteEstablishmentModal = React.lazy(() => import("./DeleteEstablishmentModal"));
 
 const StyledButton = styled(Button)`
@@ -19,8 +23,10 @@ const StyledButton = styled(Button)`
 
 const AdminEstablishments: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<AdminGetAllEstablishments>(ADMIN_GET_ALL_ESTABLISHMENTS_QUERY);
-    const [showDeleteEstablishmentModal, setShowDeleteEstablishmentModal] = useState(false);
     const [showAddEstablishmentModal, setShowAddEstablishmentModal] = useState(false);
+    const [showEditEstablishmentModal, setShowEditEstablishmentModal] = useState(false);
+    const [showDeleteEstablishmentModal, setShowDeleteEstablishmentModal] = useState(false);
+    const [establishmentToEdit, setEstablishmentToEdit] = useState<AdminGetAllEstablishments_getAllEstablishments>();
     const [establishmentToDelete, setEstablishmentToDelete] = useState<{ id: string; name: string }>({
         id: "",
         name: ""
@@ -63,7 +69,8 @@ const AdminEstablishments: React.FC = (): React.ReactElement => {
                                 <Td>
                                     <Link
                                         onClick={(): void => {
-                                            setShowAddEstablishmentModal(true);
+                                            setEstablishmentToEdit(establishment);
+                                            setShowEditEstablishmentModal(true);
                                         }}
                                     >
                                         Edit
@@ -89,6 +96,13 @@ const AdminEstablishments: React.FC = (): React.ReactElement => {
                 <AddEstablishmentModal
                     showModal={showAddEstablishmentModal}
                     setShowModal={setShowAddEstablishmentModal}
+                />
+            )}
+            {showEditEstablishmentModal && (
+                <EditEstablishmentModal
+                    showModal={showEditEstablishmentModal}
+                    setShowModal={setShowEditEstablishmentModal}
+                    establishment={establishmentToEdit as AdminGetAllEstablishments_getAllEstablishments}
                 />
             )}
             {showDeleteEstablishmentModal && (

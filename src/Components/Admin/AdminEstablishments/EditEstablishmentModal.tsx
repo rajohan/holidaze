@@ -4,9 +4,10 @@ import styled from "styled-components";
 import { Formik } from "formik";
 import { AttachMoney, Explore, Home, HomeWork, Image, Mail, People, RestaurantMenu } from "@material-ui/icons";
 
-import { AddEstablishment, AddEstablishmentVariables } from "../../../GraphQL/__generated__/AddEstablishment";
+import { AdminGetAllEstablishments_getAllEstablishments } from "../../../GraphQL/__generated__/AdminGetAllEstablishments";
+import { UpdateEstablishment, UpdateEstablishmentVariables } from "../../../GraphQL/__generated__/UpdateEstablishment";
 import { ADMIN_GET_ALL_ESTABLISHMENTS_QUERY } from "../../../GraphQL/Queries";
-import { ADD_ESTABLISHMENT_MUTATION } from "../../../GraphQL/Mutations";
+import { UPDATE_ESTABLISHMENT_MUTATION } from "../../../GraphQL/Mutations";
 import validationSchema from "./AddEditValidationSchema";
 import Form from "../../Shared/Form/Form";
 import Button from "../../Shared/Form/Button";
@@ -59,14 +60,15 @@ const StyledCheckbox = styled(Checkbox)`
 type Props = {
     showModal: boolean;
     setShowModal: (show: boolean) => void;
+    establishment: AdminGetAllEstablishments_getAllEstablishments;
 };
 
-const AddEstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { showModal, setShowModal } = props;
+const EditEstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
+    const { showModal, setShowModal, establishment } = props;
 
     const [success, setSuccess] = useState(false);
-    const [addEstablishment, { loading }] = useMutation<AddEstablishment, AddEstablishmentVariables>(
-        ADD_ESTABLISHMENT_MUTATION
+    const [editEstablishment, { loading }] = useMutation<UpdateEstablishment, UpdateEstablishmentVariables>(
+        UPDATE_ESTABLISHMENT_MUTATION
     );
 
     return (
@@ -77,23 +79,24 @@ const AddEstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<P
             onCloseButtonClick={(): void => setSuccess(false)}
         >
             <h1>Add Establishment</h1>
-            {success && <Success>The establishment has been successfully added.</Success>}
+            {success && <Success>The establishment has been successfully edited.</Success>}
             <Formik
                 initialValues={{
-                    name: "",
-                    email: "",
-                    imageUrl: "",
-                    price: "" as number | string,
-                    maxGuests: "" as number | string,
-                    googleLat: "" as number | string,
-                    googleLong: "" as number | string,
-                    selfCatering: false,
-                    description: ""
+                    name: establishment.name,
+                    email: establishment.email,
+                    imageUrl: establishment.imageUrl,
+                    price: establishment.price,
+                    maxGuests: establishment.maxGuests,
+                    googleLat: establishment.googleLat,
+                    googleLong: establishment.googleLong,
+                    selfCatering: establishment.selfCatering,
+                    description: establishment.description
                 }}
                 validationSchema={validationSchema}
-                onSubmit={async (values, { resetForm }): Promise<void> => {
-                    await addEstablishment({
+                onSubmit={async (values): Promise<void> => {
+                    await editEstablishment({
                         variables: {
+                            id: establishment.id,
                             name: values.name,
                             email: values.email,
                             imageUrl: values.imageUrl,
@@ -107,7 +110,6 @@ const AddEstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<P
                         refetchQueries: [{ query: ADMIN_GET_ALL_ESTABLISHMENTS_QUERY }],
                         awaitRefetchQueries: true
                     });
-                    resetForm();
                     setSuccess(true);
                 }}
             >
@@ -150,11 +152,11 @@ const AddEstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<P
                     <StyledInput name="description" label="Description" type="textarea">
                         <HomeWork />
                     </StyledInput>
-                    <Button disabled={loading}>Add establishment</Button>
+                    <Button disabled={loading}>Edit establishment</Button>
                 </Form>
             </Formik>
         </StyledModal>
     );
 };
 
-export default AddEstablishmentModal;
+export default EditEstablishmentModal;
