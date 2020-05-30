@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Formik, FormikProps } from "formik";
+import * as Yup from "yup";
 import moment from "moment";
 import { Event, People, Today } from "@material-ui/icons";
 
@@ -8,7 +9,7 @@ import Form from "../Shared/Form/Form";
 import DatePicker from "../Shared/Form/DatePicker";
 import Input from "../Shared/Form/Input/Input";
 import Button from "../Shared/Form/Button";
-import * as Yup from "yup";
+
 const EstablishmentModal = React.lazy(() => import("./EstablishmentModal"));
 
 const StyledInput = styled(Input)`

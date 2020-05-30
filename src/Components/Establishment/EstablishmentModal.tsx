@@ -1,19 +1,19 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Formik, FormikProps } from "formik";
+import * as Yup from "yup";
 import moment from "moment";
 import { Event, People, Today } from "@material-ui/icons";
 
+import { NewEnquiry, NewEnquiryVariables } from "../../GraphQL/__generated__/NewEnquiry";
+import { NEW_ENQUIRY_MUTATION } from "../../GraphQL/Mutations";
 import Modal from "../Shared/Modal";
 import Form from "../Shared/Form/Form";
 import DatePicker from "../Shared/Form/DatePicker";
 import Button from "../Shared/Form/Button";
 import Input from "../Shared/Form/Input/Input";
-import * as Yup from "yup";
 import Success from "../Shared/Form/Success";
-import { useMutation } from "@apollo/client";
-import { NEW_ENQUIRY_MUTATION } from "../../GraphQL/Mutations";
-import { NewEnquiry, NewEnquiryVariables } from "../../GraphQL/__generated__/NewEnquiry";
 
 const StyledInput = styled(Input)`
     margin-bottom: 10px;

@@ -1,44 +1,17 @@
 import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import moment from "moment";
-import styled from "styled-components";
 import { Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
-import { GetAllMessages, GetAllMessages_getAllMessages } from "../../GraphQL/__generated__/GetAllMessages";
-import { ChangeMessageStatus, ChangeMessageStatusVariables } from "../../GraphQL/__generated__/ChangeMessageStatus";
-import { CHANGE_MESSAGE_STATUS_MUTATION } from "../../GraphQL/Mutations";
-import { GET_ALL_MESSAGES_QUERY } from "../../GraphQL/Queries";
-import Loading from "../Shared/Loading";
-import Table from "../Shared/Table";
-import Link from "../Shared/Link";
-import Modal from "../Shared/Modal";
+import { GetAllMessages, GetAllMessages_getAllMessages } from "../../../GraphQL/__generated__/GetAllMessages";
+import { ChangeMessageStatus, ChangeMessageStatusVariables } from "../../../GraphQL/__generated__/ChangeMessageStatus";
+import { CHANGE_MESSAGE_STATUS_MUTATION } from "../../../GraphQL/Mutations";
+import { GET_ALL_MESSAGES_QUERY } from "../../../GraphQL/Queries";
+import Loading from "../../Shared/Loading";
+import Table from "../../Shared/Table";
+import Link from "../../Shared/Link";
 
-const StyledModal = styled(Modal)`
-    max-width: 500px;
-
-    h1 {
-        text-transform: capitalize;
-        font-size: 18px;
-        margin-bottom: 5px;
-
-        :nth-of-type(2) {
-            margin-top: 20px;
-        }
-    }
-
-    span {
-        margin-top: 20px;
-    }
-
-    a {
-        color: ${(props): string => props.theme.colors.tertiary};
-
-        &:focus,
-        &:hover {
-            color: ${(props): string => props.theme.colors.primary};
-        }
-    }
-`;
+const ShowMessageModal = React.lazy(() => import("./ShowMessageModal"));
 
 const AdminMessages: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<GetAllMessages>(GET_ALL_MESSAGES_QUERY);
@@ -46,7 +19,7 @@ const AdminMessages: React.FC = (): React.ReactElement => {
         CHANGE_MESSAGE_STATUS_MUTATION
     );
     const [showModal, setShowModal] = useState(false);
-    const [modalData, setModalData] = useState<GetAllMessages_getAllMessages>();
+    const [message, setMessage] = useState<GetAllMessages_getAllMessages>();
 
     const handleChangeStatus = async (id: string, status: 0 | 1): Promise<void> => {
         await changeStatus({
@@ -60,7 +33,7 @@ const AdminMessages: React.FC = (): React.ReactElement => {
             }
         });
 
-        setModalData((prevState) => ({
+        setMessage((prevState) => ({
             ...(prevState as GetAllMessages_getAllMessages),
             status: status
         }));
@@ -97,7 +70,7 @@ const AdminMessages: React.FC = (): React.ReactElement => {
                                 <Td>
                                     <Link
                                         onClick={(): void => {
-                                            setModalData(message);
+                                            setMessage(message);
                                             setShowModal(true);
                                         }}
                                     >
@@ -118,29 +91,14 @@ const AdminMessages: React.FC = (): React.ReactElement => {
                         ))}
                 </Tbody>
             </Table>
-            <StyledModal showModal={showModal} setShowModal={setShowModal}>
-                <h1>Message details</h1>
-                <p>Client name: {modalData?.clientName}</p>
-                <p>
-                    Email:{" "}
-                    <Link href={`mailto:${modalData?.email}`} external={true}>
-                        {modalData?.email}
-                    </Link>
-                </p>
-                <p>Received: {moment(modalData?.createdAt).format("DD.MM.YYYY - HH:mm")}</p>
-                <p>Status: {modalData?.status === 0 ? "Unresolved" : "Resolved"}</p>
-                <h1>Message</h1>
-                <p>{modalData?.message}</p>
-                <span>
-                    <Link
-                        onClick={(): Promise<void> =>
-                            handleChangeStatus(modalData?.id as string, modalData?.status === 0 ? 1 : 0)
-                        }
-                    >
-                        Mark as {modalData?.status === 0 ? "resolved" : "unresolved"}
-                    </Link>
-                </span>
-            </StyledModal>
+            {showModal && (
+                <ShowMessageModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    message={message as GetAllMessages_getAllMessages}
+                    handleChangeStatus={handleChangeStatus}
+                />
+            )}
         </React.Fragment>
     );
 };

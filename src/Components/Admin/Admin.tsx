@@ -13,8 +13,8 @@ import { CURRENT_USER_QUERY } from "../../GraphQL/Queries";
 import Link from "../Shared/Link";
 import AdminNav from "./AdminNav";
 
-const AdminEstablishments = React.lazy(() => import("./AdminEstablishments"));
-const AdminMessages = React.lazy(() => import("./AdminMessages"));
+const AdminEstablishments = React.lazy(() => import("./AdminEstablishments/AdminEstablishments"));
+const AdminMessages = React.lazy(() => import("./AdminMessages/AdminMessages"));
 
 const StyledNoAccess = styled.div`
     background-color: ${(props): string => props.theme.colors.secondary};
