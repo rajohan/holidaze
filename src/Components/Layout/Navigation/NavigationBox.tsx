@@ -14,6 +14,7 @@ const StyledNavigationBox = styled.div<{ show: boolean; navBoxNumber: number }>`
     opacity: ${(props): string => (props.show ? "1" : "0")};
     transition: background-color 0.3s, margin 0.3s, padding 0.3s, visibility 0.3s, opacity 0.3s;
     transition-timing-function: linear;
+    user-select: none;
 
     &::before {
         content: "";
