@@ -14,7 +14,9 @@ const StyledNavigation = styled.nav<{ showPageNav: boolean }>`
     }
 
     .navButton {
-        position: relative;
+        @media only screen and (min-width: 400px) {
+            position: relative;
+        }
 
         &:first-of-type {
             margin-right: 15px;
@@ -128,7 +130,7 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
                     >
                         <Person />
                     </button>
-                    <NavigationBox show={showUserNav} setShow={setShowUserNav} navRef={userNavRef}>
+                    <NavigationBox show={showUserNav} setShow={setShowUserNav} navRef={userNavRef} navBoxNumber={2}>
                         <NavigationUser show={showUserNav} setShow={setShowUserNav} />
                     </NavigationBox>
                 </div>
@@ -144,7 +146,7 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
                             <span />
                         </div>
                     </button>
-                    <NavigationBox show={showPageNav} setShow={setShowPageNav} navRef={pageNavRef}>
+                    <NavigationBox show={showPageNav} setShow={setShowPageNav} navRef={pageNavRef} navBoxNumber={1}>
                         <NavigationLinks
                             items={[
                                 { name: "Home", href: "/" },
