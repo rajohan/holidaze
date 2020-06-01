@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
@@ -16,6 +16,7 @@ import Form from "../../Shared/Form/Form";
 import Input from "../../Shared/Form/Input/Input";
 import Button from "../../Shared/Form/Button";
 import Link from "../../Shared/Link";
+import Error from "../../Shared/Form/Error";
 
 const StyledNavigationUser = styled.div<{ show: boolean }>`
     display: flex;
@@ -82,6 +83,11 @@ const StyledButton = styled(Button)<{ show: "true" | "false" }>`
     }
 `;
 
+const StyledError = styled(Error)`
+    align-self: center;
+    width: calc(100% - 20px);
+`;
+
 type Props = {
     show: boolean;
     setShow: (show: boolean) => void;
@@ -90,9 +96,16 @@ type Props = {
 const NavigationUser: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
     const { show, setShow } = props;
     const history = useHistory();
+    const [showLoginError, setShowLoginError] = useState(false);
     const { data, client } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
     const [login, { loading }] = useMutation<Login, LoginVariables>(LOGIN_MUTATION);
     const [logout, { loading: loading2 }] = useMutation<Logout>(LOGOUT_MUTATION);
+
+    useEffect(() => {
+        if (!show) {
+            setShowLoginError(false);
+        }
+    }, [show]);
 
     const handleLogout = async (): Promise<void> => {
         await logout();
@@ -116,23 +129,31 @@ const NavigationUser: React.FC<Props> = (props: React.PropsWithChildren<Props>):
                 localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, response.data.login.authToken);
             }
         } catch (error) {
-            console.log(error);
+            setShowLoginError(true);
         }
     };
 
     if (!data || !data.user) {
         return (
             <StyledNavigationUser show={show}>
-                <Formik initialValues={{ username: "", password: "" }} onSubmit={(values) => handleLogin(values)}>
+                <Formik
+                    initialValues={{ username: "", password: "" }}
+                    onSubmit={(values): Promise<void> => handleLogin(values)}
+                >
                     <Form>
                         <p className="header">Login</p>
+                        {showLoginError && <StyledError>Invalid Credentials</StyledError>}
                         <StyledInput show={show ? "true" : "false"} name="username" label="Username / Email">
                             <Person />
                         </StyledInput>
                         <StyledInput show={show ? "true" : "false"} name="password" type="password" label="Password">
                             <Lock />
                         </StyledInput>
-                        <StyledButton show={show ? "true" : "false"} disabled={loading}>
+                        <StyledButton
+                            show={show ? "true" : "false"}
+                            disabled={loading}
+                            onClick={(): void => setShowLoginError(false)}
+                        >
                             Login
                         </StyledButton>
                     </Form>
