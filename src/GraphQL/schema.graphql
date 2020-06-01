@@ -269,6 +269,11 @@ type Query {
     Returns all establishments
     """
     getAllEstablishments(withEnquiries: Boolean = false): [EstablishmentType!]!
+
+    """
+    Returns establishments maxing a search query
+    """
+    searchEstablishments(searchQuery: String!): [EstablishmentType!]!
 }
 
 """

@@ -12,6 +12,7 @@ import Loading from "../../Shared/Loading";
 import Table from "../../Shared/Table";
 import Link from "../../Shared/Link";
 import Button from "../../Shared/Form/Button";
+import { createSlug } from "../../../utils/createSlug";
 
 const AddEstablishmentModal = React.lazy(() => import("./AddEstablishmentModal"));
 const EditEstablishmentModal = React.lazy(() => import("./EditEstablishmentModal"));
@@ -52,12 +53,7 @@ const AdminEstablishments: React.FC = (): React.ReactElement => {
                         data.getAllEstablishments.map((establishment) => (
                             <Tr key={`establishment-${establishment.id}`}>
                                 <Td>
-                                    <Link
-                                        href={`/establishment/${establishment.id}/${establishment.name.replace(
-                                            /\s/g,
-                                            "-"
-                                        )}`}
-                                    >
+                                    <Link href={`/establishment/${establishment.id}/${createSlug(establishment.name)}`}>
                                         {establishment.name}
                                     </Link>
                                 </Td>

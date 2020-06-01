@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { useField } from "formik";
+import { Clear } from "@material-ui/icons";
 
 import InputError from "./InputError";
 
-const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
+const StyledInput = styled.div<{ value: string; size: "small" | "big"; clearButton: boolean }>`
     position: relative;
     padding: ${(props): string => (props.size === "big" ? "7px" : "2px")};
     background-color: ${(props): string =>
@@ -42,11 +43,28 @@ const StyledInput = styled.div<{ value: string; size: "small" | "big" }>`
         }
     }
 
+    .clearButton {
+        display: ${(props): string => (props.value ? "block" : "none")};
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 20px;
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        fill: ${(props): string => props.theme.colors.primary};
+        transition: fill 0.2s;
+
+        &:hover {
+            fill: ${(props): string => props.theme.colors.tertiary};
+        }
+    }
+
     input,
     textarea {
         background-color: ${(props): string => props.theme.colors.white};
         color: ${(props): string => props.theme.colors.primary};
-        padding: 0 10px;
+        padding: ${(props): string => (props.clearButton ? "0 40px 0 10px" : "0 10px")};
         border-radius: 2px;
         outline: none;
         width: 100%;
@@ -116,25 +134,74 @@ type Props = {
     min?: number;
     max?: number;
     step?: number;
+    onChange?: (value: string) => void;
+    onFocus?: () => void;
+    autoComplete?: string;
+    clearButton?: boolean;
 };
 
 const Input: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { size = "small", children, label, name, className, min, max, step, ...rest } = props;
+    const {
+        size = "small",
+        children,
+        label,
+        name,
+        className,
+        min,
+        max,
+        step,
+        onChange,
+        onFocus,
+        autoComplete,
+        clearButton = false,
+        ...rest
+    } = props;
 
-    const [field, meta] = useField(props);
+    const [field, meta, helpers] = useField(props);
 
     return (
         <div className={className}>
-            <StyledInput value={meta.value} size={size}>
+            <StyledInput value={meta.value} size={size} clearButton={clearButton}>
                 {props.type === "textarea" ? (
-                    <textarea {...field} {...rest} id={name} />
+                    <textarea
+                        {...field}
+                        {...rest}
+                        onChange={(e): void => {
+                            field.onChange(e);
+                            onChange && onChange(e.currentTarget.value);
+                        }}
+                        onFocus={(): void => onFocus && onFocus()}
+                        id={name}
+                    />
                 ) : (
-                    <input {...field} {...rest} id={name} min={min} max={max} step={step} />
+                    <input
+                        {...field}
+                        {...rest}
+                        id={name}
+                        min={min}
+                        max={max}
+                        step={step}
+                        onChange={(e): void => {
+                            field.onChange(e);
+                            onChange && onChange(e.currentTarget.value);
+                        }}
+                        onFocus={(): void => onFocus && onFocus()}
+                        autoComplete={autoComplete}
+                    />
                 )}
                 {label && (
                     <label htmlFor={name}>
                         {children} {label}
                     </label>
+                )}
+                {clearButton && (
+                    <Clear
+                        className="clearButton"
+                        onClick={(): void => {
+                            helpers.setValue("");
+                            onChange && onChange("");
+                        }}
+                    />
                 )}
             </StyledInput>
             {meta.touched && meta.error ? <InputError>{meta.error}</InputError> : null}

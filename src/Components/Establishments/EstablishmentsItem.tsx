@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { People } from "@material-ui/icons";
 
 import { GetAllEstablishments_getAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
-import { People } from "@material-ui/icons";
 import Button from "../Shared/Form/Button";
+import { createSlug } from "../../utils/createSlug";
 
 const StyledEstablishmentsItem = styled.div`
     display: flex;
@@ -103,9 +104,7 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                         {establishment.maxGuests}
                     </span>
                 </div>
-                <Button href={`/establishment/${establishment.id}/${establishment.name.replace(/\s/g, "-")}`}>
-                    View
-                </Button>
+                <Button href={`/establishment/${establishment.id}/${createSlug(establishment.name)}`}>View</Button>
             </div>
         </StyledEstablishmentsItem>
     );

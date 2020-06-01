@@ -10,6 +10,7 @@ import { GetAllEnquiries } from "../../GraphQL/__generated__/GetAllEnquiries";
 import Table from "../Shared/Table";
 import Loading from "../Shared/Loading";
 import Link from "../Shared/Link";
+import { createSlug } from "../../utils/createSlug";
 
 const AdminEnquiries: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<GetAllEnquiries>(GET_ALL_ENQUIRIES_QUERY);
@@ -60,9 +61,9 @@ const AdminEnquiries: React.FC = (): React.ReactElement => {
                             </Td>
                             <Td>
                                 <Link
-                                    href={`/establishment/${
-                                        enquiry.establishment.id
-                                    }/${enquiry.establishment.name.replace(/\s/g, "-")}`}
+                                    href={`/establishment/${enquiry.establishment.id}/${createSlug(
+                                        enquiry.establishment.name
+                                    )}`}
                                 >
                                     {enquiry.establishment.name}
                                 </Link>

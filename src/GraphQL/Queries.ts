@@ -58,6 +58,15 @@ export const GET_ESTABLISHMENT_QUERY = gql`
     }
 `;
 
+export const SEARCH_ESTABLISHMENTS_QUERY = gql`
+    query SearchEstablishments($searchQuery: String!) {
+        searchEstablishments(searchQuery: $searchQuery) {
+            id
+            name
+        }
+    }
+`;
+
 export const GET_ALL_ENQUIRIES_QUERY = gql`
     query GetAllEnquiries {
         getAllEnquiries(withEstablishment: true) {
