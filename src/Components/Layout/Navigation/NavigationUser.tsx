@@ -159,7 +159,7 @@ const NavigationUser: React.FC<Props> = (props: React.PropsWithChildren<Props>):
                     </Form>
                 </Formik>
                 <div className="signUpForgotPassword">
-                    <StyledButton show={show ? "true" : "false"} href="/signUp" onClick={(): void => setShow(false)}>
+                    <StyledButton show={show ? "true" : "false"} href="/register" onClick={(): void => setShow(false)}>
                         Sign Up
                     </StyledButton>
                     <Link className="forgotPassword" href="/forgotPassword" onClick={(): void => setShow(false)}>

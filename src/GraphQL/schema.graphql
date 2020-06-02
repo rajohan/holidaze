@@ -227,6 +227,8 @@ input NewUserInput {
     username: String!
     password: String!
     email: String!
+    name: String!
+    newsletters: Boolean!
 }
 
 type Query {
@@ -310,7 +312,7 @@ type UserType {
     id: ID!
     username: String!
     email: String!
-    verified: Boolean!
+    name: String!
     accessLevel: Int!
     createdAt: DateTime!
     updatedAt: DateTime!

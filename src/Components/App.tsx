@@ -14,6 +14,7 @@ import Header from "./Layout/Header";
 import HomeHeader from "./Home/HomeHeader";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
+import Register from "./Register/Register";
 
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
@@ -76,6 +77,9 @@ const App: React.FC = (): React.ReactElement => {
                     </Route>
                     <Route path="/contact">
                         <Contact />
+                    </Route>
+                    <Route path="/register">
+                        <Register />
                     </Route>
                     <Route path="/admin">
                         <Admin />

@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet-async";
 
 import { NEW_MESSAGE_MUTATION } from "../../GraphQL/Mutations";
 import { AddMessage, AddMessageVariables } from "../../GraphQL/__generated__/AddMessage";
-import Container400 from "../Layout/Containers/Container500";
+import Container500 from "../Layout/Containers/Container500";
 import Heading from "../Shared/Heading";
 import Form from "../Shared/Form/Form";
 import Input from "../Shared/Form/Input/Input";
@@ -43,7 +43,7 @@ const Contact: React.FC = (): React.ReactElement => {
             <Helmet>
                 <title>Holidaze - Contact</title>
             </Helmet>
-            <Container400>
+            <Container500>
                 <Heading size="h1">Contact us</Heading>
                 <Heading size="h2">Get an answer within 24 hours</Heading>
                 <StyledContact>
@@ -83,7 +83,7 @@ const Contact: React.FC = (): React.ReactElement => {
                         </Form>
                     </Formik>
                 </StyledContact>
-            </Container400>
+            </Container500>
         </React.Fragment>
     );
 };

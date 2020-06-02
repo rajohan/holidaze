@@ -23,6 +23,16 @@ export const LOGOUT_MUTATION = gql`
     }
 `;
 
+export const REGISTER_MUTATION = gql`
+    mutation Register($email: String!, $username: String!, $password: String!, $name: String!, $newsletters: Boolean!) {
+        addUser(
+            data: { email: $email, username: $username, password: $password, name: $name, newsletters: $newsletters }
+        ) {
+            id
+        }
+    }
+`;
+
 export const REFRESH_AUTH_TOKENS_MUTATION = gql`
     mutation RefreshAuthTokens {
         refreshAuthTokens {
