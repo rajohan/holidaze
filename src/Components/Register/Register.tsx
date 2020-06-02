@@ -27,8 +27,13 @@ const StyledRegister = styled.div`
     border-radius: 2px;
 
     button {
-        margin-top: 10px;
+        margin: 10px 0 20px 0;
         align-self: center;
+    }
+
+    p {
+        align-self: center;
+        max-width: 380px;
     }
 `;
 
@@ -125,6 +130,10 @@ const Register: React.FC = (): React.ReactElement => {
                             >
                                 Sign Up
                             </Button>
+                            <p>
+                                An auto generated password will be sent to your email address on submission. You can
+                                change this later
+                            </p>
                         </Form>
                     </Formik>
                 </StyledRegister>
