@@ -11,6 +11,16 @@ import Table from "../Shared/Table";
 import Loading from "../Shared/Loading";
 import Link from "../Shared/Link";
 import { createSlug } from "../../utils/createSlug";
+import styled from "styled-components";
+
+const Error = styled.div`
+    background-color: ${(props): string => props.theme.colors.secondary};
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    border-radius: 2px;
+    margin: 20px 0;
+`;
 
 const AdminEnquiries: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<GetAllEnquiries>(GET_ALL_ENQUIRIES_QUERY);
@@ -33,6 +43,10 @@ const AdminEnquiries: React.FC = (): React.ReactElement => {
 
     if (loading && !data) {
         return <Loading text="Loading enquiries" />;
+    }
+
+    if (data && data.getAllEnquiries.length < 1) {
+        return <Error>No enquiries could be found</Error>;
     }
 
     return (

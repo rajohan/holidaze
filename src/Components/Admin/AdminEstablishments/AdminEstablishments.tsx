@@ -22,6 +22,15 @@ const StyledButton = styled(Button)`
     margin-top: 30px;
 `;
 
+const Error = styled.div`
+    background-color: ${(props): string => props.theme.colors.secondary};
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    border-radius: 2px;
+    margin: 20px 0;
+`;
+
 const AdminEstablishments: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<AdminGetAllEstablishments>(ADMIN_GET_ALL_ESTABLISHMENTS_QUERY);
     const [showAddEstablishmentModal, setShowAddEstablishmentModal] = useState(false);
@@ -40,54 +49,62 @@ const AdminEstablishments: React.FC = (): React.ReactElement => {
     return (
         <React.Fragment>
             <StyledButton onClick={(): void => setShowAddEstablishmentModal(true)}>Add new establishment</StyledButton>
-            <Table>
-                <Thead>
-                    <Tr>
-                        <Th>Name</Th>
-                        <Th>Email</Th>
-                        <Th>Action</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {data &&
-                        data.getAllEstablishments.map((establishment) => (
-                            <Tr key={`establishment-${establishment.id}`}>
-                                <Td>
-                                    <Link href={`/establishment/${establishment.id}/${createSlug(establishment.name)}`}>
-                                        {establishment.name}
-                                    </Link>
-                                </Td>
-                                <Td>
-                                    <Link href={`mailto:${establishment.email}`} external={true}>
-                                        {establishment.email}
-                                    </Link>
-                                </Td>
-                                <Td>
-                                    <Link
-                                        onClick={(): void => {
-                                            setEstablishmentToEdit(establishment);
-                                            setShowEditEstablishmentModal(true);
-                                        }}
-                                    >
-                                        Edit
-                                    </Link>{" "}
-                                    /{" "}
-                                    <Link
-                                        onClick={(): void => {
-                                            setEstablishmentToDelete({
-                                                id: establishment.id,
-                                                name: establishment.name
-                                            });
-                                            setShowDeleteEstablishmentModal(true);
-                                        }}
-                                    >
-                                        Delete
-                                    </Link>
-                                </Td>
-                            </Tr>
-                        ))}
-                </Tbody>
-            </Table>
+            {data && data.getAllEstablishments.length < 1 ? (
+                <Error>No establishments could be found</Error>
+            ) : (
+                <Table>
+                    <Thead>
+                        <Tr>
+                            <Th>Name</Th>
+                            <Th>Email</Th>
+                            <Th>Action</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {data &&
+                            data.getAllEstablishments.map((establishment) => (
+                                <Tr key={`establishment-${establishment.id}`}>
+                                    <Td>
+                                        <Link
+                                            href={`/establishment/${establishment.id}/${createSlug(
+                                                establishment.name
+                                            )}`}
+                                        >
+                                            {establishment.name}
+                                        </Link>
+                                    </Td>
+                                    <Td>
+                                        <Link href={`mailto:${establishment.email}`} external={true}>
+                                            {establishment.email}
+                                        </Link>
+                                    </Td>
+                                    <Td>
+                                        <Link
+                                            onClick={(): void => {
+                                                setEstablishmentToEdit(establishment);
+                                                setShowEditEstablishmentModal(true);
+                                            }}
+                                        >
+                                            Edit
+                                        </Link>{" "}
+                                        /{" "}
+                                        <Link
+                                            onClick={(): void => {
+                                                setEstablishmentToDelete({
+                                                    id: establishment.id,
+                                                    name: establishment.name
+                                                });
+                                                setShowDeleteEstablishmentModal(true);
+                                            }}
+                                        >
+                                            Delete
+                                        </Link>
+                                    </Td>
+                                </Tr>
+                            ))}
+                    </Tbody>
+                </Table>
+            )}
             {showAddEstablishmentModal && (
                 <AddEstablishmentModal
                     showModal={showAddEstablishmentModal}

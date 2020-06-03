@@ -10,8 +10,18 @@ import { GET_ALL_MESSAGES_QUERY } from "../../../GraphQL/Queries";
 import Loading from "../../Shared/Loading";
 import Table from "../../Shared/Table";
 import Link from "../../Shared/Link";
+import styled from "styled-components";
 
 const ShowMessageModal = React.lazy(() => import("./ShowMessageModal"));
+
+const Error = styled.div`
+    background-color: ${(props): string => props.theme.colors.secondary};
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    border-radius: 2px;
+    margin: 20px 0;
+`;
 
 const AdminMessages: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<GetAllMessages>(GET_ALL_MESSAGES_QUERY);
@@ -41,6 +51,10 @@ const AdminMessages: React.FC = (): React.ReactElement => {
 
     if (loading && !data) {
         return <Loading text="Loading messages" />;
+    }
+
+    if (data && data.getAllMessages.length < 1) {
+        return <Error>No messages could be found</Error>;
     }
 
     return (

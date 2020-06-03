@@ -108,15 +108,26 @@ const StyledEstablishment = styled.div`
     }
 `;
 
+const Error = styled.div`
+    background-color: ${(props): string => props.theme.colors.secondary};
+    padding: 20px;
+    border-radius: 2px;
+`;
+
 const Establishment: React.FC = (): React.ReactElement => {
     const { id } = useParams<{ id: string }>();
 
     const { loading, data } = useQuery<GetEstablishment, GetEstablishmentVariables>(GET_ESTABLISHMENT_QUERY, {
-        variables: { id: id }
+        variables: { id: id },
+        notifyOnNetworkStatusChange: true
     });
 
-    if (loading || !data) {
+    if (loading && !data) {
         return <Loading text="Loading establishment" />;
+    }
+
+    if (!data) {
+        return <Error>Sorry, the requested establishment could not be found</Error>;
     }
 
     const {

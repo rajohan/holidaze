@@ -18,7 +18,24 @@ const defaultOptions: DefaultOptions = {
 };
 
 const client = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+        typePolicies: {
+            Query: {
+                fields: {
+                    getAllEstablishments: {
+                        merge(_, incoming): {} {
+                            return incoming;
+                        }
+                    },
+                    getAllEnquiries: {
+                        merge(_, incoming): {} {
+                            return incoming;
+                        }
+                    }
+                }
+            }
+        }
+    }),
     link: errorLink.concat(authLink.concat(httpLink)),
     defaultOptions,
     connectToDevTools: IS_DEV_MODE

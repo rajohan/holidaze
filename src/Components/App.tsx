@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useMutation, useQuery } from "@apollo/client";
@@ -8,19 +8,17 @@ import { RefreshAuthTokens } from "../GraphQL/__generated__/RefreshAuthTokens";
 import { CURRENT_USER_QUERY } from "../GraphQL/Queries";
 import { REFRESH_AUTH_TOKENS_MUTATION } from "../GraphQL/Mutations";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "../constants";
-import ErrorBoundary from "./Shared/ErrorBoundary";
-import Loading from "./Shared/Loading";
 import Header from "./Layout/Header";
 import HomeHeader from "./Home/HomeHeader";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
-import Register from "./Register/Register";
 
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
 const Establishments = React.lazy(() => import("./Establishments/Establishments"));
 const Contact = React.lazy(() => import("./Contact/Contact"));
 const Admin = React.lazy(() => import("./Admin/Admin"));
+const Register = React.lazy(() => import("./Register/Register"));
 
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
@@ -66,11 +64,7 @@ const App: React.FC = (): React.ReactElement => {
                         <Home />
                     </Route>
                     <Route path="/establishment/:id/:name">
-                        <ErrorBoundary fallback={"Sorry, the requested establishment could not be found"}>
-                            <Suspense fallback={<Loading text="Loading establishment" />}>
-                                <Establishment />
-                            </Suspense>
-                        </ErrorBoundary>
+                        <Establishment />
                     </Route>
                     <Route path="/establishments">
                         <Establishments />
