@@ -142,7 +142,8 @@ const Establishment: React.FC = (): React.ReactElement => {
             googleLong,
             maxGuests,
             selfCatering,
-            price
+            price,
+            wishlist
         }
     } = data;
 
@@ -157,7 +158,12 @@ const Establishment: React.FC = (): React.ReactElement => {
                     <div className="establishmentColumn">
                         <img src={imageUrl} alt={name} />
                         <div className="establishmentDetailsPrice">
-                            <EstablishmentDetails maxGuests={maxGuests} selfCatering={selfCatering} />
+                            <EstablishmentDetails
+                                establishmentId={establishmentId}
+                                maxGuests={maxGuests}
+                                selfCatering={selfCatering}
+                                wishlist={wishlist}
+                            />
                             <EstablishmentPrice price={price} />
                         </div>
                         <EstablishmentDescription

@@ -1,18 +1,18 @@
 import React from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Favorite, People } from "@material-ui/icons";
 
-import { GetAllEstablishments_getAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
-import Button from "../Shared/Form/Button";
-import { createSlug } from "../../utils/createSlug";
-import { useMutation, useQuery } from "@apollo/client";
-import { TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
 import {
     ToggleEstablishmentWishlist,
     ToggleEstablishmentWishlistVariables
 } from "../../GraphQL/__generated__/ToggleEstablishmentWishlist";
-import { CURRENT_USER_QUERY, GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
 import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
+import { GetAllEstablishments_getAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
+import { TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
+import { CURRENT_USER_QUERY, GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
+import Button from "../Shared/Form/Button";
+import { createSlug } from "../../utils/createSlug";
 
 const StyledEstablishmentsItem = styled.div`
     display: flex;
@@ -91,6 +91,7 @@ const StyledEstablishmentsItem = styled.div`
             &Column {
                 display: flex;
                 flex-direction: column;
+                position: relative;
             }
         }
 
@@ -151,18 +152,17 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                     <div className="establishmentDetailsRightColumn">
                         <People titleAccess="Max Guests" />
                         <Favorite
-                            className={isOnWishlist() ? "wishlist onWishlist" : "wishlist"}
+                            titleAccess={
+                                data && data.user ? "Wishlist" : "The wishlist feature is only available when signed in"
+                            }
+                            className={data && data.user ? (isOnWishlist() ? "wishlist onWishlist" : "wishlist") : ""}
                             onClick={async (): Promise<void> => {
-                                if (!loading) {
-                                    try {
-                                        await toggleWishlist({
-                                            variables: { establishmentId: establishment.id },
-                                            refetchQueries: [{ query: GET_ALL_ESTABLISHMENTS_QUERY }],
-                                            awaitRefetchQueries: true
-                                        });
-                                    } catch (error) {
-                                        console.log(error);
-                                    }
+                                if (!loading && data && data.user) {
+                                    await toggleWishlist({
+                                        variables: { establishmentId: establishment.id },
+                                        refetchQueries: [{ query: GET_ALL_ESTABLISHMENTS_QUERY }],
+                                        awaitRefetchQueries: true
+                                    });
                                 }
                             }}
                         />
