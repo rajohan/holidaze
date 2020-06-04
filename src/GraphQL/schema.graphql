@@ -103,6 +103,7 @@ type EstablishmentType {
     createdAt: DateTime!
     updatedAt: DateTime!
     enquiries: [EnquiryType!]
+    wishlist: [WishlistType!]
 }
 
 """
@@ -177,6 +178,11 @@ type Mutation {
     Refreshes auth token
     """
     refreshAuthTokens: UserWithTokenType!
+
+    """
+    Toggles the wishlist status on an establishment
+    """
+    toggleEstablishmentWishlist(establishmentId: ID!): EstablishmentType!
 
     """
     Adds a new establishment
@@ -334,4 +340,15 @@ Object representing a user with auth token
 type UserWithTokenType {
     authToken: String!
     user: UserType!
+}
+
+"""
+Object representing a wishlist item
+"""
+type WishlistType {
+    id: ID!
+    userId: ID!
+    establishmentId: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
 }

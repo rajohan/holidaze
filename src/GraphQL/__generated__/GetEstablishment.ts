@@ -7,6 +7,11 @@
 // GraphQL query operation: GetEstablishment
 // ====================================================
 
+export interface GetEstablishment_getEstablishment_wishlist {
+    __typename: "WishlistType";
+    userId: string;
+}
+
 export interface GetEstablishment_getEstablishment {
     __typename: "EstablishmentType";
     id: string;
@@ -20,6 +25,7 @@ export interface GetEstablishment_getEstablishment {
     selfCatering: boolean;
     createdAt: any;
     updatedAt: any;
+    wishlist: GetEstablishment_getEstablishment_wishlist[] | null;
 }
 
 export interface GetEstablishment {

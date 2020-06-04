@@ -203,3 +203,11 @@ export const DELETE_ESTABLISHMENT_MUTATION = gql`
         }
     }
 `;
+
+export const TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION = gql`
+    mutation ToggleEstablishmentWishlist($establishmentId: ID!) {
+        toggleEstablishmentWishlist(establishmentId: $establishmentId) {
+            id
+        }
+    }
+`;

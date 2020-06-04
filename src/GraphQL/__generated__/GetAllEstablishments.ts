@@ -7,6 +7,11 @@
 // GraphQL query operation: GetAllEstablishments
 // ====================================================
 
+export interface GetAllEstablishments_getAllEstablishments_wishlist {
+    __typename: "WishlistType";
+    userId: string;
+}
+
 export interface GetAllEstablishments_getAllEstablishments {
     __typename: "EstablishmentType";
     id: string;
@@ -14,6 +19,7 @@ export interface GetAllEstablishments_getAllEstablishments {
     imageUrl: string;
     maxGuests: number;
     price: number;
+    wishlist: GetAllEstablishments_getAllEstablishments_wishlist[] | null;
 }
 
 export interface GetAllEstablishments {

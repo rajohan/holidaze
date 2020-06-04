@@ -33,6 +33,15 @@ const client = new ApolloClient({
                         }
                     }
                 }
+            },
+            EstablishmentType: {
+                fields: {
+                    wishlist: {
+                        merge(_, incoming): {} {
+                            return incoming;
+                        }
+                    }
+                }
             }
         }
     }),

@@ -19,6 +19,10 @@ export const GET_ALL_ESTABLISHMENTS_QUERY = gql`
             imageUrl
             maxGuests
             price
+
+            wishlist {
+                userId
+            }
         }
     }
 `;
@@ -54,6 +58,10 @@ export const GET_ESTABLISHMENT_QUERY = gql`
             selfCatering
             createdAt
             updatedAt
+
+            wishlist {
+                userId
+            }
         }
     }
 `;

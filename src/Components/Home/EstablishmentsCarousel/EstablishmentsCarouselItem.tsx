@@ -10,6 +10,7 @@ const StyledEstablishmentsCarouselItem = styled(EstablishmentsItem)`
     padding: 15px;
     position: relative;
     border-radius: 0;
+    text-align: center;
 
     @media only screen and (min-width: 450px) {
         width: 250px;
@@ -45,6 +46,15 @@ const StyledEstablishmentsCarouselItem = styled(EstablishmentsItem)`
 
     .establishmentDetails {
         padding: 0;
+        max-width: 170px;
+
+        @media only screen and (min-width: 450px) {
+            max-width: 220px;
+        }
+
+        @media only screen and (min-width: 850px) {
+            max-width: 270px;
+        }
     }
 `;
 
