@@ -19,6 +19,8 @@ const Establishments = React.lazy(() => import("./Establishments/Establishments"
 const Contact = React.lazy(() => import("./Contact/Contact"));
 const Admin = React.lazy(() => import("./Admin/Admin"));
 const Register = React.lazy(() => import("./Register/Register"));
+const ForgotPassword = React.lazy(() => import("./ForgotPassword/ForgotPassword"));
+const ForgotPasswordVerify = React.lazy(() => import("./ForgotPassword/ForgotPasswordVerify"));
 
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
@@ -74,6 +76,12 @@ const App: React.FC = (): React.ReactElement => {
                     </Route>
                     <Route path="/register">
                         <Register />
+                    </Route>
+                    <Route path="/forgotPassword" exact>
+                        <ForgotPassword />
+                    </Route>
+                    <Route path="/forgotPassword/:token">
+                        <ForgotPasswordVerify />
                     </Route>
                     <Route path="/admin">
                         <Admin />

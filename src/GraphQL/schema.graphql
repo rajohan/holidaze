@@ -159,6 +159,16 @@ type Mutation {
     logout: LogoutType!
 
     """
+    Creates a token to reset a users password
+    """
+    forgotPassword(email: String!): UserType!
+
+    """
+    Completes a forgot password request
+    """
+    forgotPasswordVerify(newPassword: String!, token: String!): UserType!
+
+    """
     Changes a users password
     """
     changePassword(id: ID!, password: String!): UserType!

@@ -33,6 +33,22 @@ export const REGISTER_MUTATION = gql`
     }
 `;
 
+export const FORGOT_PASSWORD_MUTATION = gql`
+    mutation ForgotPassword($email: String!) {
+        forgotPassword(email: $email) {
+            id
+        }
+    }
+`;
+
+export const FORGOT_PASSWORD_VERIFY_MUTATION = gql`
+    mutation ForgotPasswordVerify($newPassword: String!, $token: String!) {
+        forgotPasswordVerify(newPassword: $newPassword, token: $token) {
+            id
+        }
+    }
+`;
+
 export const REFRESH_AUTH_TOKENS_MUTATION = gql`
     mutation RefreshAuthTokens {
         refreshAuthTokens {
