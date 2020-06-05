@@ -23,6 +23,11 @@ export const GET_ALL_ESTABLISHMENTS_QUERY = gql`
             wishlist {
                 userId
             }
+
+            rating {
+                userId
+                rating
+            }
         }
     }
 `;
@@ -61,6 +66,11 @@ export const GET_ESTABLISHMENT_QUERY = gql`
 
             wishlist {
                 userId
+            }
+
+            rating {
+                userId
+                rating
             }
         }
     }

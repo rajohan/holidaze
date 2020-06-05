@@ -2,15 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/client";
 import { Favorite, People, RestaurantMenu } from "@material-ui/icons";
+import Rate from "rc-rate";
+import "rc-rate/assets/index.css";
 
 import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
 import {
     ToggleEstablishmentWishlist,
     ToggleEstablishmentWishlistVariables
 } from "../../GraphQL/__generated__/ToggleEstablishmentWishlist";
-import { GetEstablishment_getEstablishment_wishlist } from "../../GraphQL/__generated__/GetEstablishment";
-import { CURRENT_USER_QUERY, GET_ESTABLISHMENT_QUERY } from "../../GraphQL/Queries";
-import { TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
+import {
+    GetEstablishment_getEstablishment_rating,
+    GetEstablishment_getEstablishment_wishlist
+} from "../../GraphQL/__generated__/GetEstablishment";
+import { CURRENT_USER_QUERY, GET_ALL_ESTABLISHMENTS_QUERY, GET_ESTABLISHMENT_QUERY } from "../../GraphQL/Queries";
+import { RATE_ESTABLISHMENT_MUTATION, TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
+import { RateEstablishment, RateEstablishmentVariables } from "../../GraphQL/__generated__/RateEstablishment";
 
 const StyledEstablishmentDetails = styled.div`
     display: flex;
@@ -47,20 +53,42 @@ const StyledEstablishmentDetails = styled.div`
     }
 `;
 
+const StyledRate = styled(Rate)`
+    &.rc-rate {
+        font-size: 24px;
+        line-height: 1;
+        margin-left: 5px;
+    }
+
+    li {
+        margin-right: 2px;
+        line-height: 1;
+        color: #000;
+        cursor: ${(props): string => (props.disabled ? "default" : "pointer")};
+    }
+    li div {
+        outline: none;
+    }
+`;
+
 type Props = {
     maxGuests: number;
     selfCatering: boolean;
     establishmentId: string;
     wishlist: GetEstablishment_getEstablishment_wishlist[] | null;
+    rating: GetEstablishment_getEstablishment_rating[] | null;
 };
 
 const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { maxGuests, selfCatering, establishmentId, wishlist } = props;
+    const { maxGuests, selfCatering, establishmentId, wishlist, rating } = props;
     const { data } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
     const [toggleWishlist, { loading }] = useMutation<
         ToggleEstablishmentWishlist,
         ToggleEstablishmentWishlistVariables
     >(TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION);
+    const [rateEstablishment, { loading: loading2 }] = useMutation<RateEstablishment, RateEstablishmentVariables>(
+        RATE_ESTABLISHMENT_MUTATION
+    );
 
     const isOnWishlist = (): boolean => {
         if (!data || !data.user) {
@@ -76,9 +104,42 @@ const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Pr
         return isOn.length > 0;
     };
 
+    const getRating = (): number => {
+        let totRating = 0;
+
+        if (!rating) {
+            return totRating;
+        }
+
+        for (let i = 0; i < rating.length; i++) {
+            totRating = rating[i].rating + totRating;
+        }
+
+        totRating = totRating / rating.length;
+
+        return parseInt((totRating * 2).toFixed()) / 2;
+    };
+
     return (
         <StyledEstablishmentDetails>
-            <span>Rating: N/A</span>
+            <span>
+                Rating:{" "}
+                <StyledRate
+                    defaultValue={getRating()}
+                    value={getRating()}
+                    allowHalf={true}
+                    onChange={async (rating): Promise<void> => {
+                        if (!loading2 && data && data.user) {
+                            await rateEstablishment({
+                                variables: { establishmentId, rating },
+                                refetchQueries: [{ query: GET_ALL_ESTABLISHMENTS_QUERY }],
+                                awaitRefetchQueries: true
+                            });
+                        }
+                    }}
+                    disabled={!(data && data.user) || loading2}
+                />
+            </span>
             <span>
                 Max Guests: {maxGuests} <People />
             </span>

@@ -102,6 +102,7 @@ type EstablishmentType {
     selfCatering: Boolean!
     createdAt: DateTime!
     updatedAt: DateTime!
+    rating: [RateType!]
     enquiries: [EnquiryType!]
     wishlist: [WishlistType!]
 }
@@ -178,6 +179,11 @@ type Mutation {
     Refreshes auth token
     """
     refreshAuthTokens: UserWithTokenType!
+
+    """
+    Rates an establishment
+    """
+    rateEstablishment(establishmentId: ID!, rating: Float!): EstablishmentType!
 
     """
     Toggles the wishlist status on an establishment
@@ -292,6 +298,18 @@ type Query {
     Returns establishments maxing a search query
     """
     searchEstablishments(searchQuery: String!): [EstablishmentType!]!
+}
+
+"""
+Object representing a wishlist item
+"""
+type RateType {
+    id: ID!
+    rating: Float!
+    userId: ID!
+    establishmentId: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
 }
 
 """

@@ -143,7 +143,8 @@ const Establishment: React.FC = (): React.ReactElement => {
             maxGuests,
             selfCatering,
             price,
-            wishlist
+            wishlist,
+            rating
         }
     } = data;
 
@@ -163,6 +164,7 @@ const Establishment: React.FC = (): React.ReactElement => {
                                 maxGuests={maxGuests}
                                 selfCatering={selfCatering}
                                 wishlist={wishlist}
+                                rating={rating}
                             />
                             <EstablishmentPrice price={price} />
                         </div>

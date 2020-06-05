@@ -12,6 +12,12 @@ export interface GetEstablishment_getEstablishment_wishlist {
     userId: string;
 }
 
+export interface GetEstablishment_getEstablishment_rating {
+    __typename: "RateType";
+    userId: string;
+    rating: number;
+}
+
 export interface GetEstablishment_getEstablishment {
     __typename: "EstablishmentType";
     id: string;
@@ -26,6 +32,7 @@ export interface GetEstablishment_getEstablishment {
     createdAt: any;
     updatedAt: any;
     wishlist: GetEstablishment_getEstablishment_wishlist[] | null;
+    rating: GetEstablishment_getEstablishment_rating[] | null;
 }
 
 export interface GetEstablishment {

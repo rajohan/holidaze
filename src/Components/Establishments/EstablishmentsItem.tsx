@@ -2,14 +2,17 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Favorite, People } from "@material-ui/icons";
+import Rate from "rc-rate";
+import "rc-rate/assets/index.css";
 
 import {
     ToggleEstablishmentWishlist,
     ToggleEstablishmentWishlistVariables
 } from "../../GraphQL/__generated__/ToggleEstablishmentWishlist";
+import { RateEstablishment, RateEstablishmentVariables } from "../../GraphQL/__generated__/RateEstablishment";
 import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
 import { GetAllEstablishments_getAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
-import { TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
+import { RATE_ESTABLISHMENT_MUTATION, TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
 import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
 import Button from "../Shared/Form/Button";
 import { createSlug } from "../../utils/createSlug";
@@ -104,7 +107,25 @@ const StyledEstablishmentsItem = styled.div`
             overflow: hidden;
             text-overflow: ellipsis;
             text-transform: capitalize;
+            text-align: left;
         }
+    }
+`;
+
+const StyledRate = styled(Rate)`
+    &.rc-rate {
+        font-size: 24px;
+        line-height: 1;
+    }
+
+    li {
+        margin-right: 2px;
+        line-height: 1;
+        color: #000;
+        cursor: ${(props): string => (props.disabled ? "default" : "pointer")};
+    }
+    li div {
+        outline: none;
     }
 `;
 
@@ -122,6 +143,10 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
         ToggleEstablishmentWishlistVariables
     >(TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION);
 
+    const [rateEstablishment, { loading: loading2 }] = useMutation<RateEstablishment, RateEstablishmentVariables>(
+        RATE_ESTABLISHMENT_MUTATION
+    );
+
     const isOnWishlist = (): boolean => {
         if (!currentUser || !currentUser.user) {
             return false;
@@ -136,6 +161,22 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
         return isOn.length > 0;
     };
 
+    const getRating = (): number => {
+        let totRating = 0;
+
+        if (!establishment.rating) {
+            return totRating;
+        }
+
+        for (let i = 0; i < establishment.rating.length; i++) {
+            totRating = establishment.rating[i].rating + totRating;
+        }
+
+        totRating = totRating / establishment.rating.length;
+
+        return parseInt((totRating * 2).toFixed()) / 2;
+    };
+
     return (
         <StyledEstablishmentsItem className={className}>
             <img src={establishment.imageUrl} alt={establishment.name} />
@@ -146,7 +187,21 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                         {establishment.name}
                     </span>
                     <span>
-                        <Favorite /> 21
+                        <StyledRate
+                            defaultValue={getRating()}
+                            value={getRating()}
+                            allowHalf={true}
+                            onChange={async (rating): Promise<void> => {
+                                if (!loading2 && currentUser && currentUser.user) {
+                                    await rateEstablishment({
+                                        variables: { establishmentId: establishment.id, rating },
+                                        refetchQueries: [{ query: GET_ALL_ESTABLISHMENTS_QUERY }],
+                                        awaitRefetchQueries: true
+                                    });
+                                }
+                            }}
+                            disabled={!(currentUser && currentUser.user) || loading2}
+                        />
                     </span>
                 </div>
                 <div className="establishmentDetailsRight">

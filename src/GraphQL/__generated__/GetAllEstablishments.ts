@@ -12,6 +12,12 @@ export interface GetAllEstablishments_getAllEstablishments_wishlist {
     userId: string;
 }
 
+export interface GetAllEstablishments_getAllEstablishments_rating {
+    __typename: "RateType";
+    userId: string;
+    rating: number;
+}
+
 export interface GetAllEstablishments_getAllEstablishments {
     __typename: "EstablishmentType";
     id: string;
@@ -20,6 +26,7 @@ export interface GetAllEstablishments_getAllEstablishments {
     maxGuests: number;
     price: number;
     wishlist: GetAllEstablishments_getAllEstablishments_wishlist[] | null;
+    rating: GetAllEstablishments_getAllEstablishments_rating[] | null;
 }
 
 export interface GetAllEstablishments {

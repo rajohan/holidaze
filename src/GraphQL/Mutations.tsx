@@ -211,3 +211,11 @@ export const TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION = gql`
         }
     }
 `;
+
+export const RATE_ESTABLISHMENT_MUTATION = gql`
+    mutation RateEstablishment($establishmentId: ID!, $rating: Float!) {
+        rateEstablishment(establishmentId: $establishmentId, rating: $rating) {
+            id
+        }
+    }
+`;
