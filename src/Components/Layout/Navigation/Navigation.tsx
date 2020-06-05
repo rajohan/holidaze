@@ -1,6 +1,9 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { Person } from "@material-ui/icons";
+import { useQuery } from "@apollo/client";
+import { CurrentUser } from "../../../GraphQL/__generated__/CurrentUser";
+import { CURRENT_USER_QUERY } from "../../../GraphQL/Queries";
 
 const NavigationLinks = React.lazy(() => import("./NavigationLinks"));
 const NavigationUser = React.lazy(() => import("./NavigationUser"));
@@ -116,6 +119,17 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
     const [showUserNav, setShowUserNav] = useState(false);
     const pageNavRef = useRef<HTMLDivElement>(null);
     const userNavRef = useRef<HTMLDivElement>(null);
+    const { data } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
+
+    const items = [
+        { name: "Home", href: "/" },
+        { name: "All Establishments", href: "/establishments" },
+        { name: "Contact", href: "/contact" }
+    ];
+
+    if (data?.user) {
+        items.splice(2, 0, { name: "Your Wishlist", href: "/wishlist" });
+    }
 
     return (
         <StyledNavigation showPageNav={showPageNav} className={props.className}>
@@ -147,16 +161,7 @@ const Navigation: React.FC = (props: React.PropsWithChildren<Props>): React.Reac
                         </div>
                     </button>
                     <NavigationBox show={showPageNav} setShow={setShowPageNav} navRef={pageNavRef} navBoxNumber={1}>
-                        <NavigationLinks
-                            items={[
-                                { name: "Home", href: "/" },
-                                { name: "All Establishments", href: "/establishments" },
-                                { name: "Your Wishlist", href: "/wishlist" },
-                                { name: "Contact", href: "/contact" }
-                            ]}
-                            show={showPageNav}
-                            setShow={setShowPageNav}
-                        />
+                        <NavigationLinks items={items} show={showPageNav} setShow={setShowPageNav} />
                     </NavigationBox>
                 </div>
             </div>

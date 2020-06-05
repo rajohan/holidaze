@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 
+import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
 import { GetAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
-import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
+import { CURRENT_USER_QUERY, GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
 import Loading from "../Shared/Loading";
 import Container1000 from "../Layout/Containers/Container1000";
 import Heading from "../Shared/Heading";
@@ -26,12 +27,17 @@ const StyledEstablishments = styled.div`
 
 const Establishments: React.FC = (): React.ReactElement => {
     const { loading, data } = useQuery<GetAllEstablishments>(GET_ALL_ESTABLISHMENTS_QUERY);
+    const { data: currentUser } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
 
     const renderEstablishments = (): React.ReactNode => {
         return (
             data &&
             data.getAllEstablishments.map((establishment) => (
-                <EstablishmentsItem key={`${establishment.id}`} establishment={establishment} />
+                <EstablishmentsItem
+                    key={`${establishment.id}`}
+                    establishment={establishment}
+                    currentUser={currentUser as CurrentUser}
+                />
             ))
         );
     };
@@ -45,7 +51,9 @@ const Establishments: React.FC = (): React.ReactElement => {
                 <Search />
                 <Heading size="h1">Take a look at our establishments</Heading>
                 <Heading size="h2">We got amazing establishments all over bergen</Heading>
-                <StyledEstablishments>{loading ? <Loading /> : renderEstablishments()}</StyledEstablishments>
+                <StyledEstablishments>
+                    {loading ? <Loading text="Loading establishments" /> : renderEstablishments()}
+                </StyledEstablishments>
             </Container1000>
         </React.Fragment>
     );

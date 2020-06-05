@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Favorite, People } from "@material-ui/icons";
 
@@ -10,7 +10,7 @@ import {
 import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
 import { GetAllEstablishments_getAllEstablishments } from "../../GraphQL/__generated__/GetAllEstablishments";
 import { TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
-import { CURRENT_USER_QUERY, GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
+import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
 import Button from "../Shared/Form/Button";
 import { createSlug } from "../../utils/createSlug";
 
@@ -111,18 +111,19 @@ const StyledEstablishmentsItem = styled.div`
 type Props = {
     className?: string;
     establishment: GetAllEstablishments_getAllEstablishments;
+    currentUser: CurrentUser;
 };
 
 const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { className, establishment } = props;
-    const { data } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
+    const { className, establishment, currentUser } = props;
+
     const [toggleWishlist, { loading }] = useMutation<
         ToggleEstablishmentWishlist,
         ToggleEstablishmentWishlistVariables
     >(TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION);
 
     const isOnWishlist = (): boolean => {
-        if (!data || !data.user) {
+        if (!currentUser || !currentUser.user) {
             return false;
         }
 
@@ -130,7 +131,7 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
             return false;
         }
 
-        const isOn = establishment.wishlist.filter((wishlist) => wishlist.userId === data.user?.id);
+        const isOn = establishment.wishlist.filter((wishlist) => wishlist.userId === currentUser.user?.id);
 
         return isOn.length > 0;
     };
@@ -153,11 +154,19 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                         <People titleAccess="Max Guests" />
                         <Favorite
                             titleAccess={
-                                data && data.user ? "Wishlist" : "The wishlist feature is only available when signed in"
+                                currentUser && currentUser.user
+                                    ? "Wishlist"
+                                    : "The wishlist feature is only available when signed in"
                             }
-                            className={data && data.user ? (isOnWishlist() ? "wishlist onWishlist" : "wishlist") : ""}
+                            className={
+                                currentUser && currentUser.user
+                                    ? isOnWishlist()
+                                        ? "wishlist onWishlist"
+                                        : "wishlist"
+                                    : ""
+                            }
                             onClick={async (): Promise<void> => {
-                                if (!loading && data && data.user) {
+                                if (!loading && currentUser && currentUser.user) {
                                     await toggleWishlist({
                                         variables: { establishmentId: establishment.id },
                                         refetchQueries: [{ query: GET_ALL_ESTABLISHMENTS_QUERY }],

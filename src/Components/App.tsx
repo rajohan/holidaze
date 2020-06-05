@@ -21,6 +21,7 @@ const Admin = React.lazy(() => import("./Admin/Admin"));
 const Register = React.lazy(() => import("./Register/Register"));
 const ForgotPassword = React.lazy(() => import("./ForgotPassword/ForgotPassword"));
 const ForgotPasswordVerify = React.lazy(() => import("./ForgotPassword/ForgotPasswordVerify"));
+const Wishlist = React.lazy(() => import("./Wishlist/Wishlist"));
 
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
@@ -82,6 +83,9 @@ const App: React.FC = (): React.ReactElement => {
                     </Route>
                     <Route path="/forgotPassword/:token">
                         <ForgotPasswordVerify />
+                    </Route>
+                    <Route path="/wishlist">
+                        <Wishlist />
                     </Route>
                     <Route path="/admin">
                         <Admin />

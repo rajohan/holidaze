@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { CurrentUser } from "../../../GraphQL/__generated__/CurrentUser";
 import { GetAllEstablishments_getAllEstablishments } from "../../../GraphQL/__generated__/GetAllEstablishments";
 import EstablishmentsItem from "../../Establishments/EstablishmentsItem";
 
@@ -60,10 +61,11 @@ const StyledEstablishmentsCarouselItem = styled(EstablishmentsItem)`
 
 type Props = {
     establishment: GetAllEstablishments_getAllEstablishments;
+    currentUser: CurrentUser;
 };
 
 const EstablishmentsCarouselItem: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    return <StyledEstablishmentsCarouselItem establishment={props.establishment} />;
+    return <StyledEstablishmentsCarouselItem establishment={props.establishment} currentUser={props.currentUser} />;
 };
 
 export default EstablishmentsCarouselItem;
