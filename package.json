@@ -34,6 +34,7 @@
         "react-super-responsive-table": "^5.1.1",
         "styled-components": "^5.1.0",
         "styled-normalize": "^8.0.7",
+        "websocket-extensions": "0.1.4",
         "yup": "^0.28.5"
     },
     "devDependencies": {
