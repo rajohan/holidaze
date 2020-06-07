@@ -12,8 +12,12 @@ const StyledFooter = styled.footer`
     background-color: ${(props): string => props.theme.colors.tertiary};
     color: ${(props): string => props.theme.colors.secondary};
 
-    small:first-of-type {
-        margin-bottom: 5px;
+    small {
+        font-size: 14px;
+
+        &:first-of-type {
+            margin-bottom: 5px;
+        }
     }
 `;
 

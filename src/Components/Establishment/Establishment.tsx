@@ -13,6 +13,7 @@ import EstablishmentEnquiry from "./EstablishmentEnquiry";
 import EstablishmentDetails from "./EstablishmentDetails";
 import EstablishmentDescription from "./EstablishmentDescription";
 import EstablishmentPrice from "./EstablishmentPrice";
+import Breadcrumb from "../Shared/Breadcrumb";
 
 const EstablishmentMap = React.lazy(() => import("./EstablishmentMap"));
 
@@ -154,6 +155,13 @@ const Establishment: React.FC = (): React.ReactElement => {
                 <title>Holidaze - {name}</title>
             </Helmet>
             <Container1000>
+                <Breadcrumb
+                    paths={[
+                        { to: "/", text: "Home" },
+                        { to: "/establishments", text: "All Establishments" }
+                    ]}
+                    append={name}
+                />
                 <StyledHeading size="h1">{name}</StyledHeading>
                 <StyledEstablishment>
                     <div className="establishmentColumn">

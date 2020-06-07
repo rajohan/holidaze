@@ -42,6 +42,10 @@ const Establishments: React.FC = (): React.ReactElement => {
         );
     };
 
+    if (loading) {
+        return <Loading text="Loading establishments" />;
+    }
+
     return (
         <React.Fragment>
             <Helmet>
@@ -51,9 +55,7 @@ const Establishments: React.FC = (): React.ReactElement => {
                 <Search />
                 <Heading size="h1">Take a look at our establishments</Heading>
                 <Heading size="h2">We got amazing establishments all over bergen</Heading>
-                <StyledEstablishments>
-                    {loading ? <Loading text="Loading establishments" /> : renderEstablishments()}
-                </StyledEstablishments>
+                <StyledEstablishments>{renderEstablishments()}</StyledEstablishments>
             </Container1000>
         </React.Fragment>
     );
