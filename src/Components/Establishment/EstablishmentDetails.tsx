@@ -17,7 +17,7 @@ import { CURRENT_USER_QUERY, GET_ALL_ESTABLISHMENTS_QUERY, GET_ESTABLISHMENT_QUE
 import { RATE_ESTABLISHMENT_MUTATION, TOGGLE_ESTABLISHMENT_WISHLIST_MUTATION } from "../../GraphQL/Mutations";
 import { RateEstablishment, RateEstablishmentVariables } from "../../GraphQL/__generated__/RateEstablishment";
 
-const StyledEstablishmentDetails = styled.div`
+const StyledEstablishmentDetails = styled.div<{ wishListDisabled: boolean }>`
     display: flex;
     flex-direction: column;
     background-color: ${(props): string => props.theme.colors.secondary};
@@ -42,7 +42,7 @@ const StyledEstablishmentDetails = styled.div`
             margin-left: 5px;
 
             &.wishlist {
-                cursor: pointer;
+                cursor: ${(props): string => (props.wishListDisabled ? "not-allowed" : "pointer")};
             }
 
             &.onWishlist {
@@ -110,30 +110,32 @@ const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Pr
     };
 
     return (
-        <StyledEstablishmentDetails>
+        <StyledEstablishmentDetails wishListDisabled={!(data && data.user)}>
             <span>
                 Rating:{" "}
-                <StyledRate
-                    value={getRating()}
-                    halfStars={true}
-                    onChange={async (rating: number): Promise<void> => {
-                        if (!loading2 && data && data.user) {
-                            await rateEstablishment({
-                                variables: { establishmentId, rating },
-                                refetchQueries: [{ query: GET_ALL_ESTABLISHMENTS_QUERY }],
-                                awaitRefetchQueries: true
-                            });
-                        }
-                    }}
-                    disabled={!(data && data.user) || loading2}
-                    starRendererProps={{
-                        colorActive: "#f5a623",
-                        colorInactive: "#1B262C",
-                        colorAdd: "#f5a623",
-                        colorRemove: "#1B262C"
-                    }}
-                    size={24}
-                />
+                <span title={!(data && data.user) ? "The rating feature is only available when signed in." : ""}>
+                    <StyledRate
+                        value={getRating()}
+                        halfStars={true}
+                        onChange={async (rating: number): Promise<void> => {
+                            if (!loading2 && data && data.user) {
+                                await rateEstablishment({
+                                    variables: { establishmentId, rating },
+                                    refetchQueries: [{ query: GET_ALL_ESTABLISHMENTS_QUERY }],
+                                    awaitRefetchQueries: true
+                                });
+                            }
+                        }}
+                        disabled={!(data && data.user) || loading2}
+                        starRendererProps={{
+                            colorActive: "#f5a623",
+                            colorInactive: "#1B262C",
+                            colorAdd: "#f5a623",
+                            colorRemove: "#1B262C"
+                        }}
+                        size={24}
+                    />
+                </span>
             </span>
             <span>
                 Max Guests: {maxGuests} <People />
@@ -142,7 +144,7 @@ const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Pr
                 Wishlists: {wishlist ? wishlist.length : 0}{" "}
                 <Favorite
                     titleAccess={data && data.user ? "" : "The wishlist feature is only available when signed in"}
-                    className={data && data.user ? (isOnWishlist() ? "wishlist onWishlist" : "wishlist") : ""}
+                    className={data && data.user ? (isOnWishlist() ? "wishlist onWishlist" : "wishlist") : "wishlist"}
                     onClick={async (): Promise<void> => {
                         if (!loading && data && data.user) {
                             await toggleWishlist({

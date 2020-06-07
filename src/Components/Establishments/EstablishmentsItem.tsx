@@ -16,7 +16,7 @@ import { GET_ALL_ESTABLISHMENTS_QUERY } from "../../GraphQL/Queries";
 import Button from "../Shared/Form/Button";
 import { createSlug } from "../../utils/createSlug";
 
-const StyledEstablishmentsItem = styled.div`
+const StyledEstablishmentsItem = styled.div<{ wishListDisabled: boolean }>`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,7 +72,7 @@ const StyledEstablishmentsItem = styled.div`
             fill: ${(props): string => props.theme.colors.primary};
 
             &.wishlist {
-                cursor: pointer;
+                cursor: ${(props): string => (props.wishListDisabled ? "not-allowed" : "pointer")};
             }
 
             &.onWishlist {
@@ -113,7 +113,7 @@ const StyledEstablishmentsItem = styled.div`
 
 const StyledRate = styled(Rate)`
     display: flex;
-    margin-left: -5px;
+    margin-left: -4px;
     margin-top: -3px;
 
     button {
@@ -170,7 +170,7 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
     };
 
     return (
-        <StyledEstablishmentsItem className={className}>
+        <StyledEstablishmentsItem className={className} wishListDisabled={!(currentUser && currentUser.user)}>
             <img src={establishment.imageUrl} alt={establishment.name} />
             <span className="establishmentPrice">${establishment.price} / Person</span>
             <div className="establishmentDetails">
@@ -178,7 +178,13 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                     <span className="establishmentDetailsName" title={establishment.name}>
                         {establishment.name}
                     </span>
-                    <span>
+                    <span
+                        title={
+                            !(currentUser && currentUser.user)
+                                ? "The rating feature is only available when signed in."
+                                : "Rating"
+                        }
+                    >
                         <StyledRate
                             value={getRating()}
                             halfStars={true}
@@ -198,7 +204,7 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                                 colorAdd: "#f5a623",
                                 colorRemove: "#1B262C"
                             }}
-                            size={26}
+                            size={24}
                         />
                     </span>
                 </div>
@@ -216,7 +222,7 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                                     ? isOnWishlist()
                                         ? "wishlist onWishlist"
                                         : "wishlist"
-                                    : ""
+                                    : "wishlist"
                             }
                             onClick={async (): Promise<void> => {
                                 if (!loading && currentUser && currentUser.user) {
