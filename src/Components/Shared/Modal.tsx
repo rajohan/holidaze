@@ -26,7 +26,7 @@ const ModalContent = styled.div`
     max-height: calc(100vh - 30px);
     padding: 15px;
     background-color: ${(props): string => props.theme.colors.secondary};
-    overflow: auto;
+    overflow-y: auto;
     border-radius: 2px;
     color: ${(props): string => props.theme.colors.primary};
 
@@ -79,12 +79,11 @@ const Modal: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Re
         <React.Fragment>
             {showModal && (
                 <StyledModal
-                    ref={modalRef}
                     onClick={(): void => {
                         closeOnClickOutside && setShowModal(false);
                     }}
                 >
-                    <ModalContent className={className} onClick={(e): void => e.stopPropagation()}>
+                    <ModalContent ref={modalRef} className={className} onClick={(e): void => e.stopPropagation()}>
                         <Close
                             onClick={(): void => {
                                 setShowModal(false);

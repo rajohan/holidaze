@@ -19,10 +19,11 @@ const StyledHomeHeader = styled.header`
     color: ${(props): string => props.theme.colors.secondary};
     width: 100%;
     padding: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 45px;
 
     @media only screen and (min-width: 575px) {
         padding: 30px;
+        margin-bottom: 30px;
     }
 
     .logo {
@@ -60,15 +61,16 @@ const StyledHomeHeader = styled.header`
 
     .headerText {
         filter: ${(props): string => props.theme.dropShadows.small};
+        font-size: 19px;
 
         svg {
-            width: 24px;
-            height: 24px;
+            width: 30px;
+            height: 30px;
             fill: ${(props): string => props.theme.colors.secondary};
         }
 
         &:last-of-type {
-            margin: 8px 0 40px 0;
+            margin-top: 8px;
         }
     }
 `;

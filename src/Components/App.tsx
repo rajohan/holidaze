@@ -12,6 +12,7 @@ import Header from "./Layout/Header";
 import HomeHeader from "./Home/HomeHeader";
 import Main from "./Layout/Main";
 import Footer from "./Layout/Footer";
+import ErrorBoundary from "./Shared/ErrorBoundary";
 
 const Home = React.lazy(() => import("./Home/Home"));
 const Establishment = React.lazy(() => import("./Establishment/Establishment"));
@@ -22,6 +23,7 @@ const Register = React.lazy(() => import("./Register/Register"));
 const ForgotPassword = React.lazy(() => import("./ForgotPassword/ForgotPassword"));
 const ForgotPasswordVerify = React.lazy(() => import("./ForgotPassword/ForgotPasswordVerify"));
 const Wishlist = React.lazy(() => import("./Wishlist/Wishlist"));
+const Profile = React.lazy(() => import("./Profile/Profile"));
 
 const App: React.FC = (): React.ReactElement => {
     const location = useLocation();
@@ -61,38 +63,43 @@ const App: React.FC = (): React.ReactElement => {
                 <title>Holidaze</title>
             </Helmet>
             {location.pathname !== "/" ? <Header /> : <HomeHeader />}
-            <Main>
-                <Switch>
-                    <Route path="/" exact>
-                        <Home />
-                    </Route>
-                    <Route path="/establishment/:id/:name">
-                        <Establishment />
-                    </Route>
-                    <Route path="/establishments">
-                        <Establishments />
-                    </Route>
-                    <Route path="/contact">
-                        <Contact />
-                    </Route>
-                    <Route path="/register">
-                        <Register />
-                    </Route>
-                    <Route path="/forgotPassword" exact>
-                        <ForgotPassword />
-                    </Route>
-                    <Route path="/forgotPassword/:token">
-                        <ForgotPasswordVerify />
-                    </Route>
-                    <Route path="/wishlist">
-                        <Wishlist />
-                    </Route>
-                    <Route path="/admin">
-                        <Admin />
-                    </Route>
-                    <Route>404: NOT FOUND</Route>
-                </Switch>
-            </Main>
+            <ErrorBoundary fallback="Sorry an unexpected error occurred, please try to refresh the page">
+                <Main>
+                    <Switch>
+                        <Route path="/" exact>
+                            <Home />
+                        </Route>
+                        <Route path="/establishment/:id/:name">
+                            <Establishment />
+                        </Route>
+                        <Route path="/establishments">
+                            <Establishments />
+                        </Route>
+                        <Route path="/contact">
+                            <Contact />
+                        </Route>
+                        <Route path="/register">
+                            <Register />
+                        </Route>
+                        <Route path="/forgotPassword" exact>
+                            <ForgotPassword />
+                        </Route>
+                        <Route path="/forgotPassword/:token">
+                            <ForgotPasswordVerify />
+                        </Route>
+                        <Route path="/wishlist">
+                            <Wishlist />
+                        </Route>
+                        <Route path="/admin">
+                            <Admin />
+                        </Route>
+                        <Route path="/profile">
+                            <Profile />
+                        </Route>
+                        <Route>404: NOT FOUND</Route>
+                    </Switch>
+                </Main>
+            </ErrorBoundary>
             <Footer />
         </HelmetProvider>
     );

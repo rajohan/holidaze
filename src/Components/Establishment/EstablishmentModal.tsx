@@ -179,8 +179,8 @@ const EstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Prop
                                                   .toDate()
                                         : props.values.checkOutDate2;
 
-                                props.setFieldValue("checkInDate", value);
-                                props.setFieldValue("checkOutDate", checkOutDate);
+                                props.setFieldValue("checkInDate2", value);
+                                props.setFieldValue("checkOutDate2", checkOutDate);
                             }}
                         >
                             <Today />

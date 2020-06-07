@@ -9,22 +9,25 @@ import { client } from "./apollo-client";
 import { defaultTheme, GlobalStyles } from "./themes";
 import App from "./Components/App";
 import Loading from "./Components/Shared/Loading";
+import ErrorBoundary from "./Components/Shared/ErrorBoundary";
 
 const Root: React.FC = (): React.ReactElement => {
     return (
-        <ApolloProvider client={client}>
-            <BrowserRouter>
-                <ThemeProvider theme={defaultTheme}>
-                    <Normalize />
-                    <GlobalStyles />
-                    <React.StrictMode>
-                        <Suspense fallback={<Loading />}>
-                            <App />
-                        </Suspense>
-                    </React.StrictMode>
-                </ThemeProvider>
-            </BrowserRouter>
-        </ApolloProvider>
+        <ErrorBoundary fallback="Sorry an unexpected error occurred, please try to refresh the page">
+            <ApolloProvider client={client}>
+                <BrowserRouter>
+                    <ThemeProvider theme={defaultTheme}>
+                        <Normalize />
+                        <GlobalStyles />
+                        <React.StrictMode>
+                            <Suspense fallback={<Loading />}>
+                                <App />
+                            </Suspense>
+                        </React.StrictMode>
+                    </ThemeProvider>
+                </BrowserRouter>
+            </ApolloProvider>
+        </ErrorBoundary>
     );
 };
 

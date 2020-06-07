@@ -2,8 +2,7 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Favorite, People } from "@material-ui/icons";
-import Rate from "rc-rate";
-import "rc-rate/assets/index.css";
+import Rate from "react-star-picker";
 
 import {
     ToggleEstablishmentWishlist,
@@ -27,7 +26,7 @@ const StyledEstablishmentsItem = styled.div`
     position: relative;
 
     a {
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
     img {
@@ -113,18 +112,11 @@ const StyledEstablishmentsItem = styled.div`
 `;
 
 const StyledRate = styled(Rate)`
-    &.rc-rate {
-        font-size: 24px;
-        line-height: 1;
-    }
+    display: flex;
+    margin-left: -5px;
+    margin-top: -3px;
 
-    li {
-        margin-right: 2px;
-        line-height: 1;
-        color: #000;
-        cursor: ${(props): string => (props.disabled ? "default" : "pointer")};
-    }
-    li div {
+    button {
         outline: none;
     }
 `;
@@ -188,10 +180,9 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                     </span>
                     <span>
                         <StyledRate
-                            defaultValue={getRating()}
                             value={getRating()}
-                            allowHalf={true}
-                            onChange={async (rating): Promise<void> => {
+                            halfStars={true}
+                            onChange={async (rating: number): Promise<void> => {
                                 if (!loading2 && currentUser && currentUser.user) {
                                     await rateEstablishment({
                                         variables: { establishmentId: establishment.id, rating },
@@ -201,6 +192,13 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                                 }
                             }}
                             disabled={!(currentUser && currentUser.user) || loading2}
+                            starRendererProps={{
+                                colorActive: "#f5a623",
+                                colorInactive: "#1B262C",
+                                colorAdd: "#f5a623",
+                                colorRemove: "#1B262C"
+                            }}
+                            size={26}
                         />
                     </span>
                 </div>

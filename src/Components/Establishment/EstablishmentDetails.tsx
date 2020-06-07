@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/client";
 import { Favorite, People, RestaurantMenu } from "@material-ui/icons";
-import Rate from "rc-rate";
-import "rc-rate/assets/index.css";
+import Rate from "react-star-picker";
 
 import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
 import {
@@ -54,19 +53,9 @@ const StyledEstablishmentDetails = styled.div`
 `;
 
 const StyledRate = styled(Rate)`
-    &.rc-rate {
-        font-size: 24px;
-        line-height: 1;
-        margin-left: 5px;
-    }
+    display: flex;
 
-    li {
-        margin-right: 2px;
-        line-height: 1;
-        color: #000;
-        cursor: ${(props): string => (props.disabled ? "default" : "pointer")};
-    }
-    li div {
+    button {
         outline: none;
     }
 `;
@@ -125,10 +114,9 @@ const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Pr
             <span>
                 Rating:{" "}
                 <StyledRate
-                    defaultValue={getRating()}
                     value={getRating()}
-                    allowHalf={true}
-                    onChange={async (rating): Promise<void> => {
+                    halfStars={true}
+                    onChange={async (rating: number): Promise<void> => {
                         if (!loading2 && data && data.user) {
                             await rateEstablishment({
                                 variables: { establishmentId, rating },
@@ -138,6 +126,13 @@ const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Pr
                         }
                     }}
                     disabled={!(data && data.user) || loading2}
+                    starRendererProps={{
+                        colorActive: "#f5a623",
+                        colorInactive: "#1B262C",
+                        colorAdd: "#f5a623",
+                        colorRemove: "#1B262C"
+                    }}
+                    size={24}
                 />
             </span>
             <span>
