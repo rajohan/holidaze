@@ -11,6 +11,25 @@ export const CURRENT_USER_QUERY = gql`
     }
 `;
 
+export const GET_USER_QUERY = gql`
+    query GetUser {
+        getUser {
+            id
+            username
+            name
+            email
+        }
+    }
+`;
+
+export const IS_ON_NEWSLETTER_LIST_QUERY = gql`
+    query IsOnNewsletterList($email: String!) {
+        isOnNewsletterList(email: $email) {
+            isOnNewsletterList
+        }
+    }
+`;
+
 export const GET_ALL_ESTABLISHMENTS_QUERY = gql`
     query GetAllEstablishments {
         getAllEstablishments {
@@ -92,6 +111,22 @@ export const GET_ALL_ENQUIRIES_QUERY = gql`
             clientName
             email
             guests
+            checkin
+            checkout
+            status
+
+            establishment {
+                id
+                name
+            }
+        }
+    }
+`;
+
+export const GET_ALL_ENQUIRIES_BY_USER_QUERY = gql`
+    query GetAllEnquiriesByUser {
+        getAllEnquiriesByUser {
+            id
             checkin
             checkout
             status

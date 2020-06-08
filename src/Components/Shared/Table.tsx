@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Table as ReactTable } from "react-super-responsive-table";
 
-const StyledTable = styled(ReactTable)`
+const StyledTable = styled(ReactTable)<{ breakpoint: number }>`
     margin: 30px 0;
     width: 100%;
 
@@ -69,7 +69,7 @@ const StyledTable = styled(ReactTable)`
         }
     }
 
-    @media screen and (min-width: 1000px) {
+    @media screen and (min-width: ${(props): string => props.breakpoint}px) {
         border-radius: 2px;
         border-collapse: collapse;
         border-style: hidden;
@@ -136,10 +136,16 @@ const StyledTable = styled(ReactTable)`
 
 type Props = {
     children: React.ReactNode;
+    breakpoint?: number;
+    className?: string;
 };
 
 const Table: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    return <StyledTable>{props.children}</StyledTable>;
+    return (
+        <StyledTable breakpoint={props.breakpoint || 1000} className={props.className}>
+            {props.children}
+        </StyledTable>
+    );
 };
 
 export default Table;

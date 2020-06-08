@@ -37,6 +37,13 @@ directive @connection(
 ) on FIELD
 
 """
+Add email to the newsletter list input
+"""
+input AddToNewsletterInput {
+    email: String!
+}
+
+"""
 Change message status data
 """
 input ChangeContactStatusInput {
@@ -105,6 +112,13 @@ type EstablishmentType {
     rating: [RateType!]
     enquiries: [EnquiryType!]
     wishlist: [WishlistType!]
+}
+
+"""
+Object representing if a user is on the newsletter list
+"""
+type IsOnNewsletterListType {
+    isOnNewsletterList: Boolean!
 }
 
 """
@@ -204,6 +218,16 @@ type Mutation {
     Deletes a establishment by ID
     """
     deleteEstablishment(id: ID!): EstablishmentType!
+
+    """
+    Adds a email to the newsletter list
+    """
+    AddToNewsletter(data: AddToNewsletterInput!): NewsletterType!
+
+    """
+    Removes a email from the newsletter list
+    """
+    RemoveFromNewsletter(data: RemoveFromNewsletterInput!): NewsletterType!
 }
 
 """
@@ -243,6 +267,16 @@ input NewEstablishmentInput {
 }
 
 """
+Object representing a email signed up for newsletters
+"""
+type NewsletterType {
+    id: ID!
+    email: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+"""
 New user data
 """
 input NewUserInput {
@@ -275,9 +309,14 @@ type Query {
     getAllEnquiries(withEstablishment: Boolean = false): [EnquiryType!]!
 
     """
-    Returns a user by ID
+    Return all enquiries by a user
     """
-    getUser(id: ID!): UserType!
+    getAllEnquiriesByUser: [EnquiryType!]!
+
+    """
+    Returns current signed in user
+    """
+    getUser: UserType!
 
     """
     Returns all users
@@ -298,6 +337,11 @@ type Query {
     Returns establishments maxing a search query
     """
     searchEstablishments(searchQuery: String!): [EstablishmentType!]!
+
+    """
+    Checks if a email is on the newsletter list
+    """
+    isOnNewsletterList(email: String!): IsOnNewsletterListType!
 }
 
 """
@@ -310,6 +354,13 @@ type RateType {
     establishmentId: ID!
     createdAt: DateTime!
     updatedAt: DateTime!
+}
+
+"""
+Remove email from the newsletter list input
+"""
+input RemoveFromNewsletterInput {
+    email: String!
 }
 
 """
