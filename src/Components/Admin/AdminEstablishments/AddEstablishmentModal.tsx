@@ -118,7 +118,7 @@ const AddEstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<P
                     <StyledInput name="email" label="Client email" type="email">
                         <Mail />
                     </StyledInput>
-                    <StyledInput name="imageUrl" label="Image url" type="email">
+                    <StyledInput name="imageUrl" label="Image url" type="text">
                         <Image />
                     </StyledInput>
                     <div className="inputGroup">
