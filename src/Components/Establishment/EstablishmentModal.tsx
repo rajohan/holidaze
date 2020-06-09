@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
@@ -7,6 +7,8 @@ import moment from "moment";
 import { Event, People, Today } from "@material-ui/icons";
 
 import { NewEnquiry, NewEnquiryVariables } from "../../GraphQL/__generated__/NewEnquiry";
+import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
+import { CURRENT_USER_QUERY } from "../../GraphQL/Queries";
 import { NEW_ENQUIRY_MUTATION } from "../../GraphQL/Mutations";
 import Modal from "../Shared/Modal";
 import Form from "../Shared/Form/Form";
@@ -98,6 +100,7 @@ const EstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Prop
     } = props;
     const [success, setSuccess] = useState(false);
     const [addEnquiry, { loading }] = useMutation<NewEnquiry, NewEnquiryVariables>(NEW_ENQUIRY_MUTATION);
+    const { data: currentUser } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
 
     const calculateTotPrice = (price: number, guests: number, date1: Date | string, date2: Date | string): number => {
         const days = moment(date2).diff(moment(date1), "days");
@@ -117,8 +120,8 @@ const EstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Prop
             {success && <Success>Your enquiry has been successfully added.</Success>}
             <Formik
                 initialValues={{
-                    name: "",
-                    email: "",
+                    name: currentUser && currentUser.user ? currentUser.user.name : "",
+                    email: currentUser && currentUser.user ? currentUser.user.email : "",
                     checkInDate2: checkInDate,
                     checkOutDate2: checkOutDate,
                     guests2: guests

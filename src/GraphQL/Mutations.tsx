@@ -58,6 +58,7 @@ export const REFRESH_AUTH_TOKENS_MUTATION = gql`
                 id
                 username
                 email
+                name
                 accessLevel
             }
         }

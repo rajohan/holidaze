@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Formik } from "formik";
 import { Mail, Chat, Face } from "@material-ui/icons";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet-async";
 
-import { NEW_MESSAGE_MUTATION } from "../../GraphQL/Mutations";
 import { AddMessage, AddMessageVariables } from "../../GraphQL/__generated__/AddMessage";
+import { CurrentUser } from "../../GraphQL/__generated__/CurrentUser";
+import { NEW_MESSAGE_MUTATION } from "../../GraphQL/Mutations";
+import { CURRENT_USER_QUERY } from "../../GraphQL/Queries";
 import Container500 from "../Layout/Containers/Container500";
 import Heading from "../Shared/Heading";
 import Form from "../Shared/Form/Form";
@@ -37,6 +39,7 @@ const StyledInput = styled(Input)`
 const Contact: React.FC = (): React.ReactElement => {
     const [success, setSuccess] = useState(false);
     const [sendMessage, { loading }] = useMutation<AddMessage, AddMessageVariables>(NEW_MESSAGE_MUTATION);
+    const { data: currentUser } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
 
     return (
         <React.Fragment>
@@ -49,7 +52,12 @@ const Contact: React.FC = (): React.ReactElement => {
                 <StyledContact>
                     {success && <Success>Your message has been successfully sent.</Success>}
                     <Formik
-                        initialValues={{ name: "", email: "", message: "" }}
+                        initialValues={{
+                            name: currentUser && currentUser.user ? currentUser.user.name : "",
+                            email: currentUser && currentUser.user ? currentUser.user.email : "",
+                            message: ""
+                        }}
+                        enableReinitialize={true}
                         validationSchema={Yup.object({
                             name: Yup.string()
                                 .required("Name is required.")

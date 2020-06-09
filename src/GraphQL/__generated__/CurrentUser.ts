@@ -12,6 +12,7 @@ export interface CurrentUser_user {
     id: string;
     username: string;
     email: string;
+    name: string;
     accessLevel: number;
 }
 

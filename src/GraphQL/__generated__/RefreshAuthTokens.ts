@@ -12,6 +12,7 @@ export interface RefreshAuthTokens_refreshAuthTokens_user {
     id: string;
     username: string;
     email: string;
+    name: string;
     accessLevel: number;
 }
 

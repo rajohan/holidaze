@@ -10,7 +10,7 @@ const refreshAuthToken = async (): Promise<RefreshAuthTokens_refreshAuthTokens |
             "Access-Control-Allow-Origin": API_URL
         },
         body: JSON.stringify({
-            query: "mutation { refreshAuthTokens { authToken user { id, username, email, accessLevel } } }"
+            query: "mutation { refreshAuthTokens { authToken user { id, username, email, name, accessLevel } } }"
         })
     });
 
