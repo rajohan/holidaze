@@ -11,40 +11,46 @@ const attractionsData = [
         p1:
             "The Aquarium is beautifully situated on the outskirts of Nordnes just a short walk from Bergen city center.",
         p2: "You will get in a close proximity to the animals. Both emotionally and physically.",
-        img: aquariumImg
+        img: aquariumImg,
+        link: "https://www.akvariet.no/en/"
     },
     {
         header: "visit the fish market",
         p1: "Norway's largest outdoor market. Premium fish and seafood is a signature for Bergen.",
         p2: "Feel the wonderful smells of fresh seafood made on site, or sit down and enjoy a delicious meal.",
-        img: fishMarketImg
+        img: fishMarketImg,
+        link: "https://www.bergen-guide.com/40.htm"
     },
     {
         header: "visit fløyen",
         p1:
             'On "Fløyen" there are activities for the whole family. Cycling, hiking, zipline, climbing, canoeing and more.',
         p2: 'You will also find a beautiful playground, cafe and "Fløien Folkerestaurant".',
-        img: floyenImg
+        img: floyenImg,
+        link: "https://www.floyen.no/en"
     },
     {
         header: "visit a museum",
         p1: "Bergen got a big collection of museums. Many of them present the proud history of Bergen.",
         p2: "Some are Bryggens Museum, The Fisheries Museum and The Maritime Museum.",
-        img: museumImg
+        img: museumImg,
+        link: "https://en.visitbergen.com/things-to-do/attractions/museums"
     },
     {
         header: "visit the pier",
         p1: "The pier is a symbol of Bergen's cultural heritage.",
         p2:
             "Get a close impression of Bergen's history. Much has been preserved or rebuilt as it was built many years ago.",
-        img: pierImg
+        img: pierImg,
+        link: "https://en.visitbergen.com/things-to-do/bryggen-in-bergen-p878553"
     },
     {
         header: "visit a restaurant",
         p1: "Fish and seafood is Bergen's specialty.",
         p2:
             "Several of the restaurants in Bergen play on nature, ingredients and food culture in a way that brings out unique tasting experiences.",
-        img: restaurantImg
+        img: restaurantImg,
+        link: "https://en.visitbergen.com/food-and-drink/restaurants"
     }
 ];
 

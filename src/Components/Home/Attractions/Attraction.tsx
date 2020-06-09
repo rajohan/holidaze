@@ -49,11 +49,12 @@ type Props = {
         p1: string;
         p2: string;
         img: string;
+        link: string;
     };
 };
 
 const Attraction: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
-    const { header, p1, p2, img } = props.attraction;
+    const { header, p1, p2, img, link } = props.attraction;
 
     return (
         <StyledAttraction>
@@ -61,7 +62,9 @@ const Attraction: React.FC<Props> = (props: React.PropsWithChildren<Props>): Rea
             <Heading size="h3">{header}</Heading>
             <p>{p1}</p>
             <p>{p2}</p>
-            <Button>Learn More</Button>
+            <Button href={link} external={true} target="_blank">
+                Learn More
+            </Button>
         </StyledAttraction>
     );
 };
