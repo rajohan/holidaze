@@ -11,6 +11,7 @@ export interface Login_login_user {
     __typename: "UserType";
     id: string;
     username: string;
+    name: string;
     email: string;
     accessLevel: number;
 }

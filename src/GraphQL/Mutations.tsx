@@ -8,6 +8,7 @@ export const LOGIN_MUTATION = gql`
             user {
                 id
                 username
+                name
                 email
                 accessLevel
             }
