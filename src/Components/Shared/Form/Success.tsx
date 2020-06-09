@@ -24,10 +24,11 @@ const StyledSuccess = styled.div`
 
 type Props = {
     children: React.ReactNode;
+    className?: string;
 };
 
-const Success: React.FC<Props> = ({ children }: React.PropsWithChildren<Props>): React.ReactElement => {
-    return <StyledSuccess>{children}</StyledSuccess>;
+const Success: React.FC<Props> = ({ children, className }: React.PropsWithChildren<Props>): React.ReactElement => {
+    return <StyledSuccess className={className}>{children}</StyledSuccess>;
 };
 
 export default Success;

@@ -220,3 +220,11 @@ export const RATE_ESTABLISHMENT_MUTATION = gql`
         }
     }
 `;
+
+export const ADD_TO_NEWSLETTER_MUTATION = gql`
+    mutation AddToNewsletter($email: String!) {
+        AddToNewsletter(data: { email: $email }) {
+            id
+        }
+    }
+`;
