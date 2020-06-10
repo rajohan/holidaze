@@ -67,10 +67,10 @@ const AdminEnquiries: React.FC = (): React.ReactElement => {
                 {data &&
                     data.getAllEnquiries.map((enquiry) => (
                         <Tr key={`enquiry-${enquiry.id}`}>
-                            <Td>{enquiry.clientName}</Td>
+                            <Td>{enquiry.user.name}</Td>
                             <Td>
-                                <Link href={`mailto:${enquiry.email}`} external={true}>
-                                    {enquiry.email}
+                                <Link href={`mailto:${enquiry.user.email}`} external={true}>
+                                    {enquiry.user.email}
                                 </Link>
                             </Td>
                             <Td>

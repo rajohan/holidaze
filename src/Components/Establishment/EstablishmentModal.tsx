@@ -16,6 +16,7 @@ import DatePicker from "../Shared/Form/DatePicker";
 import Button from "../Shared/Form/Button";
 import Input from "../Shared/Form/Input/Input";
 import Success from "../Shared/Form/Success";
+import Error from "../Shared/Form/Error";
 
 const StyledInput = styled(Input)`
     margin-bottom: 10px;
@@ -74,6 +75,11 @@ const StyledModal = styled(Modal)`
     }
 `;
 
+const StyledError = styled(Error)`
+    width: calc(100%);
+    margin-bottom: 20px;
+`;
+
 type Props = {
     showModal: boolean;
     setShowModal: (show: boolean) => void;
@@ -99,6 +105,8 @@ const EstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Prop
         resetMainForm
     } = props;
     const [success, setSuccess] = useState(false);
+    const [showEnquiryError, setShowEnquiryError] = useState(false);
+    const [enquiryError, setEnquiryError] = useState("");
     const [addEnquiry, { loading }] = useMutation<NewEnquiry, NewEnquiryVariables>(NEW_ENQUIRY_MUTATION);
     const { data: currentUser } = useQuery<CurrentUser>(CURRENT_USER_QUERY);
 
@@ -118,6 +126,7 @@ const EstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Prop
         >
             <h1>Finish your enquiry</h1>
             {success && <Success>Your enquiry has been successfully added.</Success>}
+            {showEnquiryError && <StyledError>{enquiryError}</StyledError>}
             <Formik
                 initialValues={{
                     name: currentUser && currentUser.user ? currentUser.user.name : "",
@@ -137,19 +146,36 @@ const EstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Prop
                         .max(maxGuests, `Max ${maxGuests} guests allowed on this establishment.`)
                 })}
                 onSubmit={async (values, { resetForm }): Promise<void> => {
-                    await addEnquiry({
-                        variables: {
-                            establishmentId: establishmentId,
-                            clientName: values.name,
-                            email: values.email,
-                            checkin: values.checkInDate2,
-                            checkout: values.checkOutDate2,
-                            guests: values.guests2 as number
+                    try {
+                        await addEnquiry({
+                            variables: {
+                                establishmentId: establishmentId,
+                                clientName: values.name,
+                                email: values.email,
+                                checkin: values.checkInDate2,
+                                checkout: values.checkOutDate2,
+                                guests: values.guests2 as number
+                            }
+                        });
+                        resetMainForm();
+                        resetForm({
+                            values: {
+                                name: "",
+                                email: "",
+                                checkInDate2: "",
+                                checkOutDate2: "",
+                                guests2: ""
+                            }
+                        });
+                        setSuccess(true);
+                    } catch (error) {
+                        if (error.message === "Email Taken") {
+                            setEnquiryError(
+                                "The email you provided is already registered in our system. If this is you please login before you create an enquiry"
+                            );
+                            setShowEnquiryError(true);
                         }
-                    });
-                    resetMainForm();
-                    resetForm({ values: { name: "", email: "", checkInDate2: "", checkOutDate2: "", guests2: "" } });
-                    setSuccess(true);
+                    }
                 }}
             >
                 {(
@@ -213,7 +239,14 @@ const EstablishmentModal: React.FC<Props> = (props: React.PropsWithChildren<Prop
                             >
                                 <People />
                             </StyledInput>
-                            <Button disabled={loading} onClick={(): void => setShowModal(true)}>
+                            <Button
+                                disabled={loading}
+                                onClick={(): void => {
+                                    setShowModal(true);
+                                    setEnquiryError("");
+                                    setShowEnquiryError(false);
+                                }}
+                            >
                                 Send Enquiry
                             </Button>
                         </div>

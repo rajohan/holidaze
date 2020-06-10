@@ -109,8 +109,6 @@ export const GET_ALL_ENQUIRIES_QUERY = gql`
     query GetAllEnquiries {
         getAllEnquiries(withEstablishment: true) {
             id
-            clientName
-            email
             guests
             checkin
             checkout
@@ -118,6 +116,12 @@ export const GET_ALL_ENQUIRIES_QUERY = gql`
 
             establishment {
                 id
+                name
+            }
+
+            user {
+                id
+                email
                 name
             }
         }

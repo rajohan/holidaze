@@ -92,8 +92,8 @@ Object representing a enquiry
 """
 type EnquiryType {
     id: ID!
-    clientName: String!
-    email: String!
+    establishmentId: ID!
+    userId: ID!
     guests: Int!
     checkin: DateTime!
     checkout: DateTime!
@@ -101,6 +101,7 @@ type EnquiryType {
     createdAt: DateTime!
     updatedAt: DateTime!
     establishment: EstablishmentType!
+    user: UserType!
 }
 
 """
