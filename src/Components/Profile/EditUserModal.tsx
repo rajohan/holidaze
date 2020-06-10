@@ -67,7 +67,7 @@ const EditUserModal: React.FC<Props> = (props: React.PropsWithChildren<Props>): 
             onCloseButtonClick={(): void => setSuccess(false)}
         >
             <h1>Edit User Details</h1>
-            {success && <Success>The establishment has been successfully added.</Success>}
+            {success && <Success>The user details has been successfully updated.</Success>}
             {showEditUserError && <StyledError>{editUserError}</StyledError>}
             <Formik
                 initialValues={{
