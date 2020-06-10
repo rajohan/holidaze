@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Lock } from "@material-ui/icons";
 
+import { ChangePassword, ChangePasswordVariables } from "../../GraphQL/__generated__/ChangePassword";
+import { CHANGE_PASSWORD_MUTATION } from "../../GraphQL/Mutations";
 import Form from "../Shared/Form/Form";
 import Button from "../Shared/Form/Button";
 import Modal from "../Shared/Modal";
@@ -37,6 +40,9 @@ type Props = {
 const ChangePasswordModal: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.ReactElement => {
     const { showModal, setShowModal } = props;
     const [success, setSuccess] = useState(false);
+    const [changePassword, { loading }] = useMutation<ChangePassword, ChangePasswordVariables>(
+        CHANGE_PASSWORD_MUTATION
+    );
 
     return (
         <StyledModal
@@ -57,7 +63,8 @@ const ChangePasswordModal: React.FC<Props> = (props: React.PropsWithChildren<Pro
                         .required("Repeat password is required")
                         .equals([Yup.ref("newPassword")], "Passwords do not match")
                 })}
-                onSubmit={async (_, { resetForm }): Promise<void> => {
+                onSubmit={async (values, { resetForm }): Promise<void> => {
+                    await changePassword({ variables: { password: values.newPassword } });
                     resetForm();
                     setSuccess(true);
                 }}
@@ -70,6 +77,7 @@ const ChangePasswordModal: React.FC<Props> = (props: React.PropsWithChildren<Pro
                         <Lock />
                     </StyledInput>
                     <Button
+                        disabled={loading}
                         onClick={(): void => {
                             setSuccess(false);
                         }}

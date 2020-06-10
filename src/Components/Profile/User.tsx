@@ -44,10 +44,10 @@ const User: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Rea
     const { email } = props;
     const [showEditUserModal, setShowEditUserModal] = useState(false);
     const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
-    const { data: userData, loading } = useQuery<GetUser>(GET_USER_QUERY);
+    const { data: userData, loading } = useQuery<GetUser>(GET_USER_QUERY, { notifyOnNetworkStatusChange: true });
     const { data: newsLetterData, loading: loading2 } = useQuery<IsOnNewsletterList, IsOnNewsletterListVariables>(
         IS_ON_NEWSLETTER_LIST_QUERY,
-        { variables: { email } }
+        { variables: { email }, notifyOnNetworkStatusChange: true }
     );
 
     return (

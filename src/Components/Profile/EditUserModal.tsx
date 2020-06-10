@@ -12,6 +12,10 @@ import Error from "../Shared/Form/Error";
 import Modal from "../Shared/Modal";
 import Success from "../Shared/Form/Success";
 import Form from "../Shared/Form/Form";
+import { useMutation } from "@apollo/client";
+import { EDIT_USER_MUTATION } from "../../GraphQL/Mutations";
+import { EditUser, EditUserVariables } from "../../GraphQL/__generated__/EditUser";
+import { GET_USER_QUERY, IS_ON_NEWSLETTER_LIST_QUERY } from "../../GraphQL/Queries";
 
 const StyledInput = styled(Input)`
     margin-bottom: 10px;
@@ -53,6 +57,7 @@ const EditUserModal: React.FC<Props> = (props: React.PropsWithChildren<Props>): 
     const [showEditUserError, setShowEditUserError] = useState(false);
     const [editUserError, setEditUserError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [editUser, { loading }] = useMutation<EditUser, EditUserVariables>(EDIT_USER_MUTATION);
 
     return (
         <StyledModal
@@ -80,9 +85,21 @@ const EditUserModal: React.FC<Props> = (props: React.PropsWithChildren<Props>): 
                     name: Yup.string().required("Name is required.").min(3, "Your name must be at least 3 characters."),
                     email: Yup.string().required("Email is required.").email("Invalid email address.")
                 })}
-                onSubmit={async (_, { resetForm }): Promise<void> => {
+                onSubmit={async (values): Promise<void> => {
                     try {
-                        resetForm();
+                        await editUser({
+                            variables: {
+                                username: values.usernameEdit,
+                                email: values.email,
+                                name: values.name,
+                                newsletters: values.newsletter
+                            },
+                            refetchQueries: [
+                                { query: GET_USER_QUERY },
+                                { query: IS_ON_NEWSLETTER_LIST_QUERY, variables: { email: values.email } }
+                            ],
+                            awaitRefetchQueries: true
+                        });
                         setSuccess(true);
                     } catch (error) {
                         if (error.message === "Username Taken") {
@@ -107,6 +124,7 @@ const EditUserModal: React.FC<Props> = (props: React.PropsWithChildren<Props>): 
                     </StyledInput>
                     <StyledCheckbox name="newsletter" label="Subscribe to newsletters" />
                     <Button
+                        disabled={loading}
                         onClick={(): void => {
                             setSuccess(false);
                             setEditUserError("");

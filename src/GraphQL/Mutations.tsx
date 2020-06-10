@@ -34,6 +34,22 @@ export const REGISTER_MUTATION = gql`
     }
 `;
 
+export const EDIT_USER_MUTATION = gql`
+    mutation EditUser($username: String!, $email: String!, $name: String!, $newsletters: Boolean!) {
+        editUser(data: { username: $username, email: $email, name: $name, newsletters: $newsletters }) {
+            id
+        }
+    }
+`;
+
+export const CHANGE_PASSWORD_MUTATION = gql`
+    mutation ChangePassword($password: String!) {
+        changePassword(password: $password) {
+            id
+        }
+    }
+`;
+
 export const FORGOT_PASSWORD_MUTATION = gql`
     mutation ForgotPassword($email: String!) {
         forgotPassword(email: $email) {

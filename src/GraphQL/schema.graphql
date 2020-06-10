@@ -78,6 +78,16 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 """
+Edit user data
+"""
+input EditUserInput {
+    username: String!
+    email: String!
+    name: String!
+    newsletters: Boolean!
+}
+
+"""
 Object representing a enquiry
 """
 type EnquiryType {
@@ -187,7 +197,12 @@ type Mutation {
     """
     Changes a users password
     """
-    changePassword(id: ID!, password: String!): UserType!
+    changePassword(password: String!): UserType!
+
+    """
+    Edits a users details
+    """
+    editUser(data: EditUserInput!): UserType!
 
     """
     Refreshes auth token
