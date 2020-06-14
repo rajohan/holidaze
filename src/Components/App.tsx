@@ -55,7 +55,10 @@ const App: React.FC = (): React.ReactElement => {
     return (
         <HelmetProvider>
             <Helmet>
-                <meta name="description" content="Holidaze" />
+                <meta
+                    name="description"
+                    content="Holidaze. Meet Bergen. Find and book hotels, B&Bs and guesthouses in Bergen."
+                />
                 <meta
                     name="keywords"
                     content="Holidaze, Bergen, Holiday, Establishment, Hotel, B&B, Guest House, Accommodation"
