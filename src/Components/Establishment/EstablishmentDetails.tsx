@@ -113,7 +113,10 @@ const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Pr
         <StyledEstablishmentDetails wishListDisabled={!(data && data.user)}>
             <span>
                 Rating:{" "}
-                <span title={!(data && data.user) ? "The rating feature is only available when signed in." : ""}>
+                <span
+                    aria-label="Rating"
+                    title={!(data && data.user) ? "The rating feature is only available when signed in." : ""}
+                >
                     <StyledRate
                         value={getRating()}
                         halfStars={true}
@@ -156,6 +159,7 @@ const EstablishmentDetails: React.FC<Props> = (props: React.PropsWithChildren<Pr
                             });
                         }
                     }}
+                    aria-label="Wishlist"
                 />
             </span>
             <span>

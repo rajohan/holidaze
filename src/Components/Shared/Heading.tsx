@@ -6,7 +6,7 @@ const StyledHeading = styled.h1<{ as: string }>`
     text-transform: capitalize;
     font-size: ${(props): string => (props.as === "h1" ? "24px" : props.as === "h2" ? "18px" : "16px")};
     font-weight: 700;
-    color: ${(props): string => (props.as === "h2" ? props.theme.colors.tertiary : props.theme.colors.secondary)};
+    color: ${(props): string => (props.as === "h2" ? props.theme.colors.tertiaryLight : props.theme.colors.secondary)};
     margin-bottom: ${(props): string => (props.as === "h1" ? "8px" : "0")};
     letter-spacing: ${(props): string => (props.as === "h1" ? "4px" : "2px")};
     filter: ${(props): string => props.theme.dropShadows.small};

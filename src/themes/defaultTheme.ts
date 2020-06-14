@@ -11,6 +11,7 @@ export const defaultTheme: DefaultTheme = {
         secondary: "#DBEDF3",
         secondaryDark: "#B7E4F3",
         secondary60: "rgb(219 237 243 / 60%)",
+        tertiaryLight: "#2A8EE7",
         tertiary: "#3282B8",
         tertiaryDark: "#245E85",
         error: "#ff4437",

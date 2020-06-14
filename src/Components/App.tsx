@@ -56,6 +56,10 @@ const App: React.FC = (): React.ReactElement => {
         <HelmetProvider>
             <Helmet>
                 <meta name="description" content="Holidaze" />
+                <meta
+                    name="keywords"
+                    content="Holidaze, Bergen, Holiday, Establishment, Hotel, B&B, Guest House, Accommodation"
+                />
                 <link
                     href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
                     rel="stylesheet"

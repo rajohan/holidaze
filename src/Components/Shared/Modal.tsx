@@ -90,6 +90,7 @@ const Modal: React.FC<Props> = (props: React.PropsWithChildren<Props>): React.Re
                                 onCloseButtonClick && onCloseButtonClick();
                             }}
                             className="modalClose"
+                            aria-label="Close"
                         />
                         {children}
                     </ModalContent>

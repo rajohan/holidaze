@@ -184,6 +184,7 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                                 ? "The rating feature is only available when signed in."
                                 : "Rating"
                         }
+                        aria-label="Rating"
                     >
                         <StyledRate
                             value={getRating()}
@@ -233,6 +234,7 @@ const EstablishmentsItem: React.FC<Props> = (props: React.PropsWithChildren<Prop
                                     });
                                 }
                             }}
+                            aria-label="Wishlist"
                         />
                     </div>
                     <div className="establishmentDetailsRightColumn">
